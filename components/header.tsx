@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 export default function Header() {
   const links = [
     { href: "/", label: "Booking" },
-    { href: "/about", label: "Tentang kami" },
+    { href: "/about", label: "Tentang kamis" },
     { href: "/about", label: "Kerja Sama" },
     { href: "/about", label: "Hubungi Kami" }
   ];
