@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { Carousel, CarouselContent, CarouselItem } from './ui/carousel';
-import { Card } from './ui/card';
-import Autoplay from 'embla-carousel-autoplay';
+import Image from "next/image";
+import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
+import { Card } from "./ui/card";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function Hero() {
-  const imagesLink = ['/images/banner.png', '/images/ronaldo.png'];
+  const imagesLink = ["/images/banner.png", "/images/banner-2.jpg", "/images/banner-3.jpg"];
   return (
     <section className="">
       <Carousel
         plugins={[
           Autoplay({
-            delay: 3000,
-          }),
+            delay: 3000
+          })
         ]}
         opts={{
-          align: 'start',
-          loop: true,
+          align: "start",
+          loop: true
         }}
       >
         <CarouselContent>
