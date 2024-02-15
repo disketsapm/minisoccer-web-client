@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 export default function Header() {
   const links = [
@@ -9,7 +10,7 @@ export default function Header() {
     { href: "/about", label: "Hubungi Kami" }
   ];
   return (
-    <header className="flex justify-between my-10 ">
+    <header className="flex justify-between my-10 mx-auto w-[80vw]">
       <Image
         src="/images/logo.png"
         alt="Logo"
@@ -29,12 +30,14 @@ export default function Header() {
             </li>
           ))}
           <li>
-            <Button
-              variant={"accent-1"}
-              size="xl"
-            >
-              Masuk/Daftar
-            </Button>
+            <Link href="/auth">
+              <Button
+                variant={"accent-1"}
+                size="xl"
+              >
+                Masuk/Daftar
+              </Button>
+            </Link>
           </li>
         </ul>
       </nav>
