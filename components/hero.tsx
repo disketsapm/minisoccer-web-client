@@ -2,11 +2,10 @@
 
 import Image from "next/image";
 import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
-import { Card } from "./ui/card";
 import Autoplay from "embla-carousel-autoplay";
 
 export default function Hero() {
-  const imagesLink = ["/images/banner.png", "/images/banner-2.jpg", "/images/banner-3.jpg"];
+  const imagesLink = ["/images/bg-mobile.png"];
   return (
     <section className="">
       <Carousel
@@ -29,7 +28,14 @@ export default function Hero() {
                   alt="Hero"
                   width={1300}
                   height={300}
-                  className="object-cover rounded-3xl bg-cover "
+                  className="object-cover rounded-3xl bg-cover hidden md:block "
+                />
+                <Image
+                  src={imagesLink[index]}
+                  alt="Hero"
+                  width={300}
+                  height={800}
+                  className="object-cover bg-cover md:hidden block w-full  "
                 />
               </div>
             </CarouselItem>

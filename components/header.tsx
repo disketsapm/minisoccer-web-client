@@ -10,7 +10,7 @@ export default function Header() {
     { href: "/about", label: "Hubungi Kami" }
   ];
   return (
-    <header className="flex justify-between my-10 mx-auto w-[80vw]">
+    <header className="flex justify-between items-center my-10 px-2 md:mx-auto md:w-[80vw] w-full  ">
       <Image
         src="/images/logo.png"
         alt="Logo"
@@ -29,18 +29,26 @@ export default function Header() {
               </a>
             </li>
           ))}
-          <li>
-            <Link href="/auth">
-              <Button
-                variant={"accent-1"}
-                size="xl"
-              >
-                Masuk/Daftar
-              </Button>
-            </Link>
-          </li>
         </ul>
       </nav>
+      <div className="flex gap-2">
+        <Link href="/auth">
+          <Button
+            variant={"accent-1"}
+            className="text-xs px-6 py-2 md:px-10 md:py-6"
+          >
+            Masuk/Daftar
+          </Button>
+        </Link>
+
+        <Button
+          className=" md:hidden"
+          size={"sm"}
+          variant={"outline"}
+        >
+          X
+        </Button>
+      </div>
     </header>
   );
 }

@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 export default function Page() {
   return (
     <>
-      <div className="mx-auto w-[80vw] ">
+      <div className="md:mx-auto w-full md:w-[80vw] ">
         <Hero />
         <About />
         <Facility />

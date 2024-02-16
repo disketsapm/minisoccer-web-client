@@ -2,16 +2,16 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className=" h-[200px] bg-[#18684F] flex justify-between text-white px-20 py-10">
-      <div>
+    <footer className=" md:h-[200px] bg-black items-center flex flex-col md:flex-row justify-between text-white md:px-20 py-5 w-full px-10 text-xl">
+      <div className="h-32 w-32 relative">
         <Image
           src="/images/logo-2.png"
           alt="logo"
-          width={150}
-          height={150}
+          fill
+          objectFit="contain"
         />
       </div>
-      <div className="flex gap-40">
+      <div className="flex justify-between w-full md:w-1/3 mx-auto">
         <div className="flex flex-col gap-20">
           <div>Booking</div>
           <div>Tentang Kami</div>
@@ -21,12 +21,12 @@ export default function Footer() {
           <div>Hubungi Kami</div>
         </div>
       </div>
-      <div>
+      <div className="mt-2 w-full md:w-[300px] h-[200px] relative">
         <Image
           src="/images/payment.png"
           alt="logo"
-          width={300}
-          height={300}
+          fill
+          objectFit="contain"
         />
       </div>
     </footer>
