@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
-
+import { CiMenuBurger } from "react-icons/ci";
 export default function Header() {
   const links = [
     { href: "/", label: "Booking" },
-    { href: "/about", label: "Tentang kamis" },
+    { href: "/about", label: "Tentang kami" },
     { href: "/about", label: "Kerja Sama" },
     { href: "/about", label: "Hubungi Kami" }
   ];
@@ -46,7 +46,7 @@ export default function Header() {
           size={"sm"}
           variant={"outline"}
         >
-          X
+          <CiMenuBurger size={15} />
         </Button>
       </div>
     </header>
