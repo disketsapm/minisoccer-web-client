@@ -7,6 +7,20 @@ import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
 export default function Gallery() {
+  const listImage = [
+    {
+      image: "/images/gallery/court-1.png"
+    },
+    {
+      image: "/images/gallery/court-2.png"
+    },
+    {
+      image: "/images/gallery/court-3.png"
+    },
+    {
+      image: "/images/gallery/court-4.png"
+    }
+  ];
   return (
     <section>
       <HeaderGallery />
@@ -17,20 +31,20 @@ export default function Gallery() {
           })
         ]}
         opts={{
-          align: "start",
+          align: "center",
           loop: true
         }}
         className="w-full overflow-hidden"
       >
         <CarouselContent className="-ml-1 mt-10">
-          {Array.from({ length: 5 }).map((_, index) => (
+          {listImage.map((item, index) => (
             <CarouselItem
               key={index}
               className="px-5 md:basis-1/2 lg:basis-1/3"
             >
-              <Card>
+              <Card className="border-4 border-black rounded-xl overflow-hidden">
                 <Image
-                  src={"/images/banner.png"}
+                  src={item.image}
                   alt="Hero"
                   layout="responsive"
                   width={1000}
@@ -50,13 +64,9 @@ function HeaderGallery() {
     <div className="w-full flex justify-center relative">
       <div className=" border-2 border-black absolute w-full top-8"></div>
       <div className="z-10">
-        <Button
-          variant={"accent-1"}
-          size={"xl"}
-          className="bg-[#268467] text-4xl py-8 hover:bg-[#268467]/90"
-        >
+        <div className="bg-[#268467] text-4xl py-2 text-white px-5 rounded-lg border-2 border-black ">
           Foto Lapangan
-        </Button>
+        </div>
       </div>
     </div>
   );

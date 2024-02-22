@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import Image from "next/image";
-import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
+import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "./ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Skeleton } from "./ui/skeleton";
 
@@ -20,7 +20,11 @@ const CTA_COUNT_API = "http://api-stg.soccerchief.co/admin/banner/ctaCount";
 
 const Hero: React.FC = () => {
   const [images, setImages] = useState<ImageData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
 
   const fetchImage = useCallback(async () => {
     const { data } = await axios.get(BANNER_API);
@@ -33,6 +37,7 @@ const Hero: React.FC = () => {
     }));
 
     setImages(imageData);
+    setIsLoading(false);
 
     imageData.forEach((item: ImageData) => incrementViewCount(item.id));
   }, []);
@@ -46,6 +51,23 @@ const Hero: React.FC = () => {
     window.location.href = ctaUrl;
   }, []);
 
+  //api caraousel
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    console.log(api.scrollSnapList().length);
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      console.log("current");
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
+
   useEffect(() => {
     fetchImage();
     const handleResize = () => {
@@ -56,42 +78,59 @@ const Hero: React.FC = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [fetchImage]);
-
+  console.log(isLoading);
   return (
-    <section>
-      <Carousel
-        plugins={[
-          Autoplay({
-            delay: 3000
-          })
-        ]}
-        opts={{
-          align: "start",
-          loop: true
-        }}
-      >
-        <CarouselContent>
-          {images.map((image, index) => (
-            <CarouselItem key={index}>
-              <div className="flex items-center justify-center relative rounded-xl  overflow-hidden">
-                <div className="cursor-pointer w-[100vw] h-[50vh] md:h-[100vh]">
-                  {!image ? (
-                    <Skeleton className="h-full w-full rounded-xl" />
-                  ) : (
-                    <Image
-                      src={isDesktop ? image.desktop : image.mobile}
-                      alt="Hero"
-                      fill
-                      objectFit="contain"
-                      onClick={() => incrementCtaCount(image.id, image.ctaUrl)}
-                    />
-                  )}
-                </div>
+    <section id="hero">
+      {isLoading ? (
+        <div className="flex items-center justify-center max-h-[80vh] rounded-xl overflow-hidden">
+          <Skeleton className="h-[900px] w-[1600px]" />
+        </div>
+      ) : (
+        <>
+          <Carousel
+            setApi={setApi}
+            plugins={[
+              Autoplay({
+                delay: 3000
+              })
+            ]}
+            opts={{
+              align: "start",
+              loop: true
+            }}
+          >
+            <div className="flex flex-col mb-20">
+              <CarouselContent>
+                {images.map((image, index) => (
+                  <CarouselItem key={index}>
+                    <div className="flex items-center justify-center max-h-[80vh] border-4 border-black rounded-xl overflow-hidden ">
+                      <Image
+                        src={isDesktop ? image.desktop : image.mobile}
+                        alt="Hero"
+                        layout="responsive"
+                        width={1600}
+                        height={900}
+                        onClick={() => incrementCtaCount(image.id, image.ctaUrl)}
+                        onLoad={() => setIsLoading(false)}
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="flex justify-center space-x-10 z-20 -mt-14">
+                {Array.from({ length: count }).map((_, i) => (
+                  <div
+                    key={i}
+                    className={`h-4 w-4 rounded-full ${
+                      current === i + 1 ? "bg-black" : "bg-white border-2 border-black"
+                    }`}
+                  />
+                ))}
               </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
+            </div>
+          </Carousel>
+        </>
+      )}
     </section>
   );
 };

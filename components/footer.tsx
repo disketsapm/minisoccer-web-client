@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -13,8 +14,18 @@ export default function Footer() {
       </div>
       <div className="flex justify-between w-full md:w-1/3 mx-auto">
         <div className="flex flex-col gap-20">
-          <div>Booking</div>
-          <div>Tentang Kami</div>
+          <Link
+            href={"#"}
+            className="text-xl"
+          >
+            Booking
+          </Link>
+          <Link
+            href={"#about"}
+            className="text-xl hover:text-[#FCCB04]"
+          >
+            Tentang Kami
+          </Link>
         </div>
         <div className="flex flex-col gap-20">
           <div>Kerja Sama</div>
