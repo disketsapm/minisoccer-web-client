@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
-import Image from "next/image";
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "./ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-import { Skeleton } from "./ui/skeleton";
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import Image from 'next/image';
+import { Carousel, CarouselApi, CarouselContent, CarouselItem } from './ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
+import { Skeleton } from './ui/skeleton';
 
 interface ImageData {
   desktop: string;
@@ -14,9 +14,9 @@ interface ImageData {
   id: string;
 }
 
-const BANNER_API = "http://api-stg.soccerchief.co/admin/bannerPeriods";
-const VIEW_COUNT_API = "http://api-stg.soccerchief.co/admin/banner/viewCount";
-const CTA_COUNT_API = "http://api-stg.soccerchief.co/admin/banner/ctaCount";
+const BANNER_API = 'http://api-stg.soccerchief.co/admin/bannerPeriods';
+const VIEW_COUNT_API = 'http://api-stg.soccerchief.co/admin/banner/viewCount';
+const CTA_COUNT_API = 'http://api-stg.soccerchief.co/admin/banner/ctaCount';
 
 const Hero: React.FC = () => {
   const [images, setImages] = useState<ImageData[]>([]);
@@ -33,7 +33,7 @@ const Hero: React.FC = () => {
       desktop: item.image_desktop,
       mobile: item.image_mobile,
       ctaUrl: item.ctaUrl,
-      id: item._id
+      id: item._id,
     }));
 
     setImages(imageData);
@@ -62,8 +62,8 @@ const Hero: React.FC = () => {
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
 
-    api.on("select", () => {
-      console.log("current");
+    api.on('select', () => {
+      console.log('current');
       setCurrent(api.selectedScrollSnap() + 1);
     });
   }, [api]);
@@ -73,9 +73,9 @@ const Hero: React.FC = () => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth > 768);
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, [fetchImage]);
   console.log(isLoading);
@@ -91,19 +91,19 @@ const Hero: React.FC = () => {
             setApi={setApi}
             plugins={[
               Autoplay({
-                delay: 3000
-              })
+                delay: 3000,
+              }),
             ]}
             opts={{
-              align: "start",
-              loop: true
+              align: 'start',
+              loop: true,
             }}
           >
             <div className="flex flex-col mb-20">
               <CarouselContent>
                 {images.map((image, index) => (
                   <CarouselItem key={index}>
-                    <div className="flex items-center justify-center max-h-[80vh] border-4 border-black rounded-xl overflow-hidden ">
+                    <div className="flex items-center justify-center max-h-[85vh] border-4 border-black rounded-xl overflow-hidden ">
                       <Image
                         src={isDesktop ? image.desktop : image.mobile}
                         alt="Hero"
@@ -121,9 +121,7 @@ const Hero: React.FC = () => {
                 {Array.from({ length: count }).map((_, i) => (
                   <div
                     key={i}
-                    className={`h-4 w-4 rounded-full ${
-                      current === i + 1 ? "bg-black" : "bg-white border-2 border-black"
-                    }`}
+                    className={`h-4 w-4 rounded-full ${current === i + 1 ? 'bg-black' : 'bg-white border-2 border-black'}`}
                   />
                 ))}
               </div>

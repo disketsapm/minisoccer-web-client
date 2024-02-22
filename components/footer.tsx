@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -15,13 +15,13 @@ export default function Footer() {
       <div className="flex justify-between w-full md:w-1/3 mx-auto">
         <div className="flex flex-col gap-20">
           <Link
-            href={"#"}
+            href={'#'}
             className="text-xl"
           >
             Booking
           </Link>
           <Link
-            href={"#about"}
+            href={'#about'}
             className="text-xl hover:text-[#FCCB04]"
           >
             Tentang Kami
@@ -32,7 +32,7 @@ export default function Footer() {
           <div>Hubungi Kami</div>
         </div>
       </div>
-      <div className="mt-2 w-full md:w-[300px] h-[200px] relative">
+      <div className="mt-2 w-full md:w-[300px] h-[180px] relative">
         <Image
           src="/images/payment.png"
           alt="logo"

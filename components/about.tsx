@@ -1,17 +1,18 @@
-import Image from "next/image";
-import { Button } from "./ui/button";
+import Image from 'next/image';
+import { Button } from './ui/button';
 
 export default function About() {
   return (
     <section id="about">
       <div className="flex flex-col justify-center items-center mt-10">
         <div className="w-full">
-          <div className="w-auto h-[300px] md:h-[500px] relative rounded-xl overflow-hidden">
+          <div className=" relative rounded-xl overflow-hidden">
             <Image
               src="/images/about-1.png"
               alt="About"
-              fill
-              objectFit="contain"
+              width={1200}
+              height={600}
+              layout="responsive"
             />
           </div>
           <div className=" flex justify-center  ">
@@ -44,8 +45,7 @@ export default function About() {
                   <span className="text-[#FCCB04]"> Soccer Chief?</span>
                 </p>
                 <p className="text-base text-white tracking-wide leading-loose ">
-                  Dengan lapangan Kami yang berkualitas, membuat permainan Mini Soccer-mu jadi
-                  semakin seru dan nyaman!
+                  Dengan lapangan Kami yang berkualitas, membuat permainan Mini Soccer-mu jadi semakin seru dan nyaman!
                 </p>
               </div>
             </div>
