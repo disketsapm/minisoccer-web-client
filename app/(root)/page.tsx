@@ -11,13 +11,13 @@ export default function Page() {
     <>
       <Button
         variant={'accent-1'}
-        className=" fixed z-10 bottom-5 right-5"
+        className="fixed z-10 bottom-5 right-5"
       >
-        <div className="flex justify-center items-center gap-2">
+        <div className="flex items-center justify-center gap-2">
           <FaWhatsapp size={24} /> <span className="text-xs"> Hubungi WhatsApp Kami</span>
         </div>
       </Button>
-      <div className="md:mx-auto w-full md:w-[80vw] ">
+      <div className="container">
         <Hero />
         <About />
         <Facility />

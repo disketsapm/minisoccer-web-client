@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className=" md:h-[200px] bg-black items-center flex flex-col md:flex-row justify-between text-white md:px-20 py-5 w-full px-10 text-xl">
-      <div className="h-32 w-32 relative">
+    <footer className="md:h-[200px] bg-black items-center flex flex-col md:flex-row justify-between text-white md:px-20 py-5 w-full px-10 text-xl">
+      <div className="relative w-32 h-32">
         <Image
           src="/images/logo-2.png"
           alt="logo"
@@ -12,7 +12,7 @@ export default function Footer() {
           objectFit="contain"
         />
       </div>
-      <div className="flex justify-between w-full md:w-1/3 mx-auto">
+      <div className="flex justify-between w-full mx-auto md:w-1/3">
         <div className="flex flex-col gap-20">
           <Link
             href={'#'}

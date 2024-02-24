@@ -26,7 +26,7 @@ export default function Facility() {
     },
   ];
   return (
-    <section className="my-20 flex flex-col md:flex-row justify-between gap-x-20">
+    <section className="flex flex-col justify-between my-20 md:flex-row gap-x-20 ">
       <div className="flex flex-col w-full md:w-1/3">
         <div className="w-full h-[350px] relative">
           <Image
@@ -36,12 +36,12 @@ export default function Facility() {
             objectFit="contain"
           />
         </div>
-        <div className="font-bold text-6xl text-center">
+        <div className="text-6xl font-bold text-center">
           Fasilitas
           <br /> Soccer Chief{' '}
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 flex-1 gap-16 my-10 ">
+      <div className="grid flex-1 grid-cols-1 gap-16 my-10 md:grid-cols-2 ">
         {listFacility.map((facility, index) => (
           <FacilityCard
             key={index}
@@ -58,7 +58,7 @@ export default function Facility() {
 
 function FacilityCard({ title, subTitle, description, image }: { title: string; subTitle?: string; description: string; image: string }) {
   return (
-    <div className="flex flex-col gap-2 justify-center md:justify-start items-center text-center md:text-left md:items-start ">
+    <div className="flex flex-col items-center justify-center gap-2 text-center md:justify-start md:text-left md:items-start ">
       <div>
         <Image
           src={image}
@@ -68,9 +68,9 @@ function FacilityCard({ title, subTitle, description, image }: { title: string; 
         />
       </div>
       <div className="font-bold ">{title}</div>
-      {subTitle && <div className="font-light text-xs">{subTitle}</div>}
+      {subTitle && <div className="text-xs font-light">{subTitle}</div>}
       <div
-        className="font-medium text-sm leading-6"
+        className="text-sm font-medium leading-6"
         dangerouslySetInnerHTML={{ __html: description }}
       />
     </div>

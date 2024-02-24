@@ -3,22 +3,25 @@ import { Button } from './ui/button';
 
 export default function About() {
   return (
-    <section id="about">
-      <div className="flex flex-col justify-center items-center mt-10">
-        <div className="w-full">
-          <div className=" relative rounded-xl overflow-hidden">
+    <section
+      id="about"
+      className="px-4 md:px-0"
+    >
+      <div className="flex flex-col items-center justify-center mt-10">
+        <div className="w-full ">
+          <div className="relative h-[300px] md:h-[600px] w-full overflow-hidden rounded-xl border-2 border-black">
             <Image
               src="/images/about-1.png"
               alt="About"
-              width={1200}
-              height={600}
-              layout="responsive"
+              fill
+              objectFit="cover"
             />
           </div>
-          <div className=" flex justify-center  ">
-            <div className="bg-[#18684F] z-10 -mt-24 md:-mt-40 border-4 border-black w-full md:w-[70vw] md:mx-auto  rounded-3xl flex justify-between items-center py-7 px-2 md:px-8 gap-x-5 relative flex-col md:flex-row">
-              <div className="absolute -top-20 right-0 md:-top-28">
-                <div className="w-32 h-32 md:w-48 md:h-48">
+
+          <div className="flex justify-center ">
+            <div className="bg-[#18684F] z-10 -mt-20 md:-mt-40 border-2 border-black w-[90%] md:w-[80%] md:mx-auto  rounded-3xl flex justify-between items-center py-7 px-2 md:px-8 gap-x-5 relative flex-col md:flex-row">
+              <div className="absolute -right-10 -top-24 md:-top-28">
+                <div className="size-36 md:size-48">
                   <Image
                     src="/images/hand.png"
                     alt="About"
@@ -28,33 +31,31 @@ export default function About() {
                 </div>
               </div>
 
-              <div className="w-full h-auto md:w-1/2 flex justify-center relative ">
-                <div className="">
-                  <Image
-                    src="/images/field.png"
-                    alt="About"
-                    width={1200}
-                    height={600}
-                  />
-                </div>
+              <div className="relative flex justify-center w-full h-auto md:w-1/2 ">
+                <Image
+                  src="/images/field.png"
+                  alt="About"
+                  width={1200}
+                  height={600}
+                />
               </div>
-              <div className="flex flex-col w-full md:text-left text-center md:w-1/2 space-y-2 mb- text-4xl">
-                <p className=" text-white font-light">Kenapa Harus </p>
-                <p className="font-extrabold  tracking-wider">
-                  <span className=" text-white ">Bermain di</span>
+              <div className="flex flex-col w-full space-y-2 text-4xl text-center md:text-left md:w-1/2 mb-">
+                <p className="font-light text-white ">Kenapa Harus </p>
+                <p className="font-extrabold tracking-wider">
+                  <span className="text-white ">Bermain di</span>
                   <span className="text-[#FCCB04]"> Soccer Chief?</span>
                 </p>
-                <p className="text-base text-white tracking-wide leading-loose ">
+                <p className="text-base leading-loose tracking-wide text-white ">
                   Dengan lapangan Kami yang berkualitas, membuat permainan Mini Soccer-mu jadi semakin seru dan nyaman!
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="-mt-8 z-10">
+        <div className="z-10 -mt-6 md:-mt-5">
           <Button
             variant="accent-2"
-            size="xl"
+            size="lg"
           >
             Lihat Lapangan
           </Button>

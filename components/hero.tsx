@@ -78,11 +78,10 @@ const Hero: React.FC = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, [fetchImage]);
-  console.log(isLoading);
   return (
     <section id="hero">
       {isLoading ? (
-        <div className="flex items-center justify-center max-h-[80vh] rounded-xl overflow-hidden">
+        <div className="flex items-center justify-center max-h-[50vh] xl:max-h-[80vh] rounded-xl overflow-hidden">
           <Skeleton className="h-[900px] w-[1600px]" />
         </div>
       ) : (
@@ -103,7 +102,7 @@ const Hero: React.FC = () => {
               <CarouselContent>
                 {images.map((image, index) => (
                   <CarouselItem key={index}>
-                    <div className="flex items-center justify-center max-h-[85vh] border-4 border-black rounded-xl overflow-hidden ">
+                    <div className="flex items-center justify-center max-h-[50vh] md:max-h-[85vh] border-4 border-black rounded-xl overflow-hidden ">
                       <Image
                         src={isDesktop ? image.desktop : image.mobile}
                         alt="Hero"
@@ -117,7 +116,7 @@ const Hero: React.FC = () => {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <div className="flex justify-center space-x-10 z-20 -mt-14">
+              <div className="z-20 flex justify-center space-x-10 -mt-14">
                 {Array.from({ length: count }).map((_, i) => (
                   <div
                     key={i}
