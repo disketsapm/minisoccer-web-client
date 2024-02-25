@@ -21,7 +21,7 @@ const CTA_COUNT_API = 'http://api-stg.soccerchief.co/admin/banner/ctaCount';
 const Hero: React.FC = () => {
   const [images, setImages] = useState<ImageData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+  const [isDesktop, setIsDesktop] = useState(true);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -111,6 +111,8 @@ const Hero: React.FC = () => {
                         height={900}
                         onClick={() => incrementCtaCount(image.id, image.ctaUrl)}
                         onLoad={() => setIsLoading(false)}
+                        priority
+                        className="cursor-pointer"
                       />
                     </div>
                   </CarouselItem>

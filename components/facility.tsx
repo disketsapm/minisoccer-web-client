@@ -26,7 +26,10 @@ export default function Facility() {
     },
   ];
   return (
-    <section className="flex flex-col justify-between my-20 md:flex-row gap-x-20 ">
+    <section
+      id="facility"
+      className="flex flex-col justify-between my-20 md:flex-row gap-x-20 "
+    >
       <div className="flex flex-col w-full md:w-1/3">
         <div className="w-full h-[350px] relative">
           <Image

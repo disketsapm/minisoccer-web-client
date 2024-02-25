@@ -10,6 +10,7 @@ const config = {
       padding: {
         DEFAULT: '0',
         md: '1rem',
+        lg: '0rem',
       },
     },
     extend: {
