@@ -38,12 +38,14 @@ export default function Header() {
   return (
     <header className={` w-full sticky top-0 z-50 bg-white py-5 ${shadowClass} `}>
       <div className="flex justify-between items-center container px-2 md:px-0">
-        <Image
-          src="/images/logo.png"
-          alt="Logo"
-          width={100}
-          height={100}
-        />
+        <Link href="/">
+          <Image
+            src="/images/logo.png"
+            alt="Logo"
+            width={100}
+            height={100}
+          />
+        </Link>
         <div className="flex items-center justify-center gap-2 md:gap-x-10">
           <nav>
             <ul className="items-center hidden space-x-16 md:flex">

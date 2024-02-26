@@ -39,7 +39,7 @@ export default function Find() {
             </div>
             <div className="flex items-start">
               <GoMail className="w-8 h-8 mr-2" />
-              <Link href={'mailto:info@soccerchief.co'}>info@soccerchief.co</Link>
+              <a href="mailto:info@soccerchief.co">info@soccerchief.co</a>
             </div>
             <div className="flex items-start">
               <FiInstagram className="w-8 h-8 mr-2" />

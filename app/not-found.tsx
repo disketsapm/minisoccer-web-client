@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function NotFound() {
   return (
@@ -18,10 +19,10 @@ export default function NotFound() {
       />
 
       <Button
-        variant={"accent-1"}
-        size={"lg"}
+        variant={'accent-1'}
+        size={'lg'}
       >
-        Kembali ke Beranda
+        <Link href="/">Kembali ke Beranda</Link>
       </Button>
     </div>
   );

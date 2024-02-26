@@ -4,57 +4,54 @@ import * as z from 'zod';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useParams, useRouter } from 'next/navigation';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useLogin } from '@/hooks/auth/useLogin';
+import { useRegister } from '@/hooks/auth/useRegister';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-// import { useUpdateUser } from "@/hooks/user/useUpdateUser";
-// import { AlertModal } from "@/components/modals/alert-modal"
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1),
+});
 
-const formSchema = z.object({
+const registrationSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
   fullName: z.string().min(1),
   phoneNumber: z.string().min(1),
 });
 
-type UserFormValues = z.infer<typeof formSchema>;
-
 type AuthFormValues = {
   type?: string;
 };
 
 export const AuthForm = ({ type }: AuthFormValues) => {
-  console.log(type);
-  const params = useParams();
   const router = useRouter();
+  const formSchema = type === 'login' ? loginSchema : registrationSchema;
+
+  type UserFormValues = z.infer<typeof formSchema>;
+
+  console.log(type);
   const [loading, setLoading] = useState(false);
+  const { mutateAsync: loginUser } = useLogin();
+  const { mutateAsync: registerUser } = useRegister();
 
   const action = type ? 'Masuk' : 'Daftar';
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
   });
 
-  // console.log(form.watch());
-
-  const onSubmit = async (dataForm: UserFormValues) => {
-    try {
-      setLoading(true);
-      if (type) {
-        // updateUser(dataForm);
-      } else {
-        // addUser(dataForm);
-      }
-      router.refresh();
-      router.push(`/users`);
-    } catch (error: any) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+  const onSubmit = async (dataForm: any) => {
+    if (type === 'login') {
+      await loginUser(dataForm);
+    } else {
+      await registerUser(dataForm);
+      router.push('/auth?type=register-success');
     }
   };
 
@@ -144,14 +141,24 @@ export const AuthForm = ({ type }: AuthFormValues) => {
               )}
             />
 
-            <Button
-              disabled={loading}
-              variant={'accent-1'}
-              className="float-right"
-              type="submit"
-            >
-              {action}
-            </Button>
+            <div className="flex gap-5 items-center">
+              <Button
+                disabled={loading}
+                variant={'accent-1'}
+                className="float-right max-w-[30%]"
+                type="submit"
+              >
+                {action}
+              </Button>
+              {type && (
+                <Link
+                  className="underline text-red-500 font-medium"
+                  href={'/auth?type=forgot-password'}
+                >
+                  Lupa Password
+                </Link>
+              )}
+            </div>
           </form>
         </Form>
       </div>
