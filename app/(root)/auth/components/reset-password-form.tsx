@@ -1,36 +1,54 @@
-'use client';
+"use client";
 
-import * as z from 'zod';
-import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import * as z from "zod";
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
-import { useForgotPassword } from '@/hooks/auth/useForgotPasword';
+import { useForgotPassword } from "@/hooks/auth/useForgotPasword";
+import { useParams } from "next/navigation";
+import { useResetPassword } from "@/hooks/auth/useResetpassword";
 
 const formSchema = z
   .object({
-    password: z.string().min(8, { message: 'Password harus minimal 8 karakter' }),
+    password: z
+      .string()
+      .min(8, { message: "Password harus minimal 8 karakter" }),
     passwordConfirmation: z.string(),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: "Password confirmation doesn't match",
-    path: ['passwordConfirmation'],
+    path: ["passwordConfirmation"],
   });
 type UserFormValues = z.infer<typeof formSchema>;
 export const ResetPasswordForm = ({ token }: any) => {
-  const { mutateAsync: forgotPassword } = useForgotPassword();
+  const { mutateAsync: resetPassword } = useResetPassword();
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(formSchema),
   });
 
   const onSubmit = async (data: any) => {
-    console.log(data);
-    forgotPassword(data);
+    const { password } = data;
+
+    const transformData = {
+      password,
+      token,
+    };
+
+    resetPassword(transformData);
   };
 
   return (
@@ -87,7 +105,7 @@ export const ResetPasswordForm = ({ token }: any) => {
               )}
             />
             <Button
-              variant={'accent-1'}
+              variant={"accent-1"}
               className="float-right max-w-[40%]"
               type="submit"
             >
