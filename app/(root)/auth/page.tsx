@@ -75,7 +75,7 @@ export default function AuthPage() {
                   </Button>
                 </Link>
               </div>
-            ) : type === "forgot-password" ? (
+            ) : type === "forgot-password-verify" ? (
               <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
                 <div className="text-6xl font-bold">
                   Silahkan Cek <br /> Email Kamu!

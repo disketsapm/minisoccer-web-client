@@ -11,7 +11,7 @@ export function useForgotPassword() {
     mutationFn: (email: string) => authService.forgotPassword(email),
     onSuccess: () => {
       toast.success("Email Lupa Password Terkirim");
-      route.push("/auth?type=forgot-password");
+      route.push("/auth?type=forgot-password-verify");
     },
     onError: (error: any) => {
       toast.error(error.message);
