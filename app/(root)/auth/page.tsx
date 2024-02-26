@@ -45,6 +45,15 @@ export default function AuthPage() {
                   Cek link yang telah dikirimkan di Email <br /> Kamu untuk me-reset password.
                 </p>
               </div>
+            ) : type === 'email-verified' ? (
+              <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
+                <div className="text-6xl font-bold">
+                  Email <br /> Terverifikasi
+                </div>
+                <p>
+                  Email Kamu telah terverifikasi, <br /> silahkan login untuk melanjutkan.
+                </p>
+              </div>
             ) : type === 'forgot-password' ? (
               <ForgotPasswordForm />
             ) : type === 'forgot-password-success' ? (
