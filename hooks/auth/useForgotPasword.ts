@@ -1,7 +1,7 @@
-import { AuthService } from '@/services/auth.service';
-import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+import { AuthService } from "@/services/auth.service";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export function useForgotPassword() {
   const authService = new AuthService();
@@ -10,8 +10,8 @@ export function useForgotPassword() {
   return useMutation({
     mutationFn: (email: string) => authService.forgotPassword(email),
     onSuccess: () => {
-      toast.success('Email Lupa Password Terkirim');
-      route.push('/auth?type=forgot-password-success');
+      toast.success("Email Lupa Password Terkirim");
+      route.push("/auth?type=forgot-password");
     },
     onError: (error: any) => {
       toast.error(error.message);

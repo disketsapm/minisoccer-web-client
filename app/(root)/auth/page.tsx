@@ -75,6 +75,16 @@ export default function AuthPage() {
                   </Button>
                 </Link>
               </div>
+            ) : type === "forgot-password" ? (
+              <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
+                <div className="text-6xl font-bold">
+                  Silahkan Cek <br /> Email Kamu!
+                </div>
+                <p>
+                  Cek link yang telah dikirimkan di Email Kamu untuk me-reset
+                  password.
+                </p>
+              </div>
             ) : type === "reset-password" ? (
               <ResetPasswordForm token={token} />
             ) : (
