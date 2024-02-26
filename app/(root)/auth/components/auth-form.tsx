@@ -10,19 +10,32 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useLogin } from '@/hooks/auth/useLogin';
 import { useRegister } from '@/hooks/auth/useRegister';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1),
+  email: z
+    .string({
+      required_error: 'Kolom ini wajib diisi.',
+    })
+    .email(),
+  password: z
+    .string({
+      required_error: 'Kolom ini wajib diisi.',
+    })
+    .min(1),
 });
 
 const registrationSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-  fullName: z.string().min(1),
-  phoneNumber: z.string().min(1),
+  email: z.string().email({ message: 'Alamat email tidak valid.' }),
+  password: z.string({
+    required_error: 'Kolom ini wajib diisi.',
+  }),
+  fullName: z.string({
+    required_error: 'Kolom ini wajib diisi.',
+  }),
+  phoneNumber: z.string({
+    required_error: 'Kolom ini wajib diisi.',
+  }),
 });
 
 type AuthFormValues = {
@@ -30,12 +43,10 @@ type AuthFormValues = {
 };
 
 export const AuthForm = ({ type }: AuthFormValues) => {
-  const router = useRouter();
-  const formSchema = type === 'login' ? loginSchema : registrationSchema;
+  const formSchema = type !== 'login' ? registrationSchema : loginSchema;
 
   type UserFormValues = z.infer<typeof formSchema>;
 
-  console.log(type);
   const [loading, setLoading] = useState(false);
   const { mutateAsync: loginUser } = useLogin();
   const { mutateAsync: registerUser } = useRegister();
@@ -51,7 +62,6 @@ export const AuthForm = ({ type }: AuthFormValues) => {
       await loginUser(dataForm);
     } else {
       await registerUser(dataForm);
-      router.push('/auth?type=register-success');
     }
   };
 
@@ -70,11 +80,11 @@ export const AuthForm = ({ type }: AuthFormValues) => {
                   name="fullName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Fullname</FormLabel>
+                      <FormLabel>Nama Lengkap</FormLabel>
                       <FormControl>
                         <Input
                           disabled={loading}
-                          placeholder="fullname"
+                          placeholder="Nama Lengkap"
                           {...field}
                         />
                       </FormControl>
@@ -87,11 +97,11 @@ export const AuthForm = ({ type }: AuthFormValues) => {
                   name="phoneNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
+                      <FormLabel>Nomer Telepon</FormLabel>
                       <FormControl>
                         <Input
                           disabled={loading}
-                          placeholder="number"
+                          placeholder="Nomer Telepon"
                           type="number"
                           {...field}
                         />

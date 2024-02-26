@@ -12,6 +12,7 @@ export function useRegister() {
     mutationFn: (data: RegisterRequestBody) => authService.register(data),
     onSuccess: () => {
       toast.success('Register success');
+      router.push('/auth?type=register-success');
     },
     onError: (error) => {
       toast.error(error.message);

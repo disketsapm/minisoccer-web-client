@@ -78,7 +78,7 @@ export default function AuthPage() {
                       className="data-[state=active]:bg-[#F9D548] data-[state=active]:border border-black bg-white text-black"
                       value="register"
                     >
-                      Buat Account
+                      Buat Akun
                     </TabsTrigger>
                     <TabsTrigger
                       className="data-[state=active]:bg-[#F9D548] data-[state=active]:border border-black bg-white text-black"

@@ -8,7 +8,6 @@ export class AuthService extends RequestAdapter {
   }
 
   public async login(body: LoginRequestBody): Promise<string> {
-    console.log('body', body);
     try {
       const { data } = await this.sendPostRequest<LoginRequestBody, BaseResponse<SignInResponse>>('/login', body);
 

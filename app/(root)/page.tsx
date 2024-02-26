@@ -12,7 +12,7 @@ export default function Page() {
     <>
       <Button
         variant={'accent-1'}
-        className="fixed z-10 bottom-5 right-5"
+        className="fixed z-20 bottom-5 right-5"
       >
         <div className="flex items-center justify-center gap-2">
           <FaWhatsapp size={24} />{' '}
