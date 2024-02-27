@@ -23,7 +23,7 @@ export default function AuthPage() {
       style={{
         backgroundImage: `url(/images/auth/bg-auth.png)`,
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "center"
       }}
     >
       <Card className="border-2 border-black rounded-xl">
@@ -43,8 +43,7 @@ export default function AuthPage() {
                   Silahkan Cek <br /> Email Kamu!
                 </div>
                 <p>
-                  Cek link yang telah dikirimkan di Email <br /> Kamu untuk
-                  me-reset password.
+                  Cek link yang telah dikirimkan di Email <br /> Kamu untuk memverifikasi akun.
                 </p>
               </div>
             ) : type === "email-verified" ? (
@@ -53,8 +52,7 @@ export default function AuthPage() {
                   Email <br /> Terverifikasi
                 </div>
                 <p>
-                  Email Kamu telah terverifikasi, <br /> silahkan login untuk
-                  melanjutkan.
+                  Email Kamu telah terverifikasi, <br /> silahkan login untuk melanjutkan.
                 </p>
               </div>
             ) : type === "forgot-password" ? (
@@ -80,15 +78,15 @@ export default function AuthPage() {
                 <div className="text-6xl font-bold">
                   Silahkan Cek <br /> Email Kamu!
                 </div>
-                <p>
-                  Cek link yang telah dikirimkan di Email Kamu untuk me-reset
-                  password.
-                </p>
+                <p>Cek link yang telah dikirimkan di Email Kamu untuk me-reset password.</p>
               </div>
             ) : type === "reset-password" ? (
               <ResetPasswordForm token={token} />
             ) : (
-              <Tabs defaultValue="register" className="w-full md:min-w-[400px]">
+              <Tabs
+                defaultValue="register"
+                className="w-full md:min-w-[400px]"
+              >
                 <div className="flex justify-center">
                   <TabsList className="grid grid-cols-2 bg-gray-400 gap-2 w-[90%]">
                     <TabsTrigger
