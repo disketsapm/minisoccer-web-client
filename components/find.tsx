@@ -1,9 +1,9 @@
-import { PiPushPin } from 'react-icons/pi';
-import { GoMail } from 'react-icons/go';
-import { FiInstagram } from 'react-icons/fi';
-import { FaWhatsapp } from 'react-icons/fa';
-import Link from 'next/link';
-import Image from 'next/image';
+import { PiPushPin } from "react-icons/pi";
+import { GoMail } from "react-icons/go";
+import { FiInstagram } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Find() {
   return (
@@ -31,7 +31,9 @@ export default function Find() {
           ></iframe>
         </div>
         <div className="flex flex-col justify-center w-full gap-5 px-5 md:w-1/2 md:py-10">
-          <div className="text-[35px] md:text-[50px] font-extrabold md:text-left text-center">Temukan Kami</div>
+          <div className="text-[35px] md:text-[50px] font-extrabold md:text-left text-center">
+            Temukan Kami
+          </div>
           <div className="grid w-full grid-cols-1 gap-4 text-lg">
             <div className="flex items-start">
               <PiPushPin className="flex-shrink-0 w-8 h-8 mr-2" />
