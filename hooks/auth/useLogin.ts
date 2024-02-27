@@ -1,7 +1,7 @@
-import { AuthService } from '@/services/auth.service';
-import { useMutation } from '@tanstack/react-query';
-import { redirect, useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+import { AuthService } from "@/services/auth.service";
+import { useMutation } from "@tanstack/react-query";
+import { redirect, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 type LoginRequestBody = {
   email: string;
@@ -15,11 +15,11 @@ export function useLogin() {
   return useMutation({
     mutationFn: (data: LoginRequestBody) => authService.login(data),
     onSuccess: () => {
-      toast.success('Login success ');
-      window.location.reload();
+      toast.success("Login success ");
+      router.replace("/");
     },
     onError: (error: any) => {
       toast.error(error.message);
-    },
+    }
   });
 }
