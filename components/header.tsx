@@ -136,7 +136,7 @@ export default function Header() {
                         href={href}
                         className="text-2xl font-semibold  hover:text-[#FC3433]"
                       >
-                        {label}
+                        <SheetClose>{label}</SheetClose>
                       </Link>
                     </li>
                   ))}
