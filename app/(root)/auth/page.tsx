@@ -10,9 +10,18 @@ import { useSearchParams } from 'next/navigation';
 
 import { ForgotPasswordForm } from './components/forgot-password-form';
 import { ResetPasswordForm } from './components/reset-password-form';
+import Link from 'next/link';
+import { useLoginGoogle } from '@/hooks/auth/useLoginGoogle';
+import { useEffect } from 'react';
 
 export default function AuthPage() {
   const searchParams = useSearchParams();
+  const loginId = searchParams.get('LoginId');
+  const { data } = useLoginGoogle(loginId);
+
+  if (data) {
+    window.location.href = '/';
+  }
   const type = searchParams.get('type');
   const token = searchParams.get('token');
 
@@ -92,6 +101,7 @@ export default function AuthPage() {
                   <Button
                     variant={'outline'}
                     className="w-full border-2 border-black"
+                    onClick={() => (window.location.href = 'https://api-stg.soccerchief.co/auth/google?role=Customer')}
                   >
                     <FcGoogle className="w-5 h-5 mr-2" /> Sign in with Google
                   </Button>

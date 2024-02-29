@@ -52,4 +52,18 @@ export class AuthService extends RequestAdapter {
       throw error;
     }
   }
+
+  public async loginWithGoogle(token: string) {
+    try {
+      const { data } = await this.sendGetRequest<any>(`/auth/${token}`);
+      if (data?.data[0].token) {
+        localStorage.setItem('token', data?.data[0]?.token);
+        localStorage.setItem('user', JSON.stringify(data?.data[0]));
+      }
+
+      return data?.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
