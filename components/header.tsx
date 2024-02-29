@@ -1,15 +1,27 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { Button } from './ui/button';
-import Link from 'next/link';
-import { CiMenuBurger } from 'react-icons/ci';
-import { useEffect, useState } from 'react';
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import Image from "next/image";
+import { Button } from "./ui/button";
+import Link from "next/link";
+import { CiMenuBurger } from "react-icons/ci";
+import { useEffect, useState } from "react";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from "./ui/sheet";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { usePathname } from "next/navigation";
 export default function Header() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
+  console.log(email);
 
   const handleScroll = () => {
     const offset = window.scrollY;
@@ -21,41 +33,40 @@ export default function Header() {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   useEffect(() => {
     // Only try to access localStorage when in the client-side environment
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       try {
-        const user = JSON.parse(localStorage.getItem('user') as string);
+        const user = JSON.parse(localStorage.getItem("user") as string);
         if (user && user.email) {
           setEmail(user.email);
         }
       } catch (error) {
-        console.error('Failed to parse user data from localStorage:', error);
+        console.error("Failed to parse user data from localStorage:", error);
         // Handle the error appropriately, e.g., redirect to login or show a message
       }
     }
-  }, [email]);
+  }, [pathname]);
 
-  let shadowClass = '';
+  let shadowClass = "";
   if (scrolled) {
-    shadowClass = 'shadow-xl';
+    shadowClass = "shadow-xl";
   }
   const links = [
-    { href: '/', label: 'Booking' },
-    { href: '#about', label: 'Tentang kami' },
-    { href: '#facility', label: 'Kerja Sama' },
-    { href: '#find', label: 'Hubungi Kami' },
+    { href: "/", label: "Booking" },
+    { href: "#about", label: "Tentang kami" },
+    { href: "#facility", label: "Kerja Sama" },
+    { href: "#find", label: "Hubungi Kami" }
   ];
-  console.log(email);
   return (
     <header className={` w-full sticky top-0 z-50 bg-white py-5 ${shadowClass} `}>
-      <div className="flex justify-between items-center container px-2 md:px-0">
+      <div className="flex justify-between items-center container px-2 md:px-[5rem]">
         <Link href="/">
           <Image
             src="/images/logo.png"
@@ -84,10 +95,10 @@ export default function Header() {
             <Link
               href="/auth"
               onClick={() => {
-                if (typeof window !== 'undefined') {
-                  localStorage.removeItem('token');
-                  localStorage.removeItem('user');
-                  setEmail('');
+                if (typeof window !== "undefined") {
+                  localStorage.removeItem("token");
+                  localStorage.removeItem("user");
+                  setEmail("");
                 }
               }}
             >
@@ -99,7 +110,7 @@ export default function Header() {
           ) : (
             <Link href="/auth">
               <Button
-                variant={'accent-1'}
+                variant={"accent-1"}
                 className="px-6 py-2 text-xs md:px-10 md:py-6"
               >
                 Masuk/Daftar
@@ -125,7 +136,7 @@ export default function Header() {
                         href={href}
                         className="text-2xl font-semibold  hover:text-[#FC3433]"
                       >
-                        {label}
+                        <SheetClose>{label}</SheetClose>
                       </Link>
                     </li>
                   ))}

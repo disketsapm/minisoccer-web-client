@@ -51,7 +51,7 @@ export default function AuthPage() {
                   Silahkan Cek <br /> Email Kamu!
                 </div>
                 <p>
-                  Cek link yang telah dikirimkan di Email <br /> Kamu untuk me-reset password.
+                  Cek link yang telah dikirimkan di Email <br /> Kamu untuk memverifikasi akun.
                 </p>
               </div>
             ) : type === 'email-verified' ? (
@@ -68,11 +68,25 @@ export default function AuthPage() {
             ) : type === 'forgot-password-success' ? (
               <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
                 <div className="text-6xl font-bold">
+                  Reset <br /> Password <br /> Berhasil!
+                </div>
+                <p>Selamat! Password Kamu telah dirubah!</p>
+
+                <Link href="/">
+                  <Button
+                    variant={'accent-1'}
+                    className="px-6 py-2 text-xs md:px-10 md:py-6"
+                  >
+                    Kembali ke Beranda
+                  </Button>
+                </Link>
+              </div>
+            ) : type === 'forgot-password-verify' ? (
+              <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
+                <div className="text-6xl font-bold">
                   Silahkan Cek <br /> Email Kamu!
                 </div>
-                <p>
-                  Cek link yang telah dikirimkan di Email Kamu <br /> untuk me-reset password.
-                </p>
+                <p>Cek link yang telah dikirimkan di Email Kamu untuk me-reset password.</p>
               </div>
             ) : type === 'reset-password' ? (
               <ResetPasswordForm token={token} />

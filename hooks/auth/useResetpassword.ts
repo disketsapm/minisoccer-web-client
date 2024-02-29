@@ -3,15 +3,16 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-export function useForgotPassword() {
+export function useResetPassword() {
   const authService = new AuthService();
   const route = useRouter();
 
   return useMutation({
-    mutationFn: (email: string) => authService.forgotPassword(email),
+    mutationFn: (body: { password: string; token: string }) =>
+      authService.resetPassword(body),
     onSuccess: () => {
       toast.success("Email Lupa Password Terkirim");
-      route.push("/auth?type=forgot-password-verify");
+      route.push("/auth?type=forgot-password-success");
     },
     onError: (error: any) => {
       toast.error(error.message);
