@@ -90,6 +90,13 @@ export default function AuthPage() {
               </div>
             ) : type === 'reset-password' ? (
               <ResetPasswordForm token={token} />
+            ) : loginId ? (
+              <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
+                <div className="text-6xl font-bold">
+                  Login <br /> Berhasil!
+                </div>
+                <p>Anda akan diarahkan ke halaman utama dalam beberapa detik.</p>
+              </div>
             ) : (
               <Tabs
                 defaultValue="register"
