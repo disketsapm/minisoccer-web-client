@@ -72,7 +72,7 @@ export class AuthService extends RequestAdapter {
 
   public async loginWithGoogle(token: string) {
     try {
-      const { data } = await this.sendGetRequest<any>(`/auth/${token}`);
+      const { data } = await this.sendGetRequest<any>(`/auth/${token}?role=Customer`);
       if (data?.data[0].token) {
         localStorage.setItem("token", data?.data[0]?.token);
         localStorage.setItem("user", JSON.stringify(data?.data[0]));
