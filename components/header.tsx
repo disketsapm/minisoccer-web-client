@@ -1,18 +1,28 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { Button } from './ui/button';
-import Link from 'next/link';
-import { CiMenuBurger } from 'react-icons/ci';
-import { useEffect, useState } from 'react';
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { usePathname } from 'next/navigation';
+import Image from "next/image";
+import { Button } from "./ui/button";
+import Link from "next/link";
+import { CiMenuBurger } from "react-icons/ci";
+import { useEffect, useState } from "react";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from "./ui/sheet";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { usePathname } from "next/navigation";
+import { useLogout } from "@/hooks/auth/useLogout";
 export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [dataUser, setDataUser] = useState({} as any);
-  console.log(dataUser);
+  const { mutateAsync: logout } = useLogout();
 
   const handleScroll = () => {
     const offset = window.scrollY;
@@ -24,34 +34,34 @@ export default function Header() {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       try {
-        const user = JSON.parse(localStorage.getItem('user') as string);
+        const user = JSON.parse(localStorage.getItem("user") as string);
         if (user) {
           setDataUser(user);
         }
       } catch (error) {
-        console.error('Failed to parse user data from localStorage:', error);
+        console.error("Failed to parse user data from localStorage:", error);
       }
     }
   }, [pathname]);
 
-  let shadowClass = '';
+  let shadowClass = "";
   if (scrolled) {
-    shadowClass = 'shadow-xl';
+    shadowClass = "shadow-xl";
   }
   const links = [
-    { href: '/', label: 'Booking' },
-    { href: '#about', label: 'Tentang kami' },
-    { href: '#facility', label: 'Kerja Sama' },
-    { href: '#find', label: 'Hubungi Kami' },
+    { href: "/", label: "Booking" },
+    { href: "#about", label: "Tentang kami" },
+    { href: "#facility", label: "Kerja Sama" },
+    { href: "#find", label: "Hubungi Kami" }
   ];
   return (
     <header className={` w-full sticky top-0 z-50 bg-white py-5 ${shadowClass} `}>
@@ -84,22 +94,30 @@ export default function Header() {
             <Link
               href="/auth"
               onClick={() => {
-                if (typeof window !== 'undefined') {
-                  localStorage.removeItem('token');
-                  localStorage.removeItem('user');
-                  setDataUser('');
+                if (typeof window !== "undefined") {
+                  localStorage.removeItem("token");
+                  localStorage.removeItem("user");
+                  setDataUser("");
+                  if (dataUser?.token) {
+                    logout({ token: dataUser?.token });
+                  }
                 }
               }}
             >
               <Avatar>
-                <AvatarImage src={dataUser.photo ?? `https://drive.google.com/file/d/1em-PVgw9RWYunZvZHdNrBUnRLu6Hl3lY/view?usp=sharing`} />
-                <AvatarFallback>{dataUser.email.charAt(0).toUpperCase()}</AvatarFallback>
+                <AvatarImage
+                  src={
+                    dataUser.photo ??
+                    `https://drive.google.com/file/d/1em-PVgw9RWYunZvZHdNrBUnRLu6Hl3lY/view?usp=sharing`
+                  }
+                />
+                <AvatarFallback>{dataUser.name}</AvatarFallback>
               </Avatar>
             </Link>
           ) : (
             <Link href="/auth">
               <Button
-                variant={'accent-1'}
+                variant={"accent-1"}
                 className="px-6 py-2 text-xs md:px-10 md:py-6"
               >
                 Masuk/Daftar
