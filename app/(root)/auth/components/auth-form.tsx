@@ -13,7 +13,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { useRegister } from "@/hooks/auth/useRegister";
@@ -27,24 +27,24 @@ export const AuthForm = ({ type }: AuthFormValues) => {
   const formSchema = z.object({
     email: z
       .string({
-        required_error: "Kolom ini wajib diisi."
+        required_error: "Kolom ini wajib diisi.",
       })
       .email({ message: "Alamat email tidak valid." }),
     password: z.string({
-      required_error: "Kolom ini wajib diisi."
+      required_error: "Kolom ini wajib diisi.",
     }),
     fullName:
       type === "register"
         ? z.string({
-            required_error: "Kolom ini wajib diisi."
+            required_error: "Kolom ini wajib diisi.",
           })
         : z.string().nullable(),
     phoneNumber:
       type === "register"
         ? z.string({
-            required_error: "Kolom ini wajib diisi."
+            required_error: "Kolom ini wajib diisi.",
           })
-        : z.string().nullable()
+        : z.string().nullable(),
   });
 
   type UserFormValues = z.infer<typeof formSchema>;
@@ -56,7 +56,7 @@ export const AuthForm = ({ type }: AuthFormValues) => {
   const action = type ? "Masuk" : "Daftar";
 
   const form = useForm<UserFormValues>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
   });
 
   const onSubmit = async (dataForm: any) => {
@@ -121,11 +121,7 @@ export const AuthForm = ({ type }: AuthFormValues) => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="email"
-                      type="email"
-                      {...field}
-                    />
+                    <Input placeholder="email" type="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

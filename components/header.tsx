@@ -88,19 +88,7 @@ export default function Header() {
           </nav>
 
           {dataUser.email ? (
-            <Link
-              href="/auth/me"
-              // onClick={() => {
-              //   if (typeof window !== "undefined") {
-              //     localStorage.removeItem("token");
-              //     localStorage.removeItem("user");
-              //     setDataUser("");
-              //     if (dataUser?.token) {
-              //       logout({ token: dataUser?.token });
-              //     }
-              //   }
-              // }}
-            >
+            <Link href="/auth/me">
               <Avatar>
                 <AvatarImage
                   src={
