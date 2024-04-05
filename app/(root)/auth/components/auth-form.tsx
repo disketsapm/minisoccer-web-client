@@ -19,42 +19,33 @@ import { useLogin } from "@/hooks/auth/useLogin";
 import { useRegister } from "@/hooks/auth/useRegister";
 import Link from "next/link";
 
-const loginSchema = z.object({
-  email: z
-    .string({
-      required_error: "Kolom ini wajib diisi."
-    })
-    .email(),
-  password: z
-    .string({
-      required_error: "Kolom ini wajib diisi."
-    })
-    .min(1)
-});
-
-const registrationSchema = z.object({
-  email: z
-    .string({
-      required_error: "Kolom ini wajib diisi."
-    })
-    .email({ message: "Alamat email tidak valid." }),
-  password: z.string({
-    required_error: "Kolom ini wajib diisi."
-  }),
-  fullName: z.string({
-    required_error: "Kolom ini wajib diisi."
-  }),
-  phoneNumber: z.string({
-    required_error: "Kolom ini wajib diisi."
-  })
-});
-
 type AuthFormValues = {
   type?: string;
 };
 
 export const AuthForm = ({ type }: AuthFormValues) => {
-  const formSchema = type !== "login" ? registrationSchema : loginSchema;
+  const formSchema = z.object({
+    email: z
+      .string({
+        required_error: "Kolom ini wajib diisi."
+      })
+      .email({ message: "Alamat email tidak valid." }),
+    password: z.string({
+      required_error: "Kolom ini wajib diisi."
+    }),
+    fullName:
+      type === "register"
+        ? z.string({
+            required_error: "Kolom ini wajib diisi."
+          })
+        : z.string().nullable(),
+    phoneNumber:
+      type === "register"
+        ? z.string({
+            required_error: "Kolom ini wajib diisi."
+          })
+        : z.string().nullable()
+  });
 
   type UserFormValues = z.infer<typeof formSchema>;
 
@@ -94,9 +85,9 @@ export const AuthForm = ({ type }: AuthFormValues) => {
                       <FormLabel>Nama Lengkap</FormLabel>
                       <FormControl>
                         <Input
-                          disabled={loading}
                           placeholder="Nama Lengkap"
                           {...field}
+                          value={field.value || ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -111,10 +102,10 @@ export const AuthForm = ({ type }: AuthFormValues) => {
                       <FormLabel>Nomer Telepon</FormLabel>
                       <FormControl>
                         <Input
-                          disabled={loading}
                           placeholder="Nomer Telepon"
                           type="number"
                           {...field}
+                          value={field.value || ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -131,7 +122,6 @@ export const AuthForm = ({ type }: AuthFormValues) => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={loading}
                       placeholder="email"
                       type="email"
                       {...field}
@@ -149,7 +139,6 @@ export const AuthForm = ({ type }: AuthFormValues) => {
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={loading}
                       placeholder="password"
                       type="password"
                       isPassword
