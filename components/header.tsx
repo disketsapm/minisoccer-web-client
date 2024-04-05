@@ -13,7 +13,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "./ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { usePathname } from "next/navigation";
@@ -61,18 +61,15 @@ export default function Header() {
     { href: "/", label: "Booking" },
     { href: "#about", label: "Tentang kami" },
     { href: "#facility", label: "Kerja Sama" },
-    { href: "#find", label: "Hubungi Kami" }
+    { href: "#find", label: "Hubungi Kami" },
   ];
   return (
-    <header className={` w-full sticky top-0 z-50 bg-white py-5 ${shadowClass} `}>
+    <header
+      className={` w-full sticky top-0 z-50 bg-white py-5 ${shadowClass} `}
+    >
       <div className="flex justify-between items-center container px-2 md:px-[5rem]">
         <Link href="/">
-          <Image
-            src="/images/logo.png"
-            alt="Logo"
-            width={100}
-            height={100}
-          />
+          <Image src="/images/logo.png" alt="Logo" width={100} height={100} />
         </Link>
         <div className="flex items-center justify-center gap-2 md:gap-x-10">
           <nav>
@@ -92,17 +89,17 @@ export default function Header() {
 
           {dataUser.email ? (
             <Link
-              href="/auth"
-              onClick={() => {
-                if (typeof window !== "undefined") {
-                  localStorage.removeItem("token");
-                  localStorage.removeItem("user");
-                  setDataUser("");
-                  if (dataUser?.token) {
-                    logout({ token: dataUser?.token });
-                  }
-                }
-              }}
+              href="/auth/me"
+              // onClick={() => {
+              //   if (typeof window !== "undefined") {
+              //     localStorage.removeItem("token");
+              //     localStorage.removeItem("user");
+              //     setDataUser("");
+              //     if (dataUser?.token) {
+              //       logout({ token: dataUser?.token });
+              //     }
+              //   }
+              // }}
             >
               <Avatar>
                 <AvatarImage
@@ -127,10 +124,7 @@ export default function Header() {
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                className="md:hidden "
-              >
+              <Button variant="outline" className="md:hidden ">
                 <CiMenuBurger size={15} />
               </Button>
             </SheetTrigger>
