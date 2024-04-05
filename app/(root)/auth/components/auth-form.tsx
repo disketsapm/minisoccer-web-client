@@ -24,6 +24,7 @@ type AuthFormValues = {
 };
 
 export const AuthForm = ({ type }: AuthFormValues) => {
+  console.log(type);
   const formSchema = z.object({
     email: z
       .string({
@@ -34,17 +35,17 @@ export const AuthForm = ({ type }: AuthFormValues) => {
       required_error: "Kolom ini wajib diisi."
     }),
     fullName:
-      type === "register"
-        ? z.string({
+      type === "login"
+        ? z.any().nullable()
+        : z.string({
             required_error: "Kolom ini wajib diisi."
-          })
-        : z.string().nullable(),
+          }),
     phoneNumber:
-      type === "register"
-        ? z.string({
+      type === "login"
+        ? z.any().nullable()
+        : z.string({
             required_error: "Kolom ini wajib diisi."
           })
-        : z.string().nullable()
   });
 
   type UserFormValues = z.infer<typeof formSchema>;
