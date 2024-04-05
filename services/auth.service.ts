@@ -3,7 +3,7 @@ import {
   LoginRequestBody,
   RegisterRequestBody,
   SignInResponse,
-  SignUpResponse
+  SignUpResponse,
 } from "@/interfaces/auth.interface";
 import { BaseResponse } from "@/interfaces/global.interface";
 
@@ -14,10 +14,10 @@ export class AuthService extends RequestAdapter {
 
   public async login(body: LoginRequestBody): Promise<string> {
     try {
-      const { data } = await this.sendPostRequest<LoginRequestBody, BaseResponse<SignInResponse>>(
-        "/login",
-        body
-      );
+      const { data } = await this.sendPostRequest<
+        LoginRequestBody,
+        BaseResponse<SignInResponse>
+      >("/login", body);
 
       if (data?.data?.token) {
         localStorage.setItem("token", data?.data?.token);
@@ -57,7 +57,10 @@ export class AuthService extends RequestAdapter {
     }
   }
 
-  public async resetPassword(body: { password: string; token: string }): Promise<string> {
+  public async resetPassword(body: {
+    password: string;
+    token: string;
+  }): Promise<string> {
     try {
       const { data } = await this.sendPostRequest<
         { password: string; token: string },
@@ -72,7 +75,9 @@ export class AuthService extends RequestAdapter {
 
   public async loginWithGoogle(token: string) {
     try {
-      const { data } = await this.sendGetRequest<any>(`/auth/${token}?role=Customer`);
+      const { data } = await this.sendGetRequest<any>(
+        `/auth/${token}?role=Customer`
+      );
       if (data?.data[0].token) {
         localStorage.setItem("token", data?.data[0]?.token);
         localStorage.setItem("user", JSON.stringify(data?.data[0]));
@@ -86,7 +91,10 @@ export class AuthService extends RequestAdapter {
 
   public async logout(token: object): Promise<string> {
     try {
-      const { data } = await this.sendPostRequest<object, BaseResponse<string>>(`/logout`, token);
+      const { data } = await this.sendPostRequest<object, BaseResponse<string>>(
+        `/logout`,
+        token
+      );
       return data?.data || "";
     } catch (error) {
       throw error;

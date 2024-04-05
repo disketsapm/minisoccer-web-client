@@ -24,7 +24,6 @@ type AuthFormValues = {
 };
 
 export const AuthForm = ({ type }: AuthFormValues) => {
-  console.log(type);
   const formSchema = z.object({
     email: z
       .string({
@@ -50,11 +49,13 @@ export const AuthForm = ({ type }: AuthFormValues) => {
 
   type UserFormValues = z.infer<typeof formSchema>;
 
-  const [loading, setLoading] = useState(false);
-  const { mutateAsync: loginUser } = useLogin();
-  const { mutateAsync: registerUser } = useRegister();
+  const { mutateAsync: loginUser, isPending: isPendingLogin } = useLogin();
+  const { mutateAsync: registerUser, isPending: isPendingRegister } =
+    useRegister();
 
   const action = type ? "Masuk" : "Daftar";
+
+  console.log(isPendingLogin);
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(formSchema),
@@ -150,10 +151,10 @@ export const AuthForm = ({ type }: AuthFormValues) => {
 
             <div className="flex gap-5 items-center">
               <Button
-                disabled={loading}
                 variant={"accent-1"}
                 className="float-right max-w-[30%]"
                 type="submit"
+                isLoading={isPendingLogin || isPendingRegister}
               >
                 {action}
               </Button>

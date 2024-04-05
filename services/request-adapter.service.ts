@@ -5,7 +5,7 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
   CreateAxiosDefaults,
-  InternalAxiosRequestConfig
+  InternalAxiosRequestConfig,
 } from "axios";
 
 interface RequestAdapterProps extends CreateAxiosDefaults {}
@@ -17,11 +17,14 @@ export class RequestAdapter {
     const { baseURL = process.env.NEXT_PUBLIC_API_URL, ...rest } = props || {};
     this.adapter = axios.create({
       baseURL,
-      ...rest
+      ...rest,
     });
 
     this.adapter.interceptors.request.use(this.interceptRequest);
-    this.adapter.interceptors.response.use(this.interceptResponse, this.handleError);
+    this.adapter.interceptors.response.use(
+      this.interceptResponse,
+      this.handleError
+    );
   }
 
   private async interceptRequest(
@@ -32,6 +35,8 @@ export class RequestAdapter {
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       } else {
+        // window.location.href = "/login";
+
         console.log("no token");
       }
 
@@ -39,7 +44,9 @@ export class RequestAdapter {
     }
   }
 
-  private async interceptResponse(response: AxiosResponse): Promise<AxiosResponse> {
+  private async interceptResponse(
+    response: AxiosResponse
+  ): Promise<AxiosResponse> {
     {
       console.log("response", response);
       if (response.status === 401 || response.status === 403) {
@@ -69,7 +76,7 @@ export class RequestAdapter {
   ): Promise<AxiosResponse<T>> {
     return this.adapter.get<T, AxiosResponse<T>>(url, {
       ...config,
-      params
+      params,
     });
   }
 
@@ -81,7 +88,7 @@ export class RequestAdapter {
   ): Promise<AxiosResponse<T>> {
     return this.adapter.post<B, AxiosResponse<T>>(url, data, {
       ...config,
-      params
+      params,
     });
   }
 

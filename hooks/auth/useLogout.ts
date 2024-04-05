@@ -1,3 +1,7 @@
+import {
+  deleteTokenFromLocalStorage,
+  getTokenFromLocalStorage,
+} from "@/lib/utils";
 import { AuthService } from "@/services/auth.service";
 import { useMutation } from "@tanstack/react-query";
 import { redirect, useRouter } from "next/navigation";
@@ -7,14 +11,25 @@ export function useLogout() {
   const authService = new AuthService();
   const router = useRouter();
 
+  const fetcher = async () => {
+    const token = await getTokenFromLocalStorage();
+
+    if (token) {
+      return await authService.logout({ token });
+    }
+
+    return null;
+  };
+
   return useMutation({
-    mutationFn: (token: object) => authService.logout(token),
+    mutationFn: async () => fetcher(),
     onSuccess: () => {
       toast.success("Logout success ");
+      deleteTokenFromLocalStorage();
       router.replace("/");
     },
     onError: (error: any) => {
       toast.error(error.message);
-    }
+    },
   });
 }
