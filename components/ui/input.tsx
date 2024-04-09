@@ -3,16 +3,24 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   isPassword?: boolean;
   showPasswordIcon?: boolean;
   isDisabled?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, isPassword, showPasswordIcon, isDisabled, ...props }, ref) => {
+  (
+    { className, type, isPassword, showPasswordIcon, isDisabled, ...props },
+    ref
+  ) => {
     const [showPassword, setShowPassword] = React.useState(false);
-    const inputType = isPassword ? (showPassword ? "text" : "password") : type || "text";
+    const inputType = isPassword
+      ? showPassword
+        ? "text"
+        : "password"
+      : type || "text";
     return (
       <div className="relative">
         <input

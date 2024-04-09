@@ -11,6 +11,6 @@ export function useLoginGoogle(loginId: any) {
   return useQuery<any, Error, any>({
     queryKey: ["loginGoogle"],
     queryFn: () => authService.loginWithGoogle(loginId),
-    enabled: !!loginId
+    enabled: !!loginId,
   });
 }

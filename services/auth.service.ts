@@ -89,6 +89,18 @@ export class AuthService extends RequestAdapter {
     }
   }
 
+  public async getUserDetail() {
+    try {
+      const { data } = await this.sendGetRequest<BaseResponse<any>>(
+        `/user/detail`
+      );
+
+      return data?.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   public async logout(token: object): Promise<string> {
     try {
       const { data } = await this.sendPostRequest<object, BaseResponse<string>>(
