@@ -2,9 +2,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { FieldService } from "@/services/field.service";
 import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
+
 import React from "react";
 import { useFormContext } from "react-hook-form";
+
+import ReservationCarousel from "./reservation-carousel";
+import ReservationFacility from "./reservation-facility";
 
 const ReservationGalery = () => {
   const { getValues } = useFormContext();
@@ -25,18 +28,14 @@ const ReservationGalery = () => {
   });
 
   return (
-    <div className={cn("w-full h-[300px]", { "bg-gray-300": !fieldId })}>
+    <div className={cn("w-full h-[400px]", { "bg-gray-300": !fieldId })}>
       {isLoading && fieldId && <Skeleton className="w-full h-full" />}
 
       {!isLoading && fieldId && (
-        <Image
-          alt="image-galery"
-          src={data?.data?.assets?.[0]?.url}
-          width={0}
-          height={0}
-          sizes="100vw"
-          style={{ width: "100%", height: "auto" }}
-        />
+        <div className="w-full h-full ">
+          <ReservationCarousel data={data?.data?.assets} />
+          <ReservationFacility data={data?.data?.yardFacilities} />
+        </div>
       )}
     </div>
   );

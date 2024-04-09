@@ -3,7 +3,12 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import Image from "next/image";
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "./ui/carousel";
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from "./ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Skeleton } from "./ui/skeleton";
 
@@ -33,7 +38,7 @@ const Hero: React.FC = () => {
       desktop: item.image_desktop,
       mobile: item.image_mobile,
       ctaUrl: item.ctaUrl,
-      id: item._id
+      id: item._id,
     }));
 
     setImages(imageData);
@@ -46,18 +51,19 @@ const Hero: React.FC = () => {
     await axios.put(VIEW_COUNT_API, { _id: imageId });
   }, []);
 
-  const incrementCtaCount = useCallback(async (imageId: string, ctaUrl: string) => {
-    await axios.put(CTA_COUNT_API, { _id: imageId });
-    window.location.href = ctaUrl;
-  }, []);
+  const incrementCtaCount = useCallback(
+    async (imageId: string, ctaUrl: string) => {
+      await axios.put(CTA_COUNT_API, { _id: imageId });
+      window.location.href = ctaUrl;
+    },
+    []
+  );
 
   //api caraousel
   useEffect(() => {
     if (!api) {
       return;
     }
-
-    console.log(api.scrollSnapList().length);
 
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
@@ -89,12 +95,12 @@ const Hero: React.FC = () => {
             setApi={setApi}
             plugins={[
               Autoplay({
-                delay: 3000
-              })
+                delay: 3000,
+              }),
             ]}
             opts={{
               align: "start",
-              loop: true
+              loop: true,
             }}
           >
             <div className="flex flex-col mb-20">
@@ -108,7 +114,9 @@ const Hero: React.FC = () => {
                         layout="responsive"
                         width={1600}
                         height={900}
-                        onClick={() => incrementCtaCount(image.id, image.ctaUrl)}
+                        onClick={() =>
+                          incrementCtaCount(image.id, image.ctaUrl)
+                        }
                         onLoad={() => setIsLoading(false)}
                         priority
                         className="cursor-pointer"

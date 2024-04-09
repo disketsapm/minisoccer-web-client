@@ -20,7 +20,7 @@ const FieldView = () => {
       </div>
 
       <FormProvider {...methods}>
-        <div className="w-full flex gap-2 h-[100vh]">
+        <div className="w-full flex gap-2 h-[100vh] px-4 ">
           <ReservationGalery />
           <ReservationForm />
         </div>
