@@ -12,25 +12,29 @@ import {
 
 import React from "react";
 
-const ReservationSelect: React.FC<
+const DATA_TYPE: { label: string; value: string }[] = [
+  {
+    label: "Event",
+    value: "event",
+  },
+  {
+    label: "Game",
+    value: "game",
+  },
+];
+
+const ReservationSelectType: React.FC<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>
 > = ({ onValueChange, defaultValue }) => {
-  const fieldService = new FieldService();
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["list-field"],
-    queryFn: () => fieldService.getListField({}),
-  });
-
   return (
     <>
       <Select onValueChange={onValueChange} defaultValue={defaultValue}>
-        <SelectTrigger isLoading={isLoading}>
-          <SelectValue placeholder="Silahkan Pilih Lapangan" />
+        <SelectTrigger>
+          <SelectValue placeholder="Pilih Tipe Booking" />
         </SelectTrigger>
         <SelectContent>
-          {data?.data?.map((item: any) => {
-            return <SelectItem value={item._id}>{item.yardName}</SelectItem>;
+          {DATA_TYPE?.map((item) => {
+            return <SelectItem value={item.label}>{item.label}</SelectItem>;
           })}
         </SelectContent>
       </Select>
@@ -38,4 +42,4 @@ const ReservationSelect: React.FC<
   );
 };
 
-export default ReservationSelect;
+export default ReservationSelectType;

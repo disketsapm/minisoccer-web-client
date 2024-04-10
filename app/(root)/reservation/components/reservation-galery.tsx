@@ -28,8 +28,14 @@ const ReservationGalery = () => {
   });
 
   return (
-    <div className={cn("w-full h-[400px]", { "bg-gray-300": !fieldId })}>
+    <div className={cn("w-full h-[400px]", { "bg-gray-100": !fieldId })}>
       {isLoading && fieldId && <Skeleton className="w-full h-full" />}
+
+      {!isLoading && !fieldId && (
+        <div className="w-full h-full flex justify-center items-center border border-black rounded-sm text-sm font-semibold">
+          Pilih lapangan terlebih dahulu
+        </div>
+      )}
 
       {!isLoading && fieldId && (
         <div className="w-full h-full ">

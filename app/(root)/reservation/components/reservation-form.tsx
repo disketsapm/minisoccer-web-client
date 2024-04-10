@@ -1,8 +1,13 @@
 "use client";
 
 import React from "react";
-import ReservationSelect from "./reservation-select";
-import { Form, useFormContext } from "react-hook-form";
+import ReservationSelectField from "./reservation-select-field";
+import {
+  FieldValues,
+  Form,
+  SubmitHandler,
+  useFormContext,
+} from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -14,12 +19,14 @@ import {
 import { z } from "zod";
 import FormFieldSchema from "../schema/form-field-schema";
 import { Button } from "@/components/ui/button";
+import ReservationSelectType from "./reservation-select-type";
 
 const ReservationForm = () => {
-  const { control, handleSubmit } = useFormContext();
+  const { control, handleSubmit } =
+    useFormContext<z.infer<typeof FormFieldSchema>>();
 
-  const onSubmit = (data: z.infer<typeof FormFieldSchema>) => {
-    console.log(data);
+  const onSubmit = async (data: z.infer<typeof FormFieldSchema>) => {
+    // console.log(data);
   };
 
   return (
@@ -35,7 +42,26 @@ const ReservationForm = () => {
             <FormItem>
               <FormLabel>Pilih Lapangan</FormLabel>
               <FormControl>
-                <ReservationSelect
+                <ReservationSelectField
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          );
+        }}
+      />
+
+      <FormField
+        name="type"
+        control={control}
+        render={({ field }) => {
+          return (
+            <FormItem>
+              <FormLabel>Jenis Reservasi</FormLabel>
+              <FormControl>
+                <ReservationSelectType
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 />
