@@ -1,29 +1,20 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { FieldService } from "@/services/field.service";
-import { useQuery } from "@tanstack/react-query";
 
 import React from "react";
 import { useFormContext } from "react-hook-form";
 
 import ReservationCarousel from "./reservation-carousel";
 import ReservationFacility from "./reservation-facility";
+import useGetFieldById from "../hooks/useGetFieldById";
 
 const ReservationGalery = () => {
   const { getValues } = useFormContext();
 
-  const fieldService = new FieldService();
-
   const fieldId = getValues("field_id");
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["field-galery", fieldId],
-    queryFn: () =>
-      fieldService.getFieldDetail({
-        params: {
-          _id: fieldId,
-        },
-      }),
+  const { data, isLoading } = useGetFieldById({
+    key: ["field-galery", fieldId],
     enabled: !!fieldId,
   });
 

@@ -6,34 +6,39 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { FieldService } from "@/services/field.service";
-import { useQuery } from "@tanstack/react-query";
 
 import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { z } from "zod";
-import FormFieldSchema from "../schema/form-field-schema";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { AlertError } from "@/components/ui/alert-error";
-import { cn } from "@/lib/utils";
-import { AlertCircle, HelpCircle } from "lucide-react";
+
+import {
+  cn,
+  formatCurrencyToIDR,
+  getTotalPriceInListOfPrice,
+} from "@/lib/utils";
+import { AlertCircle, HelpCircle, ExternalLink } from "lucide-react";
+import useGetListOfScheduleById from "../hooks/useGetListOfScheduleById";
+import useGetFieldById from "../hooks/useGetFieldById";
+import { IFormFieldSchema } from "../type/reservation.type";
+import ReservationSessionCard from "./reservation-session-card";
 
 const LabelValues: React.FC<{
   label: string;
-  value: string;
+  value: React.ReactNode;
   isLoading?: boolean;
-}> = ({ label, value, isLoading }) => {
+  loadingClassname?: string;
+}> = ({ label, value, isLoading, loadingClassname }) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 w-full h-full">
       <div className="text-sm text-gray-500 w-[150px] flex-grow-0 flex-shrink-0">
         {label}
       </div>
       <div>:</div>
       {isLoading ? (
-        <Skeleton className="w-36 h-5" />
+        <Skeleton className={`w-36 h-5 ${loadingClassname}`} />
       ) : (
-        <div className="text-sm font-semibold">{value}</div>
+        <div className="text-sm font-semibold w-full h-full">{value}</div>
       )}
     </div>
   );
@@ -43,33 +48,29 @@ const ReservationAction: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const { getValues, handleSubmit, trigger, formState } =
-    useFormContext<z.infer<typeof FormFieldSchema>>();
+    useFormContext<IFormFieldSchema>();
 
   const formValues = getValues();
 
-  const fieldService = new FieldService();
-
   const isValid: boolean = formState?.isValid;
 
-  const { data: fieldDetail, isLoading } = useQuery({
-    queryKey: [
-      "reservation-confirmation",
-      formValues?.field_id,
+  const { data: fieldDetail, isLoading: isFieldDetailLoading } =
+    useGetFieldById({
+      key: [
+        "reservation-confirmation",
+        formValues?.field_id,
+        isOpen,
+        formState?.isValid,
+      ],
+      enabled: !!formValues?.field_id && isOpen && formState?.isValid,
+    });
+
+  const { data: scheduleData, isLoading: isListScheduleLoading } =
+    useGetListOfScheduleById({
       isOpen,
-      formState?.isValid,
-    ],
-    queryFn: () =>
-      fieldService.getFieldDetail({
-        params: {
-          _id: formValues?.field_id,
-        },
-      }),
-    enabled: !!formValues?.field_id && isOpen && formState?.isValid,
-  });
+    });
 
-  const onSubmit = async (data: z.infer<typeof FormFieldSchema>) => {};
-
-  console.log(formState?.errors);
+  const onSubmit = async (data: IFormFieldSchema) => {};
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
@@ -105,18 +106,59 @@ const ReservationAction: React.FC = () => {
           </DialogTitle>
         </DialogHeader>
         <div className={cn("w-full h-full rounded-sm border border-gray-100")}>
-          <div className={cn("flex  flex-col  w-full h-full p-4")}>
+          <div className={cn("flex  flex-col  w-full h-full p-4 gap-2")}>
             {isValid ? (
               <>
                 <LabelValues
                   label="Lapangan"
                   value={fieldDetail?.data?.yardName || ""}
-                  isLoading={isLoading}
+                  isLoading={isFieldDetailLoading}
                 />
                 <LabelValues
                   label="Jenis Reservasi"
                   value={formValues?.type}
-                  isLoading={isLoading}
+                  isLoading={isFieldDetailLoading}
+                />
+
+                <LabelValues
+                  label="Sesi"
+                  value={
+                    <div className="w-full h-full flex gap-2 flex-wrap">
+                      {scheduleData?.map((item) => {
+                        return (
+                          <ReservationSessionCard
+                            sessionName={item?.session}
+                            startTime={item?.timeStart.toString()}
+                            endTime={item?.timeEnd.toString()}
+                          />
+                        );
+                      })}
+                    </div>
+                  }
+                  loadingClassname="h-12"
+                  isLoading={isListScheduleLoading}
+                />
+
+                <LabelValues
+                  label="Total Harga"
+                  value={getTotalPriceInListOfPrice(scheduleData)}
+                  isLoading={isListScheduleLoading}
+                />
+
+                <LabelValues
+                  label="Lokasi"
+                  value={
+                    <a
+                      href={fieldDetail?.data?.yardLocationUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-600 h-full text-center w-full flex items-center underline gap-2"
+                    >
+                      <p>Lihat Lokasi</p>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  }
+                  isLoading={isFieldDetailLoading}
                 />
               </>
             ) : (
@@ -137,8 +179,11 @@ const ReservationAction: React.FC = () => {
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => setIsOpen(false)}>
-            Close
+            Tutup
           </Button>
+          {isValid ? (
+            <Button variant="accent-1">Proses Reservasi</Button>
+          ) : null}
         </DialogFooter>
       </DialogContent>
     </Dialog>

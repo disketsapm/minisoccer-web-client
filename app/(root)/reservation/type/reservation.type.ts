@@ -1,3 +1,6 @@
+import { z } from "zod";
+import FormFieldSchema from "../schema/form-field-schema";
+
 export type ISchedule = {
   _id: string;
   date: string;
@@ -39,3 +42,5 @@ export type IField = {
   additional_item: any[]; // Change `any[]` to the appropriate type if possible
   __v: number;
 };
+
+export type IFormFieldSchema = z.infer<typeof FormFieldSchema>;

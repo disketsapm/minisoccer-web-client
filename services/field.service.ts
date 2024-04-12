@@ -46,6 +46,7 @@ export class FieldService extends RequestAdapter {
   }: {
     params?: {
       search: string | undefined;
+      _id?: string | undefined;
     };
   }) {
     try {
@@ -55,6 +56,26 @@ export class FieldService extends RequestAdapter {
       );
 
       return data || "";
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getScheduleById({
+    params,
+  }: {
+    params?: {
+      search: string | undefined;
+      _id?: string | undefined;
+    };
+  }) {
+    try {
+      const { data } = await this.sendGetRequest<BaseResponse<ISchedule>>(
+        `/schedule`,
+        params
+      );
+
+      return data?.data || "";
     } catch (error) {
       throw error;
     }

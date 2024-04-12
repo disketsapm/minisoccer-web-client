@@ -10,6 +10,7 @@ import { ISchedule } from "../type/reservation.type";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
+import ReservationSessionCard from "./reservation-session-card";
 
 const ColorIndicator = ({ status }: { status: string }) => {
   switch (status) {
@@ -137,28 +138,15 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
             }}
             eventClick={(info) => console.log(info.event)}
             eventContent={(arg) => (
-              <div
+              <ReservationSessionCard
                 onClick={() => handleSetEvents(arg?.event?.extendedProps?.id)}
-                className={cn(
-                  "w-full border bordsr-gray flex-shrink-0 flex-grow-0 rounded flex justify-center items-center h-full cursor-pointer hover:bg-gray-100",
-                  { "bg-green-100": arg.event.title === "Available" },
-                  { "bg-yellow-100": arg.event.title === "Maintenance" },
-                  { "bg-red-100": arg.event.title === "Unavailable" },
-                  {
-                    "bg-gray-100": values.includes(arg.event.extendedProps.id),
-                  }
-                )}
-              >
-                <div className="flex flex-col">
-                  <p className="text-sm text-black">
-                    {arg.event.extendedProps.sessionName}
-                  </p>
-                  <p className="text-xs text-black">
-                    {formattedTime(arg.event.startStr)} -{" "}
-                    {formattedTime(arg.event.endStr)}
-                  </p>
-                </div>
-              </div>
+                endTime={arg.event.startStr}
+                startTime={arg.event.endStr}
+                sessionName={arg.event.extendedProps.sessionName}
+                selected={values.includes(arg.event.extendedProps.id)}
+                status={arg.event.title}
+                isOnCalendar
+              />
             )}
           />
           <div className="flex gap-5 mt-2">
