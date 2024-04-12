@@ -20,22 +20,16 @@ import { z } from "zod";
 import FormFieldSchema from "../schema/form-field-schema";
 import { Button } from "@/components/ui/button";
 import ReservationSelectType from "./reservation-select-type";
+import ReservationCalendar from "./reservation-calendar";
+import ReservationAction from "./reservation-action";
 
 const ReservationForm = () => {
-  const { control, handleSubmit } =
-    useFormContext<z.infer<typeof FormFieldSchema>>();
-
-  const onSubmit = async (data: z.infer<typeof FormFieldSchema>) => {
-    // console.log(data);
-  };
+  const { control } = useFormContext<z.infer<typeof FormFieldSchema>>();
 
   return (
-    <form
-      className="w-full flex flex-col gap-2 px-4"
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <div className="w-full flex flex-col gap-4 px-4 h-full pb-6 ">
       <FormField
-        name="field"
+        name="field_id"
         control={control}
         render={({ field }) => {
           return (
@@ -72,10 +66,27 @@ const ReservationForm = () => {
         }}
       />
 
-      <Button type="submit" className="w-full" variant="accent-1">
-        Submit
-      </Button>
-    </form>
+      <FormField
+        name="schedule_id"
+        control={control}
+        render={({ field }) => {
+          return (
+            <FormItem>
+              {/* <FormLabel>Jenis Reservasi</FormLabel> */}
+              <FormControl>
+                <ReservationCalendar
+                  onChange={field.onChange}
+                  values={field.value}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          );
+        }}
+      />
+
+      <ReservationAction />
+    </div>
   );
 };
 

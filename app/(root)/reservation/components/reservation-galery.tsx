@@ -14,12 +14,12 @@ const ReservationGalery = () => {
 
   const fieldService = new FieldService();
 
-  const fieldId = getValues("field");
+  const fieldId = getValues("field_id");
 
   const { data, isLoading } = useQuery({
     queryKey: ["field-galery", fieldId],
     queryFn: () =>
-      fieldService.getListField({
+      fieldService.getFieldDetail({
         params: {
           _id: fieldId,
         },
@@ -28,7 +28,7 @@ const ReservationGalery = () => {
   });
 
   return (
-    <div className={cn("w-full h-[400px]", { "bg-gray-100": !fieldId })}>
+    <div className={cn("w-[60%] h-[400px]", { "bg-gray-100": !fieldId })}>
       {isLoading && fieldId && <Skeleton className="w-full h-full" />}
 
       {!isLoading && !fieldId && (
@@ -39,8 +39,8 @@ const ReservationGalery = () => {
 
       {!isLoading && fieldId && (
         <div className="w-full h-full ">
-          <ReservationCarousel data={data?.data?.assets} />
-          <ReservationFacility data={data?.data?.yardFacilities} />
+          <ReservationCarousel data={data?.data?.assets || []} />
+          <ReservationFacility data={data?.data?.yardFacilities || []} />
         </div>
       )}
     </div>

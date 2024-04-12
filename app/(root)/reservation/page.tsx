@@ -6,11 +6,16 @@ import ReservationForm from "./components/reservation-form";
 import { Form, FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormFieldSchema from "./schema/form-field-schema";
+import { z } from "zod";
 
 const FieldView = () => {
-  const methods = useForm({
+  const methods = useForm<z.infer<typeof FormFieldSchema>>({
     resolver: zodResolver(FormFieldSchema),
     mode: "onChange",
+    reValidateMode: "onChange",
+    defaultValues: {
+      schedule_id: [],
+    },
   });
 
   return (
@@ -20,7 +25,7 @@ const FieldView = () => {
       </div>
 
       <FormProvider {...methods}>
-        <div className="w-full flex gap-2 h-[100vh] px-4 ">
+        <div className="w-full flex gap-2 h-full p-4 ">
           <ReservationGalery />
           <ReservationForm />
         </div>

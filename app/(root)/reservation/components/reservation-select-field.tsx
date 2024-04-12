@@ -19,7 +19,7 @@ const ReservationSelectField: React.FC<
 
   const { data, isLoading } = useQuery({
     queryKey: ["list-field"],
-    queryFn: () => fieldService.getListField({}),
+    queryFn: () => fieldService.getListField(),
   });
 
   return (
