@@ -39,9 +39,16 @@ export type IField = {
   isPublished: boolean;
   assets: Asset[];
   schedule_id: YardScheduleId[];
-  additional_item: any[]; // Change `any[]` to the appropriate type if possible
+  additional_item: IAdditionalType[]; // Change `any[]` to the appropriate type if possible
   __v: number;
 };
+
+interface IAdditionalType {
+  name: string;
+  price: number;
+  url: string;
+  _id: string;
+}
 
 export type IFormFieldSchema = z.infer<typeof FormFieldSchema>;
 

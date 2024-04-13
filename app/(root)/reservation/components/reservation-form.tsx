@@ -22,6 +22,7 @@ import ReservationSelectType from "./reservation-select-type";
 import ReservationCalendar from "./reservation-calendar";
 import ReservationAction from "./reservation-action";
 import { IFormFieldSchema } from "../type/reservation.type";
+import ReservationAditionalItem from "./reservation-aditional-item";
 
 const ReservationForm = () => {
   const { control } = useFormContext<IFormFieldSchema>();
@@ -83,6 +84,8 @@ const ReservationForm = () => {
           );
         }}
       />
+
+      <ReservationAditionalItem />
 
       <ReservationAction />
     </div>

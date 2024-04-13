@@ -20,12 +20,12 @@ const FieldView = () => {
 
   return (
     <>
-      <div className="w-full text-center font-semibold text-2xl py-10">
+      <div className="w-full text-center font-bold text-[50px] py-10">
         Booking Lapang
       </div>
 
       <FormProvider {...methods}>
-        <div className="w-full flex gap-2 h-full p-4 ">
+        <div className="w-full flex gap-2 h-full p-4 relative flex-col md:flex-row  items-center md:items-start  ">
           <ReservationGalery />
           <ReservationForm />
         </div>
