@@ -16,15 +16,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { z } from "zod";
-import FormFieldSchema from "../schema/form-field-schema";
+
 import { Button } from "@/components/ui/button";
 import ReservationSelectType from "./reservation-select-type";
 import ReservationCalendar from "./reservation-calendar";
 import ReservationAction from "./reservation-action";
+import { IFormFieldSchema } from "../type/reservation.type";
 
 const ReservationForm = () => {
-  const { control } = useFormContext<z.infer<typeof FormFieldSchema>>();
+  const { control } = useFormContext<IFormFieldSchema>();
 
   return (
     <div className="w-full flex flex-col gap-4 px-4 h-full pb-6 ">
@@ -72,7 +72,6 @@ const ReservationForm = () => {
         render={({ field }) => {
           return (
             <FormItem>
-              {/* <FormLabel>Jenis Reservasi</FormLabel> */}
               <FormControl>
                 <ReservationCalendar
                   onChange={field.onChange}
