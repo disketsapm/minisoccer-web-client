@@ -29,7 +29,7 @@ const ReservationGalery = () => {
       )}
 
       {!isLoading && fieldId && (
-        <div className="h-full md:fixed relative md:w-[35%] w-full  ">
+        <div className="h-full md:fixed relative md:w-[35%] w-full">
           <ReservationCarousel data={data?.data?.assets || []} />
           <ReservationFacility data={data?.data?.yardFacilities || []} />
         </div>

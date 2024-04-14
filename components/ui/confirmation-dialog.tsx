@@ -1,36 +1,50 @@
 import React from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader } from "./dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, HelpCircle } from "lucide-react";
 import { Button } from "./button";
 
-type IErrorDialog = {
+type IConfirmationDialog = {
   content: React.ReactNode;
   isOpen: boolean;
   onChange: (isOpen: boolean) => void;
+  onSubmit: () => void;
+  isLoading?: boolean;
+  submitTitle?: string;
+  title?: string;
 };
 
-const ErrorDialog: React.FC<IErrorDialog> = ({ content, isOpen, onChange }) => {
+const ConfirmationDialog: React.FC<IConfirmationDialog> = ({
+  content,
+  isOpen,
+  onChange,
+  onSubmit,
+  isLoading,
+  submitTitle,
+  title,
+}) => {
   return (
-    <Dialog open={isOpen} onOpenChange={onChange}>
+    <Dialog open={isOpen || isLoading} onOpenChange={onChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-base">
             <div className="flex gap-2 items-center">
-              <AlertCircle className="text-red-500" />
+              <HelpCircle className="text-blue-500" />
 
-              <p className="text-base">Terjadi Kesalahan!</p>
+              <p className="text-base">{title}</p>
             </div>
           </DialogTitle>
         </DialogHeader>
         <div className="w-full h-full rounded-sm border border-gray-100">
-          <div className="flex  flex-col  w-full h-full p-4 gap-2">
-            <div className="text-red-400 font-semibold text-sm">{content}</div>
-          </div>
+          {content}
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => onChange(false)}>
             Tutup
+          </Button>
+
+          <Button variant="accent-1" onClick={onSubmit} isLoading={isLoading}>
+            {submitTitle ? submitTitle : "Submit"}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -38,4 +52,4 @@ const ErrorDialog: React.FC<IErrorDialog> = ({ content, isOpen, onChange }) => {
   );
 };
 
-export default ErrorDialog;
+export default ConfirmationDialog;

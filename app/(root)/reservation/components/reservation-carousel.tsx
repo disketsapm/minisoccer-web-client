@@ -43,7 +43,7 @@ const ReservationCarousel: React.FC<IReservationCarousel> = ({ data }) => {
         loop: true,
       }}
     >
-      <div className="flex flex-col mb-10">
+      <div className="flex flex-col mb-10 flex-grow-0 flex-shrink-0">
         <CarouselContent>
           {data?.map((item, index) => (
             <CarouselItem key={index}>

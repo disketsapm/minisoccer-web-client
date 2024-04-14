@@ -13,16 +13,14 @@ export class ReservationService extends RequestAdapter {
     super();
   }
 
-  public async postReservation(
-    body: IFormFieldSchema
-  ): Promise<AxiosResponse<BaseResponse<SnapResponse>>> {
+  public async postReservation(body: IFormFieldSchema) {
     try {
       const response = await this.sendPostRequest<
         IFormFieldSchema,
-        AxiosResponse<BaseResponse<SnapResponse>>
+        AxiosResponse<any>
       >(`/reservation`, body);
 
-      return response?.data;
+      return response;
     } catch (error) {
       throw error;
     }
