@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useGetFieldById from "../hooks/useGetFieldById";
 import { useFormContext } from "react-hook-form";
 import {
@@ -10,12 +10,20 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const ReservationAditionalItem = () => {
-  const { getValues } = useFormContext();
+type IReservationAdditionalItem = {
+  onChange: (value: any) => void;
+  value: any;
+};
+
+const ReservationAditionalItem: React.FC<IReservationAdditionalItem> = ({
+  value,
+  onChange,
+}) => {
+  const { getValues, watch } = useFormContext();
 
   const fieldId = getValues("field_id");
 
-  const schedule_id = getValues("schedule_id");
+  const schedule_id = watch("schedule_id");
 
   const { data, isLoading } = useGetFieldById({
     key: ["aditional-item", fieldId],
@@ -24,11 +32,84 @@ const ReservationAditionalItem = () => {
 
   const isAdditionalItem = (data?.data?.additional_item?.length ?? 0) > 0;
 
-  const isMinusDisabled = () => {
-    const sessionSelected = schedule_id?.length;
+  const [itemQuantities, setItemQuantities] = useState<{
+    [itemId: string]: number;
+  }>({});
 
-    return sessionSelected === 0;
+  const convertObjectToArray = (quantities: { [itemId: string]: number }) => {
+    return Object.entries(quantities).map(([itemId, quantity]) => ({
+      _id: itemId,
+      quantity: quantity,
+    }));
   };
+
+  const handleDecrement = (itemId: string) => {
+    setItemQuantities((prevQuantities) => {
+      return {
+        ...prevQuantities,
+        [itemId]: Math.max((prevQuantities[itemId] || 0) - 1, 0),
+      };
+    });
+  };
+
+  const handleIncrement = (itemId: string) => {
+    setItemQuantities((prevQuantities) => {
+      return {
+        ...prevQuantities,
+        [itemId]: (prevQuantities[itemId] || 0) + 1,
+      };
+    });
+  };
+
+  const isAdditionalItemButtonDisabled = useCallback(() => {
+    const sessionSelected = schedule_id?.length;
+    return sessionSelected === 0;
+  }, [schedule_id]);
+
+  const isDecrementDisabled = useCallback(
+    (itemId: string) => {
+      const quantity = itemQuantities[itemId];
+      return (
+        quantity === undefined ||
+        quantity <= 0 ||
+        isAdditionalItemButtonDisabled()
+      );
+    },
+    [itemQuantities, isAdditionalItemButtonDisabled]
+  );
+
+  const isIncrementDisabled = useCallback(
+    (itemId: string) => {
+      const sessionSelected = schedule_id?.length || 0;
+      return (
+        itemQuantities[itemId] >= sessionSelected ||
+        isAdditionalItemButtonDisabled()
+      );
+    },
+    [itemQuantities, schedule_id, isAdditionalItemButtonDisabled]
+  );
+
+  const renderLabel = useCallback(
+    (itemId: string) => {
+      if (
+        schedule_id?.length === itemQuantities[itemId] &&
+        schedule_id?.length !== 0
+      )
+        return <p className="font-semibold text-sm">Semua Sesi</p>;
+
+      return (
+        <p className="font-semibold text-sm">
+          {itemQuantities[itemId] || 0} /Sesi
+          {schedule_id?.length}
+        </p>
+      );
+    },
+    [itemQuantities, schedule_id]
+  );
+
+  useEffect(() => {
+    onChange(convertObjectToArray(itemQuantities));
+  }, [itemQuantities, schedule_id]);
 
   return (
     <div className="w-full h-full flex gap-2">
@@ -54,12 +135,17 @@ const ReservationAditionalItem = () => {
                 <div className="w-full justify-between flex gap-2 items-center">
                   <Button
                     className="rounded-full bg-[#45825A] text-center flex justify-center items-center"
-                    disabled={isMinusDisabled()}
+                    disabled={isDecrementDisabled(item?._id)}
+                    onClick={() => handleDecrement(item?._id)}
                   >
                     -
                   </Button>
-                  <p>{schedule_id?.length}</p>
-                  <Button className="rounded-full bg-[#45825A] text-center flex justify-center items-center">
+                  {renderLabel(item?._id)}
+                  <Button
+                    className="rounded-full bg-[#45825A] text-center flex justify-center items-center"
+                    disabled={isIncrementDisabled(item?._id)}
+                    onClick={() => handleIncrement(item?._id)}
+                  >
                     +
                   </Button>
                 </div>

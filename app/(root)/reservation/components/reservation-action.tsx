@@ -127,6 +127,7 @@ const ReservationAction: React.FC = () => {
                       {scheduleData?.map((item) => {
                         return (
                           <ReservationSessionCard
+                            key={item?._id}
                             sessionName={item?.session}
                             startTime={item?.timeStart.toString()}
                             endTime={item?.timeEnd.toString()}

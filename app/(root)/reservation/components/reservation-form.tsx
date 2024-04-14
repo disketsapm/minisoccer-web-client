@@ -85,7 +85,23 @@ const ReservationForm = () => {
         }}
       />
 
-      <ReservationAditionalItem />
+      <FormField
+        name="additional_item"
+        control={control}
+        render={({ field }) => {
+          return (
+            <FormItem>
+              <FormControl>
+                <ReservationAditionalItem
+                  onChange={field.onChange}
+                  value={field.value}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          );
+        }}
+      />
 
       <ReservationAction />
     </div>
