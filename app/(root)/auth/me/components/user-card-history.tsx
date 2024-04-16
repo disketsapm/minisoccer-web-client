@@ -124,7 +124,7 @@ const UserCardHistory = () => {
           >
             <div>
               <TitleCardHistory
-                title="Lapangan Testing"
+                title={item?.schedules?.[0]?.field_name}
                 status={item?.paymentStatus}
               />
             </div>
