@@ -11,8 +11,7 @@ const usePostReservation = ({ onError }: IPostReservationResponse) => {
   const reservationService = new ReservationService();
 
   return useMutation({
-    mutationFn: (data: IFormFieldSchema) =>
-      reservationService.postReservation(data),
+    mutationFn: (data: any) => reservationService.postReservation(data),
 
     onSuccess: (response) => {
       const snapRedirectUrl = response?.data?.data?.snap_redirect_url;

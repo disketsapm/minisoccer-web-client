@@ -20,6 +20,7 @@ const FormFieldSchema = z.object({
         .object({
           id: z.string(),
           quantity: z.number(),
+          name: z.string(),
         })
         .nullable()
         .optional()
