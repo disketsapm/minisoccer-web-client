@@ -55,8 +55,6 @@ export const AuthForm = ({ type }: AuthFormValues) => {
 
   const action = type ? "Masuk" : "Daftar";
 
-  console.log(isPendingLogin);
-
   const form = useForm<UserFormValues>({
     resolver: zodResolver(formSchema),
   });

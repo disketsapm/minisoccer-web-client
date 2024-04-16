@@ -7,6 +7,7 @@ import {
   SnapResponse,
 } from "@/app/(root)/reservation/type/reservation.type";
 import { AxiosResponse } from "axios";
+import { IOrderHistory } from "@/app/(root)/auth/me/type/history.type";
 
 export class ReservationService extends RequestAdapter {
   constructor() {
@@ -21,6 +22,18 @@ export class ReservationService extends RequestAdapter {
       >(`/reservation`, body);
 
       return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getReservation() {
+    try {
+      const response = await this.sendGetRequest<BaseResponse<IOrderHistory[]>>(
+        `/reservation`
+      );
+
+      return response?.data;
     } catch (error) {
       throw error;
     }

@@ -35,7 +35,7 @@ export class RequestAdapter {
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       } else {
-        // window.location.href = "/login";
+        // window.location.href = "/auth";
 
         console.log("no token");
       }
@@ -48,9 +48,8 @@ export class RequestAdapter {
     response: AxiosResponse
   ): Promise<AxiosResponse> {
     {
-      console.log("response", response);
       if (response.status === 401 || response.status === 403) {
-        window.location.href = "/login";
+        window.location.href = "/auth";
       }
       return response;
     }
@@ -58,7 +57,7 @@ export class RequestAdapter {
 
   private handleError(error: AxiosError): void {
     if (error.response?.status === 401 || error.response?.status === 403) {
-      window.location.href = "/login";
+      window.location.href = "/auth";
     }
 
     if (error.response?.status === 400) {
