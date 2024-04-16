@@ -27,6 +27,21 @@ export class ReservationService extends RequestAdapter {
     }
   }
 
+  public async getDetailReservation({ _id }: { _id: string | undefined }) {
+    try {
+      const response = await this.sendGetRequest<BaseResponse<IOrderHistory>>(
+        `/reservation`,
+        {
+          _id,
+        }
+      );
+
+      return response?.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   public async getReservation() {
     try {
       const response = await this.sendGetRequest<BaseResponse<IOrderHistory[]>>(
@@ -39,10 +54,10 @@ export class ReservationService extends RequestAdapter {
     }
   }
 
-  public async putAfterPayment(body: { orderId: string }) {
+  public async putAfterPayment(body: { order_id: string }) {
     try {
       const response = await this.sendPutRequest<
-        { orderId: string },
+        { order_id: string },
         AxiosResponse<any>
       >(`/reservation/payment`, body);
 

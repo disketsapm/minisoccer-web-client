@@ -40,6 +40,8 @@ const ReservationAditionalItem: React.FC<IReservationAdditionalItem> = ({
     return Object.entries(quantities).map(([itemId, quantity]) => ({
       id: itemId,
       quantity: quantity,
+      name: data?.data?.additional_item?.find((item) => item._id === itemId)
+        ?.name,
     }));
   };
 

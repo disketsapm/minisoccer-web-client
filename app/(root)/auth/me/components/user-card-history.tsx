@@ -1,3 +1,5 @@
+"use client";
+
 import { Card } from "@/components/ui/card";
 import React from "react";
 import useGetHistoryUser from "../hooks/useGetHistoryUser";
@@ -5,6 +7,7 @@ import { formatDate } from "@fullcalendar/core/index.js";
 import { cn, formatCurrencyToIDR } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import ItemCardHistory from "./item-card-history";
+import { useRouter } from "next/navigation";
 
 const SKELETON_COUNT = 3;
 
@@ -47,6 +50,58 @@ const UserCardHistory = () => {
     );
   };
 
+  const Link = ({
+    children,
+    onClick,
+    isDisabled,
+  }: {
+    children: React.ReactNode;
+    onClick?: () => void;
+    isDisabled?: boolean;
+  }) => {
+    return (
+      <p
+        onClick={onClick}
+        className={cn("font-bold", {
+          "text-black": isDisabled,
+          "underline text-blue-500 cursor-pointer": !isDisabled,
+        })}
+      >
+        {children}
+      </p>
+    );
+  };
+
+  const RenderQRBooking = ({
+    status,
+    snapUrl,
+    reservationId,
+  }: {
+    status: string;
+    snapUrl?: string;
+    reservationId?: string;
+  }) => {
+    const router = useRouter();
+
+    switch (status) {
+      case "Pending":
+        return (
+          <Link onClick={() => window.open(snapUrl)}>
+            Bayar Pelunasan Disini
+          </Link>
+        );
+      case "Failed":
+        return <Link isDisabled>Pembayaran Hangus</Link>;
+      case "Paid":
+        return (
+          <Link onClick={() => router.push(`/auth/me/${reservationId}`)}>
+            Lihat QR Booking di sini
+          </Link>
+        );
+      default:
+        return "";
+    }
+  };
   return (
     <div className="flex flex-col gap-2 w-full h-[650px] overflow-y-scroll overflow-hidden-scrollbar ">
       {isLoadingHistoryUser && (
@@ -62,7 +117,11 @@ const UserCardHistory = () => {
 
       {!isLoadingHistoryUser &&
         historyUserData?.data?.map((item) => (
-          <Card className="px-6 py-4 flex flex-col gap-3 rounded-xl">
+          <Card
+            className={cn("px-6 py-4 flex flex-col gap-3 rounded-xl", {
+              "opacity-80": item?.paymentStatus === "Failed",
+            })}
+          >
             <div>
               <TitleCardHistory
                 title="Lapangan Testing"
@@ -86,6 +145,17 @@ const UserCardHistory = () => {
               <ItemCardHistory
                 label="Total Biaya"
                 value={formatCurrencyToIDR(item?.total)}
+              />
+
+              <ItemCardHistory
+                label="QR Booking"
+                value={
+                  <RenderQRBooking
+                    status={item?.paymentStatus}
+                    snapUrl={item?.snap_url}
+                    reservationId={item?._id}
+                  />
+                }
               />
             </div>
           </Card>

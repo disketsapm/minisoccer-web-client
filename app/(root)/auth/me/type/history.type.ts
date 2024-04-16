@@ -20,5 +20,6 @@ export type IOrderHistory = {
   schedules: IScheduleHistory[];
   updatedAt: string;
   createdAt: string;
+  snap_url: string;
   __v: number;
 };

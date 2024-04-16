@@ -57,6 +57,8 @@ const ReservationAction: React.FC = () => {
 
   const formValues = getValues();
 
+  console.log(formValues);
+
   const isValid: boolean = formState?.isValid;
 
   const { data: fieldDetail, isLoading: isFieldDetailLoading } =
@@ -155,6 +157,24 @@ const ReservationAction: React.FC = () => {
               value={getTotalPriceInListOfPrice(scheduleData)}
               isLoading={isListScheduleLoading}
             />
+
+            {formValues?.additional_item?.length > 0 && (
+              <LabelValues
+                label="Tambahan"
+                value={
+                  <p>
+                    {formValues?.additional_item?.map((item) => {
+                      return `${item?.name} (${
+                        formValues?.schedule_id?.length === item?.quantity
+                          ? "Semua Sesi"
+                          : item?.quantity
+                      })`;
+                    })}
+                  </p>
+                }
+                isLoading={isFieldDetailLoading}
+              />
+            )}
 
             <LabelValues
               label="Lokasi"

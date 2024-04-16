@@ -30,50 +30,49 @@ export default function AuthPage() {
   const orderId = type === "order-status" ? searchParams.get("order_id") : null;
   const transaction_status = searchParams.get("transaction_status");
 
-  console.log(transaction_status);
-
-  const { mutate, isPending, isError } = usePutReservationAfterPayment();
-
-  console.log({ isError });
+  const { mutate, isPending, isError, isSuccess } =
+    usePutReservationAfterPayment();
 
   useEffect(() => {
     if (orderId) {
-      mutate({ orderId: orderId });
+      mutate({ order_id: orderId });
     }
   }, [orderId]);
 
-  const renderLabelTransactionStatus = () => {
-    if (transaction_status === "settlement" || !isError) {
-      return (
-        <>
-          <div className="text-6xl font-bold">
-            Pembayaran <br /> Anda <br /> Berhasil!
-          </div>
-          <p>Silakan Cek Email Anda</p>
-        </>
-      );
-    }
+  const RenderLabelTransactionStatus = () => {
+    if (transaction_status) {
+      if (transaction_status === "pending") {
+        return (
+          <>
+            <div className="text-6xl font-bold">
+              Pembayaran <br /> Anda <br /> Sedang Diproses
+            </div>
+            <p>Silakan Tunggu Secara Berkala</p>
+          </>
+        );
+      }
 
-    if (transaction_status === "pending" || !isError) {
-      return (
-        <>
-          <div className="text-6xl font-bold">
-            Pembayaran <br /> Anda <br /> Sedang Diproses
-          </div>
-          <p>Silakan Tunggu Secara Berkala</p>
-        </>
-      );
-    }
+      if (transaction_status === "error" || isError) {
+        return (
+          <>
+            <div className="text-6xl font-bold">
+              Terjadi <br /> Kesalahan <br /> Pembayaran
+            </div>
+            <p>Silakan Coba Kembali Pembayaran</p>
+          </>
+        );
+      }
 
-    if (transaction_status === "error" || isError) {
-      return (
-        <>
-          <div className="text-6xl font-bold">
-            Terjadi <br /> Kesalahan <br /> Pembayaran
-          </div>
-          <p>Silakan Coba Kembali Pembayaran</p>
-        </>
-      );
+      if (transaction_status === "settlement") {
+        return (
+          <>
+            <div className="text-6xl font-bold">
+              Pembayaran <br /> Anda <br /> Berhasil!
+            </div>
+            <p>Silakan Cek Email Anda</p>
+          </>
+        );
+      }
     }
 
     return <></>;
@@ -149,11 +148,13 @@ export default function AuthPage() {
               </div>
             ) : type === "order-status" ? (
               <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
-                {isPending && (
+                {isPending && transaction_status && (
                   <Skeleton className="w-[250px] md:w-full  h-[250px]" />
                 )}
 
-                {!isPending && renderLabelTransactionStatus()}
+                {!isPending && transaction_status && (
+                  <RenderLabelTransactionStatus />
+                )}
               </div>
             ) : type === "reset-password" ? (
               <ResetPasswordForm token={token} />

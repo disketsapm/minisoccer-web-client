@@ -6,7 +6,7 @@ const usePutReservationAfterPayment = () => {
   const reservationService = new ReservationService();
 
   return useMutation({
-    mutationFn: async (data: { orderId: string }) =>
+    mutationFn: async (data: { order_id: string }) =>
       reservationService.putAfterPayment(data),
     mutationKey: ["putReservationAfterPayment"],
   });

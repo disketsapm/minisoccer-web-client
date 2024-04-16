@@ -121,7 +121,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
       )}
 
       {!isLoading && fieldId && (
-        <>
+        <div className="w-full h-full">
           <FullCalendar
             ref={calendarRef}
             plugins={[dayGridPlugin]}
@@ -131,6 +131,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
             locales={[idLocale]}
             events={eventList}
             nowIndicator={false}
+            height={"1700px"}
             headerToolbar={{
               left: "title",
               center: "",
@@ -160,7 +161,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
               <ColorIndicator status="Unavailable" /> Unavailable
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
