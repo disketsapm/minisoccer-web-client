@@ -111,7 +111,7 @@ const ReservationAditionalItem: React.FC<IReservationAdditionalItem> = ({
 
   useEffect(() => {
     onChange(convertObjectToArray(itemQuantities));
-  }, [itemQuantities, schedule_id]);
+  }, [itemQuantities, schedule_id, onChange]);
 
   return (
     <div className="w-full h-full flex gap-2">
@@ -122,7 +122,7 @@ const ReservationAditionalItem: React.FC<IReservationAdditionalItem> = ({
         isAdditionalItem &&
         data?.data?.additional_item?.map((item) => {
           return (
-            <Card>
+            <Card key={item?._id}>
               <CardContent className="p-2 flex-col gap-2 flex">
                 <img
                   className="w-full h-[240px] rounded-lg object-contain"

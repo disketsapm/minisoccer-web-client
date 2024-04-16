@@ -118,6 +118,7 @@ const UserCardHistory = () => {
       {!isLoadingHistoryUser &&
         historyUserData?.data?.map((item) => (
           <Card
+            key={item?._id}
             className={cn("px-6 py-4 flex flex-col gap-3 rounded-xl", {
               "opacity-80": item?.paymentStatus === "Failed",
             })}

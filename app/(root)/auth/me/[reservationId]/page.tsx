@@ -120,7 +120,7 @@ const ReservationDetail = () => {
 
         {!isLoading &&
           data?.data?.schedules?.map((item) => {
-            return <ReservationDetailCardItem item={item} />;
+            return <ReservationDetailCardItem key={item?._id} item={item} />;
           })}
       </div>
     </div>

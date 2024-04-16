@@ -34,7 +34,11 @@ const ReservationSelectType: React.FC<
         </SelectTrigger>
         <SelectContent>
           {DATA_TYPE?.map((item) => {
-            return <SelectItem value={item.label}>{item.label}</SelectItem>;
+            return (
+              <SelectItem key={item?.value} value={item.label}>
+                {item.label}
+              </SelectItem>
+            );
           })}
         </SelectContent>
       </Select>

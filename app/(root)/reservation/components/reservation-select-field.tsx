@@ -30,7 +30,11 @@ const ReservationSelectField: React.FC<
         </SelectTrigger>
         <SelectContent>
           {data?.data?.map((item: any) => {
-            return <SelectItem value={item._id}>{item.yardName}</SelectItem>;
+            return (
+              <SelectItem key={item?._id} value={item._id}>
+                {item.yardName}
+              </SelectItem>
+            );
           })}
         </SelectContent>
       </Select>

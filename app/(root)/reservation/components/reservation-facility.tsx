@@ -29,7 +29,7 @@ const ReservationFacility: React.FC<ReservationFacilityProps> = ({ data }) => {
 
       <div className="w-full flex justify-center gap-4">
         {data?.map((item) => (
-          <FacilityItem label={item?.name} />
+          <FacilityItem label={item?.name} key={item?._id} />
         ))}
       </div>
     </div>

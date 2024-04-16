@@ -37,7 +37,7 @@ export default function AuthPage() {
     if (orderId) {
       mutate({ order_id: orderId });
     }
-  }, [orderId]);
+  }, [orderId, mutate]);
 
   const RenderLabelTransactionStatus = () => {
     if (transaction_status) {
