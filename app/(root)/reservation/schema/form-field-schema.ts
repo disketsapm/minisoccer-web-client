@@ -18,7 +18,7 @@ const FormFieldSchema = z.object({
     .array(
       z
         .object({
-          _id: z.string(),
+          id: z.string(),
           quantity: z.number(),
         })
         .nullable()

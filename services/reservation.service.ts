@@ -38,4 +38,17 @@ export class ReservationService extends RequestAdapter {
       throw error;
     }
   }
+
+  public async putAfterPayment(body: { orderId: string }) {
+    try {
+      const response = await this.sendPutRequest<
+        { orderId: string },
+        AxiosResponse<any>
+      >(`/reservation/payment`, body);
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

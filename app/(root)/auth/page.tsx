@@ -12,6 +12,9 @@ import { ForgotPasswordForm } from "./components/forgot-password-form";
 import { ResetPasswordForm } from "./components/reset-password-form";
 import Link from "next/link";
 import { useLoginGoogle } from "@/hooks/auth/useLoginGoogle";
+import { useEffect } from "react";
+import usePutReservationAfterPayment from "./hooks/usePutReservationAfterPayment";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AuthPage() {
   const searchParams = useSearchParams();
@@ -24,7 +27,57 @@ export default function AuthPage() {
 
   const type = searchParams.get("type");
   const token = searchParams.get("token");
-  const isOrderStatus = searchParams.get("order-status");
+  const orderId = type === "order-status" ? searchParams.get("order_id") : null;
+  const transaction_status = searchParams.get("transaction_status");
+
+  console.log(transaction_status);
+
+  const { mutate, isPending, isError } = usePutReservationAfterPayment();
+
+  console.log({ isError });
+
+  useEffect(() => {
+    if (orderId) {
+      mutate({ orderId: orderId });
+    }
+  }, [orderId]);
+
+  const renderLabelTransactionStatus = () => {
+    if (transaction_status === "settlement" || !isError) {
+      return (
+        <>
+          <div className="text-6xl font-bold">
+            Pembayaran <br /> Anda <br /> Berhasil!
+          </div>
+          <p>Silakan Cek Email Anda</p>
+        </>
+      );
+    }
+
+    if (transaction_status === "pending" || !isError) {
+      return (
+        <>
+          <div className="text-6xl font-bold">
+            Pembayaran <br /> Anda <br /> Sedang Diproses
+          </div>
+          <p>Silakan Tunggu Secara Berkala</p>
+        </>
+      );
+    }
+
+    if (transaction_status === "error" || isError) {
+      return (
+        <>
+          <div className="text-6xl font-bold">
+            Terjadi <br /> Kesalahan <br /> Pembayaran
+          </div>
+          <p>Silakan Coba Kembali Pembayaran</p>
+        </>
+      );
+    }
+
+    return <></>;
+  };
 
   return (
     <div
@@ -96,10 +149,11 @@ export default function AuthPage() {
               </div>
             ) : type === "order-status" ? (
               <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
-                <div className="text-6xl font-bold">
-                  Pembayaran <br /> Anda <br /> Berhasil!
-                </div>
-                <p>Silakan Cek Email Anda</p>
+                {isPending && (
+                  <Skeleton className="w-[250px] md:w-full  h-[250px]" />
+                )}
+
+                {!isPending && renderLabelTransactionStatus()}
               </div>
             ) : type === "reset-password" ? (
               <ResetPasswordForm token={token} />

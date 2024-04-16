@@ -38,7 +38,7 @@ const ReservationAditionalItem: React.FC<IReservationAdditionalItem> = ({
 
   const convertObjectToArray = (quantities: { [itemId: string]: number }) => {
     return Object.entries(quantities).map(([itemId, quantity]) => ({
-      _id: itemId,
+      id: itemId,
       quantity: quantity,
     }));
   };
