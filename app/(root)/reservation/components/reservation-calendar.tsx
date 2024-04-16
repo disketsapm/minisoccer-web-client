@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import ReservationSessionCard from "./reservation-session-card";
+import { Button } from "@/components/ui/button";
 
 const ColorIndicator = ({ status }: { status: string }) => {
   switch (status) {
@@ -110,6 +111,18 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
     onChange(selectedItems);
   };
 
+  const ClearButton = () => {
+    return (
+      <Button
+        variant="accent-2"
+        onClick={() => {
+          onChange([]);
+        }}
+      >
+        Clear
+      </Button>
+    );
+  };
   return (
     <div className="w-full h-full relative">
       {isLoading && fieldId && <Skeleton className="w-full h-[650px]" />}
@@ -135,7 +148,15 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
             headerToolbar={{
               left: "title",
               center: "",
-              right: "prev,next",
+              right: "prev,next clear",
+            }}
+            customButtons={{
+              clear: {
+                text: "Clear",
+                click: () => {
+                  onChange([]);
+                },
+              },
             }}
             eventClick={(info) => console.log(info.event)}
             eventContent={(arg) => (

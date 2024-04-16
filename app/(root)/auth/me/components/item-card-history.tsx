@@ -21,9 +21,15 @@ const ItemCardHistory: React.FC<IItemCardHistory> = ({
         {label}
       </p>
       <p
-        className={cn("font-semibold italic text-sm", {
-          "text-base": size === "large",
-        })}
+        className={cn(
+          "font-semibold italic text-sm text-right flex items-center",
+          {
+            "text-base": size === "large",
+          }
+        )}
+        style={{
+          whiteSpace: "nowrap",
+        }}
       >
         {value}
       </p>

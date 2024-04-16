@@ -58,7 +58,7 @@ export default function Header() {
     shadowClass = "shadow-xl";
   }
   const links = [
-    { href: "/", label: "Booking" },
+    { href: "/reservation", label: "Booking" },
     { href: "#about", label: "Tentang kami" },
     { href: "#facility", label: "Kerja Sama" },
     { href: "#find", label: "Hubungi Kami" },

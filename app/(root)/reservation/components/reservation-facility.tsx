@@ -11,10 +11,12 @@ type ReservationFacilityProps = {
 const ReservationFacility: React.FC<ReservationFacilityProps> = ({ data }) => {
   const FacilityItem = ({ label }: { label: string }) => {
     return (
-      <div className="w-[fit-content] h-[fit-content] flex flex-col justify-center items-center">
-        <div className="w-10 h-10 bg-gray-200 rounded-lg" />
+      <div className="w-[50px] h-[50px]">
+        <div className="w-[fit-content] h-[fit-content] flex flex-col justify-center items-center">
+          <div className="w-10 h-10 bg-gray-200 rounded-lg" />
 
-        <div className="text-center text-xs">{label}</div>
+          <div className="text-center text-xs">{label}</div>
+        </div>
       </div>
     );
   };

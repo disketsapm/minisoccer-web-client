@@ -13,7 +13,7 @@ const UserProfile = () => {
 
   return (
     <Card className="border-2 p-4 border-black rounded-xl h-[fit-content] flex flex-col gap-2 items-center">
-      <Avatar>
+      <Avatar className="">
         <AvatarFallback>MR</AvatarFallback>
       </Avatar>
 

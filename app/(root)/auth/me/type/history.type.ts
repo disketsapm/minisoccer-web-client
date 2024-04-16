@@ -4,6 +4,10 @@ export type IScheduleHistory = {
   name: string;
   price: number;
   status: boolean;
+  field_url: string;
+  field_name: string;
+  start_time: string;
+  end_time: string;
   _id: string;
 };
 
@@ -21,5 +25,6 @@ export type IOrderHistory = {
   updatedAt: string;
   createdAt: string;
   snap_url: string;
+
   __v: number;
 };

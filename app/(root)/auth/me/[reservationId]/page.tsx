@@ -11,6 +11,7 @@ import useGetDetailHistoryUser from "../hooks/useGetDetailHistoryUser";
 import { IOrderHistory } from "../type/history.type";
 import { formatDate } from "@fullcalendar/core/index.js";
 import QRCode from "react-qr-code";
+import { formattedTime } from "@/utils/formatTime";
 
 const ReservationDetail = () => {
   const params = useParams();
@@ -22,6 +23,10 @@ const ReservationDetail = () => {
   });
 
   const SKELETON_COUNT = 5;
+
+  const handleClickLocation = () => {
+    return window.open(data?.data?.schedules[0]?.field_url);
+  };
 
   const ReservationDetailCardItem: React.FC<{ item: any }> = ({ item }) => {
     const QRValue = {
@@ -68,9 +73,15 @@ const ReservationDetail = () => {
                 <ItemCardHistory
                   label="Tanggal dan Jam Main"
                   size="large"
-                  value="Value"
+                  value={`${formatDate(item?.start_time)}  | ${formattedTime(
+                    item?.start_time
+                  )} - ${formattedTime(item?.end_time)}`}
                 />
-                <ItemCardHistory label="Lapangan" size="large" value="Value" />
+                <ItemCardHistory
+                  label="Lapangan"
+                  size="large"
+                  value={data?.data?.schedules[0]?.field_name}
+                />
                 <ItemCardHistory
                   label="Tipe"
                   size="large"
@@ -84,7 +95,9 @@ const ReservationDetail = () => {
                 </div>
 
                 <div className="w-full flex justify-end gap-2">
-                  <Button variant="accent-1">Lokasi Soccer Chief</Button>
+                  <Button onClick={handleClickLocation} variant="accent-1">
+                    Lokasi Soccer Chief
+                  </Button>
                 </div>
               </div>
             </div>

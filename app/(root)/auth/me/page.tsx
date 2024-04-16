@@ -5,7 +5,7 @@ import UserHistoryProfile from "./components/user-history";
 const AuthMe = () => {
   return (
     <div
-      className="flex w-full min-h-[70vh] py-14 px-12 gap-2"
+      className="flex w-full min-h-[70vh] flex-col md:flex-row  py-14 px-12 gap-2"
       style={{
         backgroundImage: `url(/images/auth/bg-auth.png)`,
         backgroundSize: "cover",
