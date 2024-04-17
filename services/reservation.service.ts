@@ -42,10 +42,13 @@ export class ReservationService extends RequestAdapter {
     }
   }
 
-  public async getReservation() {
+  public async getReservation({ search }: { search?: string }) {
     try {
       const response = await this.sendGetRequest<BaseResponse<IOrderHistory[]>>(
-        `/reservation`
+        `/reservation`,
+        {
+          search,
+        }
       );
 
       return response?.data;

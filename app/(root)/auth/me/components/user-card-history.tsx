@@ -8,12 +8,25 @@ import { cn, formatCurrencyToIDR } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import ItemCardHistory from "./item-card-history";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { AuthService } from "@/services/auth.service";
 
 const SKELETON_COUNT = 3;
 
 const UserCardHistory = () => {
+  const authService = new AuthService();
+
+  const { data } = useQuery({
+    queryKey: ["userHistory"],
+    queryFn: () => authService.getUserDetail(),
+  });
+
   const { data: historyUserData, isLoading: isLoadingHistoryUser } =
-    useGetHistoryUser();
+    useGetHistoryUser({
+      search: data?._id,
+      key: [data?._id],
+      enabled: !!data,
+    });
 
   const TitleCardHistory: React.FC<{ title: string; status: string }> = ({
     title,

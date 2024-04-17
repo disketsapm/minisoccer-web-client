@@ -6,13 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import { AuthService } from "@/services/auth.service";
 
 const UserHistoryProfile = () => {
-  const authService = new AuthService();
-
-  const { data } = useQuery({
-    queryKey: ["userHistory"],
-    queryFn: () => authService.getUserDetail(),
-  });
-
   return (
     <div className="w-full flex flex-col gap-2">
       <Card className="border-2 p-4 border-black rounded-xl h-[fit-content] flex flex-col gap-2 items-center">

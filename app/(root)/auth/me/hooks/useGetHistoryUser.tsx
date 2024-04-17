@@ -2,12 +2,23 @@ import { ReservationService } from "@/services/reservation.service";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
-const useGetHistoryUser = () => {
+type IUseGetHistoryUser = {
+  search?: string;
+  enabled?: boolean;
+  key?: any;
+};
+
+const useGetHistoryUser = ({ search, enabled, key }: IUseGetHistoryUser) => {
   const reservationService = new ReservationService();
 
   return useQuery({
-    queryKey: ["userHistory"],
-    queryFn: () => reservationService.getReservation(),
+    queryKey: ["userHistory", ...key],
+    queryFn: () =>
+      reservationService.getReservation({
+        search,
+      }),
+
+    enabled,
   });
 };
 
