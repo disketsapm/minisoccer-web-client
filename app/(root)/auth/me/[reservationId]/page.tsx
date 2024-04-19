@@ -108,7 +108,14 @@ const ReservationDetail = () => {
   };
 
   return (
-    <div className="w-full h-full">
+    <div
+      className="w-full h-full"
+      style={{
+        backgroundImage: `url(/images/auth/bg-auth.png)`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <div className="w-full h-full  flex  items-center flex-col gap-5 p-4">
         {isLoading && (
           <div className="w-full h-full flex-col gap-5 p-4 flex justify-center items-center">

@@ -70,7 +70,7 @@ const UserProfile = () => {
       )}
 
       <Button
-        variant="accent-2"
+        variant="accent-1"
         onClick={async () => await mutateAsync()}
         isLoading={isPending}
       >

@@ -18,6 +18,8 @@ import {
 import { useLogin } from "@/hooks/auth/useLogin";
 import { useRegister } from "@/hooks/auth/useRegister";
 import Link from "next/link";
+import { FaCheck } from "react-icons/fa";
+import { cn } from "@/lib/utils";
 
 type AuthFormValues = {
   type?: string;
@@ -53,7 +55,7 @@ export const AuthForm = ({ type }: AuthFormValues) => {
   const { mutateAsync: registerUser, isPending: isPendingRegister } =
     useRegister();
 
-  const action = type ? "Masuk" : "Daftar";
+  const action = type === "login" ? "Masuk" : "Daftar";
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(formSchema),
@@ -73,18 +75,18 @@ export const AuthForm = ({ type }: AuthFormValues) => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col w-full space-y-2"
+            className="flex flex-col w-full gap-4"
           >
-            {!type && (
+            {type === "register" && (
               <>
                 <FormField
                   control={form.control}
                   name="fullName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nama Lengkap</FormLabel>
                       <FormControl>
                         <Input
+                          variant="underline"
                           placeholder="Nama Lengkap"
                           {...field}
                           value={field.value || ""}
@@ -99,9 +101,9 @@ export const AuthForm = ({ type }: AuthFormValues) => {
                   name="phoneNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nomer Telepon</FormLabel>
                       <FormControl>
                         <Input
+                          variant="underline"
                           placeholder="Nomer Telepon"
                           type="number"
                           {...field}
@@ -119,9 +121,13 @@ export const AuthForm = ({ type }: AuthFormValues) => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="email" type="email" {...field} />
+                    <Input
+                      placeholder="Email"
+                      variant="underline"
+                      type="email"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -132,10 +138,10 @@ export const AuthForm = ({ type }: AuthFormValues) => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="password"
+                      variant="underline"
+                      placeholder="Password"
                       type="password"
                       isPassword
                       showPasswordIcon
@@ -147,22 +153,34 @@ export const AuthForm = ({ type }: AuthFormValues) => {
               )}
             />
 
-            <div className="flex gap-5 items-center">
+            <div
+              className={cn("flex gap-2 md:gap-5 md:items-center", {
+                "justify-between items-center gap-4": type === "login",
+                "flex-col md:flex-row gap-3": type === "register",
+              })}
+            >
               <Button
                 variant={"accent-1"}
-                className="float-right max-w-[30%]"
+                className="float-right w-fit h-fit px-10 py-4 rounded-xl"
                 type="submit"
                 isLoading={isPendingLogin || isPendingRegister}
               >
                 {action}
               </Button>
-              {type && (
+              {type === "login" && (
                 <Link
-                  className="underline text-red-500 font-medium"
+                  className="underline text-black font-medium md:text-base text-sm"
                   href={"/auth?type=forgot-password"}
                 >
                   Lupa Password
                 </Link>
+              )}
+
+              {type === "register" && (
+                <div className="w-full text-xs  flex gap-1">
+                  <FaCheck />
+                  Silahkan cek email Anda untuk <b>verifikasi</b>
+                </div>
               )}
             </div>
           </form>

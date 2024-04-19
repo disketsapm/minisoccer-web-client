@@ -12,11 +12,15 @@ import { ForgotPasswordForm } from "./components/forgot-password-form";
 import { ResetPasswordForm } from "./components/reset-password-form";
 import Link from "next/link";
 import { useLoginGoogle } from "@/hooks/auth/useLoginGoogle";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import usePutReservationAfterPayment from "./hooks/usePutReservationAfterPayment";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export default function AuthPage() {
+  const [activeTab, setActiveTab] = useState<string>("register");
+
   const searchParams = useSearchParams();
   const loginId = searchParams.get("LoginId");
   const { data } = useLoginGoogle(loginId);
@@ -78,6 +82,51 @@ export default function AuthPage() {
     return <></>;
   };
 
+  const renderLabel = () => {
+    if (activeTab === "register") return "Buat Akun";
+
+    if (activeTab === "login") return "Masuk";
+
+    if (type === "register-success") return "Buat Akun";
+
+    if (type === "email-verified") return "Buat Akun";
+
+    if (
+      type === "forgot-password" ||
+      type === "forgot-password-verify" ||
+      type === "forgot-password-success"
+    )
+      return "Lupa Password";
+  };
+
+  useEffect(() => {
+    if (type) setActiveTab("");
+  }, [type]);
+
+  const router = useRouter();
+
+  const SuccessContainer = ({
+    title,
+    description,
+  }: {
+    title: React.ReactNode;
+    description: React.ReactNode;
+  }) => {
+    return (
+      <div className="flex items-start justify-center w-full gap-4 rounded-xl flex-col">
+        <div className="text-6xl font-extrabold">{title}</div>
+        <p className="text-sm">{description}</p>
+        <Button
+          variant={"accent-1"}
+          className="px-6 py-2 text-xs md:px-10 md:py-6"
+          onClick={() => router.push("/")}
+        >
+          Kembali ke Beranda
+        </Button>
+      </div>
+    );
+  };
+
   return (
     <div
       className="flex justify-center items-center min-h-[70vh] py-14"
@@ -87,65 +136,84 @@ export default function AuthPage() {
         backgroundPosition: "center",
       }}
     >
-      <Card className="border-2 border-black rounded-xl">
+      <Card className="rounded-2xl z-10  bg-gradient-to-b from-white to-[#999999] md:h-[530px] h-full pb-8 w-[400px] md:w-auto ">
         <CardContent className="w-full max-h-[100%] p-8">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:min-w-[800px] ">
-            <div className="flex-shrink-0 hidden w- lg:block">
-              <Image
-                src="/images/auth/bola.png"
-                alt="about"
-                width={400}
-                height={400}
-              />
+            <div className="w-full h-full flex-col relative items-center flex">
+              {/* adjust this height if want to adjust the margin of the container */}
+              <div className="w-full h-[55px] relative">
+                <div className="w-[300px] text-center h-fit -z-10  text-[25px] m-auto left-0 right-0 font-extrabold bg-gradient-to-b from-[#9F9F9F] to-[#FFFFFF00] p-5 md:absolute  rounded-xl">
+                  {renderLabel()}
+                </div>
+              </div>
+
+              <div className="flex-shrink-0 hidden  lg:block">
+                <Image
+                  src="/images/auth/bola.png"
+                  alt="about"
+                  priority
+                  width={400}
+                  height={400}
+                />
+              </div>
             </div>
             {type === "register-success" ? (
-              <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
-                <div className="text-6xl font-bold">
-                  Silahkan Cek <br /> Email Kamu!
-                </div>
-                <p>
-                  Cek link yang telah dikirimkan di Email <br /> Kamu untuk
-                  memverifikasi akun.
-                </p>
-              </div>
+              <SuccessContainer
+                title={
+                  <>
+                    Silahkan Cek <br /> Email Kamu!
+                  </>
+                }
+                description={
+                  <>
+                    Cek link yang telah dikirimkan di Email <br /> Kamu untuk
+                    memverifikasi akun.
+                  </>
+                }
+              />
             ) : type === "email-verified" ? (
-              <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
-                <div className="text-6xl font-bold">
-                  Email <br /> Terverifikasi
-                </div>
-                <p>
-                  Email Kamu telah terverifikasi, <br /> silahkan login untuk
-                  melanjutkan.
-                </p>
-              </div>
+              <SuccessContainer
+                title={
+                  <>
+                    Email <br /> Terverifikasi
+                  </>
+                }
+                description={
+                  <>
+                    Email Kamu telah terverifikasi, <br /> silahkan login untuk
+                    melanjutkan.
+                  </>
+                }
+              />
             ) : type === "forgot-password" ? (
               <ForgotPasswordForm />
             ) : type === "forgot-password-success" ? (
-              <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
-                <div className="text-6xl font-bold">
-                  Reset <br /> Password <br /> Berhasil!
-                </div>
-                <p>Selamat! Password Kamu telah dirubah!</p>
-
-                <Link href="/">
-                  <Button
-                    variant={"accent-1"}
-                    className="px-6 py-2 text-xs md:px-10 md:py-6"
-                  >
-                    Kembali ke Beranda
-                  </Button>
-                </Link>
-              </div>
+              <SuccessContainer
+                title={
+                  <>
+                    Reset <br /> Password <br /> Berhasil!
+                  </>
+                }
+                description={
+                  <>
+                    <p>Selamat! Password Kamu telah dirubah!</p>
+                  </>
+                }
+              />
             ) : type === "forgot-password-verify" ? (
-              <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
-                <div className="text-6xl font-bold">
-                  Silahkan Cek <br /> Email Kamu!
-                </div>
-                <p>
-                  Cek link yang telah dikirimkan di Email Kamu untuk me-reset
-                  password.
-                </p>
-              </div>
+              <SuccessContainer
+                title={
+                  <>
+                    Silahkan Cek <br /> Email Kamu!
+                  </>
+                }
+                description={
+                  <>
+                    Cek link yang telah dikirimkan di Email Kamu untuk me-reset
+                    password.
+                  </>
+                }
+              />
             ) : type === "order-status" ? (
               <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
                 {isPending && transaction_status && (
@@ -159,54 +227,71 @@ export default function AuthPage() {
             ) : type === "reset-password" ? (
               <ResetPasswordForm token={token} />
             ) : loginId ? (
-              <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
-                <div className="text-6xl font-bold">
-                  Verifikasi <br /> Login!
-                </div>
-                <p>
-                  Anda akan diarahkan ke halaman utama dalam beberapa detik.
-                </p>
-              </div>
+              <SuccessContainer
+                title={
+                  <>
+                    Verifikasi <br /> Login!
+                  </>
+                }
+                description={
+                  <>
+                    Anda akan diarahkan ke halaman utama dalam beberapa detik.
+                  </>
+                }
+              />
             ) : (
-              <Tabs defaultValue="register" className="w-full md:min-w-[400px]">
+              <Tabs
+                defaultValue="register"
+                className="md:min-w-[400px] h-[400px]"
+                value={activeTab}
+                onValueChange={(value) => setActiveTab(value)}
+              >
                 <div className="flex justify-center">
-                  <TabsList className="grid grid-cols-2 bg-gray-400 gap-2 w-[90%]">
+                  <TabsList className="grid grid-cols-2 bg-[#DADADA] gap-2 w-fit h-fit p-2">
                     <TabsTrigger
-                      className="data-[state=active]:bg-[#F9D548] data-[state=active]:border border-black bg-white text-black"
+                      className="px-6 py-2 data-[state=active]:bg-gradient-to-r from-[#458247] to-[#364D48]  data-[state=active]:text-white    border-black bg-white text-black"
                       value="register"
                     >
                       Buat Akun
                     </TabsTrigger>
                     <TabsTrigger
-                      className="data-[state=active]:bg-[#F9D548] data-[state=active]:border border-black bg-white text-black"
+                      className="px-6 py-2 data-[state=active]:bg-gradient-to-r from-[#458247] to-[#364D48]  data-[state=active]:text-white    border-black bg-white text-black"
                       value="login"
                     >
                       Masuk
                     </TabsTrigger>
                   </TabsList>
                 </div>
-                <div className="flex justify-center my-4">
-                  <Button
-                    variant={"outline"}
-                    className="w-full border-2 border-black"
-                    onClick={() =>
-                      (window.location.href =
-                        "https://api-stg.soccerchief.co/auth/google?role=Customer")
-                    }
-                  >
-                    <FcGoogle className="w-5 h-5 mr-2" /> Sign in with Google
-                  </Button>
+
+                <div
+                  className={cn("w-full h-full  flex-col flex", {
+                    "md:justify-center": activeTab === "login",
+                  })}
+                >
+                  <div className="flex justify-center my-4">
+                    <Button
+                      variant={"outline"}
+                      className="w-full bg-gradient-to-b from-white to-[#C4C4C4] py-7"
+                      onClick={() =>
+                        (window.location.href =
+                          "https://api-stg.soccerchief.co/auth/google?role=Customer")
+                      }
+                    >
+                      <FcGoogle className="w-7 h-7 mr-2 text-xl" /> Sign{" "}
+                      {`${activeTab === "register" ? "Up" : "In"}`} with Google
+                    </Button>
+                  </div>
+                  <TabsContent value="register">
+                    <div className="space-y-1">
+                      <AuthForm type={activeTab} />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="login">
+                    <div className="space-y-1">
+                      <AuthForm type={activeTab} />
+                    </div>
+                  </TabsContent>
                 </div>
-                <TabsContent value="register">
-                  <div className="space-y-1">
-                    <AuthForm />
-                  </div>
-                </TabsContent>
-                <TabsContent value="login">
-                  <div className="space-y-1">
-                    <AuthForm type="login" />
-                  </div>
-                </TabsContent>
               </Tabs>
             )}
           </div>

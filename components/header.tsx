@@ -65,7 +65,7 @@ export default function Header() {
   ];
   return (
     <header
-      className={` w-full sticky top-0 z-50 bg-white py-5 ${shadowClass} `}
+      className={` w-full sticky top-0 z-50 bg-gradient-to-r from-white to-[#999999] py-5 ${shadowClass} `}
     >
       <div className="flex justify-between items-center container px-2 md:px-[5rem]">
         <Link href="/">
@@ -76,10 +76,7 @@ export default function Header() {
             <ul className="items-center hidden space-x-16 md:flex">
               {links.map(({ href, label }) => (
                 <li key={`${href}${label}`}>
-                  <Link
-                    href={href}
-                    className="text-sm font-semibold hover:text-[#FC3433]"
-                  >
+                  <Link href={href} className="text-sm font-semibold">
                     {label}
                   </Link>
                 </li>
