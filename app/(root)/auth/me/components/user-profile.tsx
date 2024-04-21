@@ -45,7 +45,7 @@ const UserProfile = () => {
   }, [pathname]);
 
   return (
-    <Card className="border-2 p-4 md:w-[250px] w-full  border-black rounded-xl h-[fit-content] flex flex-col gap-2 items-center">
+    <Card className="p-4 md:w-[250px] w-full bg-gradient-to-t from-[#FFFFFF] to-[#999999]  rounded-xl h-[fit-content] flex flex-col gap-2 items-center">
       {isLoading ? (
         <Skeleton className="w-[120px] h-[120px] rounded-full" />
       ) : (
@@ -60,13 +60,13 @@ const UserProfile = () => {
       {isLoading ? (
         <Skeleton className="w-[120px] h-[30px]" />
       ) : (
-        <p className="font-semibold text-lg text-center">{data?.fullName}</p>
+        <p className="font-extrabold text-3xl text-center">{data?.fullName}</p>
       )}
 
       {isLoading ? (
         <Skeleton className="w-[120px] h-[30px]" />
       ) : (
-        <p className="text-sm text-center">{data?.email}</p>
+        <p className="text-xs text-center">{data?.email}</p>
       )}
 
       <Button

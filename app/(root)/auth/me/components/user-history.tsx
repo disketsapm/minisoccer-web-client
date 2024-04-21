@@ -8,9 +8,9 @@ import { AuthService } from "@/services/auth.service";
 const UserHistoryProfile = () => {
   return (
     <div className="w-full flex flex-col gap-2">
-      <Card className="border-2 p-4 border-black rounded-xl h-[fit-content] flex flex-col gap-2 items-center">
-        <p className="font-semibold">Riwayat Booking</p>
-      </Card>
+      <div className=" p-4 rounded-xl h-[fit-content] w-fit  bg-gradient-to-b  from-[#FFFFFF] to-[#FFFFFF00] flex flex-col gap-2 items-center">
+        <p className="font-black">Riwayat Booking</p>
+      </div>
 
       <UserCardHistory />
     </div>

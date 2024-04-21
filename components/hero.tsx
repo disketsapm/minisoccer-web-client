@@ -84,7 +84,7 @@ const Hero: React.FC = () => {
     };
   }, [fetchImage]);
   return (
-    <section id="hero">
+    <section id="hero" className="container">
       {isLoading ? (
         <div className="flex items-center justify-center max-h-[50vh] xl:max-h-[80vh] rounded-xl overflow-hidden">
           <Skeleton className="h-[900px] w-[1600px]" />
