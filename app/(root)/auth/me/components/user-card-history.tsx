@@ -11,59 +11,13 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { AuthService } from "@/services/auth.service";
 import { Button } from "@/components/ui/button";
+import { IOrderHistory } from "../type/history.type";
 
-const SKELETON_COUNT = 3;
-
-const UserCardHistory = () => {
-  const authService = new AuthService();
-
-  const { data } = useQuery({
-    queryKey: ["userHistory"],
-    queryFn: () => authService.getUserDetail(),
-  });
-
-  const { data: historyUserData, isLoading: isLoadingHistoryUser } =
-    useGetHistoryUser({
-      search: data?._id,
-      key: [data?._id],
-      enabled: !!data,
-    });
-
-  const TitleCardHistory: React.FC<{ title: string; status: string }> = ({
-    title,
-    status,
-  }) => {
-    const renderStatusLabel = () => {
-      switch (status) {
-        case "Pending":
-          return "Menunggu Pembayaran";
-        case "Failed":
-          return "Gagal";
-        case "Paid":
-          return "Lunas";
-        default:
-          return "";
-      }
-    };
-
-    return (
-      <div className="w-full flex gap-3 items-center">
-        <p className="font-semibold text-sm">{title}</p>
-
-        <p
-          className={cn(
-            "font-bold text-center text-sm  w-[250px] h-fit px-2 py-1 rounded-md",
-            { "bg-[#F9A62A]": status === "Pending" },
-            { "bg-[#CC3D3D]": status === "Failed" },
-            { "bg-[#48CC3D]": status === "Paid" }
-          )}
-        >
-          {renderStatusLabel()}
-        </p>
-      </div>
-    );
-  };
-
+const UserCardHistory: React.FC<{
+  historyUserData: IOrderHistory;
+  variant?: "default" | "detail";
+  isLoading?: boolean;
+}> = ({ historyUserData, variant = "default", isLoading }) => {
   const StatusLabel = ({ status }: { status: string }) => {
     const renderStatusLabel = () => {
       switch (status) {
@@ -81,10 +35,12 @@ const UserCardHistory = () => {
     return (
       <p
         className={cn(
-          "font-bold text-center text-sm  w-[250px] h-fit px-2 py-1 rounded-md",
+          "font-bold text-center text-sm   h-fit px-2 py-1 rounded-md",
           { "bg-[#FFE143]": status === "Pending" },
           { "bg-[#F88686]": status === "Failed" },
-          { "bg-[#88FFB1]": status === "Paid" }
+          { "bg-[#88FFB1]": status === "Paid" },
+          { "md:w-[250px] w-[150px]": variant === "default" },
+          { "md:w-[150px]": variant === "detail" }
         )}
       >
         {renderStatusLabel()}
@@ -129,77 +85,89 @@ const UserCardHistory = () => {
   const LabelHistoryItem = ({
     label,
     children,
+    isLoading,
   }: {
     label: string;
     children: React.ReactNode;
+    isLoading?: boolean;
   }) => {
     return (
       <div className="flex flex-col gap-2 w-full h-full">
-        <p className="text-sm font-bold">{label}</p>
-        <div>{children}</div>
+        {isLoading ? (
+          <Skeleton className="w-[190px] h-[50px]" />
+        ) : (
+          <>
+            <p className="text-sm font-bold">{label}</p>
+            <div>{children}</div>
+          </>
+        )}
       </div>
     );
   };
 
   return (
-    <div className="flex flex-col gap-2 w-full h-[650px] overflow-y-scroll overflow-hidden-scrollbar">
-      {isLoadingHistoryUser && (
-        <>
-          {Array.from({ length: SKELETON_COUNT }).map((i, _index) => (
-            <Skeleton
-              key={_index}
-              className="px-6 py-4 h-[340px] flex flex-col gap-3 rounded-xl"
-            />
-          ))}
-        </>
+    <div
+      className={cn(
+        "px-6 py-4 flex flex-col gap-3 rounded-xl bg-gradient-to-r from-[#FFFFFF] to-[#999999]",
+        {
+          "h-auto": variant === "default",
+          "h-full justify-between": variant === "detail",
+        }
       )}
-
-      {!isLoadingHistoryUser &&
-        historyUserData?.data?.map((item) => (
-          <div
-            key={item?._id}
-            className={cn(
-              "px-6 py-4 flex flex-col gap-3 rounded-xl bg-gradient-to-r from-[#FFFFFF] to-[#999999]"
+    >
+      <>
+        <div className="w-full justify-between flex flex-col md:flex-row gap-3">
+          <div className="flex flex-col gap-1">
+            {isLoading ? (
+              <Skeleton className="w-[250px] h-[30px]" />
+            ) : (
+              <p className="font-bold">
+                {historyUserData?.schedules[0]?.field_name}
+              </p>
             )}
-          >
-            <div className="w-full justify-between flex">
-              <div className="flex flex-col gap-1">
-                <p className="font-bold">{item?.schedules[0]?.field_name}</p>
-                <p className="text-sm ">{item?.referenceNumber}</p>
-              </div>
 
-              <div className="flex gap-2">
-                <RenderQRBooking
-                  status={item?.paymentStatus}
-                  snapUrl={item?.snap_url}
-                  reservationId={item?._id}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-4 w-full">
-              <LabelHistoryItem label="Status">
-                <StatusLabel status={item?.paymentStatus} />
-              </LabelHistoryItem>
-              <LabelHistoryItem label="Tanggal Booking">
-                {formatDate(item?.createdAt)}
-              </LabelHistoryItem>
-              <LabelHistoryItem
-                label={`${item?.schedules?.length} Slot Sesi Lapangan - ${item?.type}`}
-              >
-                {formatCurrencyToIDR(item?.total)}
-              </LabelHistoryItem>
-              <LabelHistoryItem label="Lokasi Lapang">
-                <p
-                  onClick={() => window.open("item?.schedules[0]?.field_url")}
-                  className="overflow-hidden whitespace-nowrap underline font-semibold text-ellipsis w-[200px] cursor-pointer"
-                >
-                  {item?.schedules[0]?.field_url}
-                </p>
-              </LabelHistoryItem>
-            </div>
+            {isLoading ? (
+              <Skeleton className="w-[250px] h-[30px]" />
+            ) : (
+              <p className="text-sm ">{historyUserData?.referenceNumber}</p>
+            )}
           </div>
-        ))}
+
+          <div className="flex gap-2">
+            {variant === "default" ? (
+              <RenderQRBooking
+                status={historyUserData?.paymentStatus}
+                snapUrl={historyUserData?.snap_url}
+                reservationId={historyUserData?._id}
+              />
+            ) : null}
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-4 grid-cols-1 w-full gap-5 md:gap-0">
+          <LabelHistoryItem label="Status" isLoading={isLoading}>
+            <StatusLabel status={historyUserData?.paymentStatus} />
+          </LabelHistoryItem>
+          <LabelHistoryItem label="Tanggal Booking" isLoading={isLoading}>
+            {formatDate(historyUserData?.createdAt)}
+          </LabelHistoryItem>
+          <LabelHistoryItem
+            isLoading={isLoading}
+            label={`${historyUserData?.schedules?.length} Slot Sesi Lapangan - ${historyUserData?.type}`}
+          >
+            {formatCurrencyToIDR(historyUserData?.total)}
+          </LabelHistoryItem>
+
+          <LabelHistoryItem label="Lokasi Lapang" isLoading={isLoading}>
+            <p
+              onClick={() => window.open("item?.schedules[0]?.field_url")}
+              className="overflow-hidden whitespace-nowrap underline font-semibold text-ellipsis md:w-[200px] w-[150px] cursor-pointer"
+            >
+              {historyUserData?.schedules[0]?.field_url}
+            </p>
+          </LabelHistoryItem>
+        </div>
+      </>
     </div>
   );
 };

@@ -37,3 +37,39 @@ export function getTotalPriceInListOfPrice(
 
   return total !== undefined ? formatCurrencyToIDR(total) : "";
 }
+
+export function formatDateToIndonesian(date: string): string {
+  const days: string[] = [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu",
+  ];
+  const months: string[] = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+
+  const utcDate: Date = new Date(date);
+  const dayIndex: number = utcDate.getUTCDay();
+  const day: string = days[dayIndex];
+  const dateNumber: number = utcDate.getUTCDate();
+  const monthIndex: number = utcDate.getUTCMonth();
+  const month: string = months[monthIndex];
+  const year: number = utcDate.getUTCFullYear();
+
+  return `${day}, ${dateNumber} ${month} ${year}`;
+}

@@ -13,36 +13,16 @@ import { usePathname } from "next/navigation";
 
 import React, { useEffect, useState } from "react";
 
-const UserProfile = () => {
-  const pathname = usePathname();
+const UserProfile: React.FC<{ data: any; isLoading: boolean }> = ({
+  data,
+  isLoading,
+}) => {
   const { mutateAsync, isPending } = useLogout();
-
-  const authService = new AuthService();
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["me"],
-    queryFn: async () => authService.getUserDetail(),
-  });
 
   const getFirstLetterAndLastName = (fullName: string) => {
     const name = fullName?.split(" ");
     return `${name?.[0]?.charAt(0)}${name?.[name?.length - 1].charAt(0)}`;
   };
-
-  const [dataUser, setDataUser] = useState({} as any);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const user = JSON.parse(localStorage.getItem("user") as string);
-        if (user) {
-          setDataUser(user);
-        }
-      } catch (error) {
-        console.error("Failed to parse user data from localStorage:", error);
-      }
-    }
-  }, [pathname]);
 
   return (
     <Card className="p-4 md:w-[250px] w-full bg-gradient-to-t from-[#FFFFFF] to-[#999999]  rounded-xl h-[fit-content] flex flex-col gap-2 items-center">
@@ -50,7 +30,7 @@ const UserProfile = () => {
         <Skeleton className="w-[120px] h-[120px] rounded-full" />
       ) : (
         <Avatar className="w-[120px] h-[120px] font-semibold text-xl">
-          <AvatarImage src={dataUser?.photo} />
+          <AvatarImage src={data?.photo} />
           <AvatarFallback>
             {getFirstLetterAndLastName(data?.fullName)}
           </AvatarFallback>
