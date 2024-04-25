@@ -25,6 +25,12 @@ const UserHistoryProfile: React.FC<{ userDetail: any }> = ({ userDetail }) => {
       </div>
 
       <div className="flex flex-col gap-2 w-full h-full">
+        {!isLoadingHistoryUser && historyUserData?.data?.length === 0 && (
+          <div className="w-full h-fit py-5 text-center radial-gradient-3 rounded-xl font-black text-sm ">
+            Anda belum melakukan booking lapangan
+          </div>
+        )}
+
         {isLoadingHistoryUser && (
           <>
             {Array.from({ length: SKELETON_COUNT }).map((i, _index) => (
