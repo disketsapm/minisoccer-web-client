@@ -114,21 +114,26 @@ export default function Header() {
                 <CiMenuBurger size={15} />
               </Button>
             </SheetTrigger>
-            <SheetContent className="bg-[#FCCB04] max-w ">
-              <nav className="mt-10 ">
-                <ul className="flex flex-col items-start gap-y-16">
+            <SheetContent className="bg-gradient-to-b from-[#E7D8D8] to-[#999999] h-full flex flex-col gap-2 ">
+              <nav className="mt-10 h-full flex-col gap-2">
+                <ul className="flex flex-col items-start gap-y-16 justify-center">
                   {links.map(({ href, label }) => (
                     <li key={`${href}${label}`}>
-                      <Link
-                        href={href}
-                        className="text-2xl font-semibold  hover:text-[#FC3433]"
-                      >
+                      <Link href={href} className="text-3xl font-semibold ">
                         <SheetClose>{label}</SheetClose>
                       </Link>
                     </li>
                   ))}
                 </ul>
               </nav>
+              <div className="relative w-32 h-32">
+                <Image
+                  src="/images/logo-2.png"
+                  alt="logo"
+                  fill
+                  objectFit="contain"
+                />
+              </div>
             </SheetContent>
           </Sheet>
         </div>

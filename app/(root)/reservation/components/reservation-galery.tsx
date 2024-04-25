@@ -9,20 +9,18 @@ import ReservationFacility from "./reservation-facility";
 import useGetFieldById from "../hooks/useGetFieldById";
 
 const ReservationGalery = () => {
-  const { getValues } = useFormContext();
+  const { watch } = useFormContext();
 
-  const fieldId = getValues("field_id");
+  const fieldId = watch("field_id");
 
   const { data, isLoading } = useGetFieldById({
     key: ["field-galery", fieldId],
     enabled: !!fieldId,
   });
 
-  console.log({ data });
-
   return (
     <div className={cn("w-full h-full")}>
-      {isLoading && fieldId && <Skeleton className="w-full h-full" />}
+      {isLoading && fieldId && <Skeleton className="w-full h-[650px]" />}
 
       {!isLoading && !fieldId && (
         <div className="w-full h-[550px] flex justify-center items-center rounded-xl overflow-hidden radial-gradient-3   text-sm font-black shadow-sm">
