@@ -3,10 +3,11 @@ import React from "react";
 
 type ILoader = {
   className?: string;
+  color?: string;
 };
 
-const Loader: React.FC<ILoader> = ({ className }) => (
-  <Loader2 className={`animate-spin ${className} `}></Loader2>
+const Loader: React.FC<ILoader> = ({ className, color }) => (
+  <Loader2 color={color} className={`animate-spin ${className} `}></Loader2>
 );
 
 export default Loader;

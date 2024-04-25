@@ -18,6 +18,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { usePathname } from "next/navigation";
 import { useLogout } from "@/hooks/auth/useLogout";
+import Loading from "@/app/loading";
 export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
