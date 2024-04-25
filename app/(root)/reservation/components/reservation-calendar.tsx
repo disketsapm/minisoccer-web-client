@@ -94,6 +94,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
     interactive: false,
     extendedProps: {
       id: event._id,
+      price: event?.price,
     },
   }));
 
@@ -124,61 +125,63 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
     );
   };
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full h-full  relative">
       {isLoading && fieldId && <Skeleton className="w-full h-[650px]" />}
 
-      {!isLoading && !fieldId && (
-        <div className="w-full h-[650px] bg-gray-100 border flex text-center justify-center items-center  border-black rounded-sm text-sm font-semibold">
-          Lapangan belum dipilih
-        </div>
-      )}
-
       {!isLoading && fieldId && (
-        <div className="w-full h-full">
-          <FullCalendar
-            ref={calendarRef}
-            plugins={[dayGridPlugin]}
-            initialView="dayGridMonth"
-            timeZone="Asia/Jakarta"
-            locale={idLocale}
-            locales={[idLocale]}
-            events={eventList}
-            nowIndicator={false}
-            height={"1700px"}
-            headerToolbar={{
-              left: "title",
-              center: "",
-              right: "prev,next clear",
-            }}
-            customButtons={{
-              clear: {
-                text: "Clear",
-                click: () => {
-                  onChange([]);
-                },
-              },
-            }}
-            eventClick={(info) => console.log(info.event)}
-            eventContent={(arg) => (
-              <ReservationSessionCard
-                onClick={() => handleSetEvents(arg?.event?.extendedProps?.id)}
-                endTime={arg.event.startStr}
-                startTime={arg.event.endStr}
-                sessionName={arg.event.extendedProps.sessionName}
-                selected={values.includes(arg.event.extendedProps.id)}
-                status={arg.event.title}
-                isOnCalendar
+        <div className="md:w-full  h-full p-4 bg-[#DEDEDE] rounded-xl  relative">
+          <div className="w-full h-full overflow-x-scroll md:overflow-auto">
+            <div className="md:w-full h-full w-[800px]">
+              <FullCalendar
+                ref={calendarRef}
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+                timeZone="Asia/Jakarta"
+                locale={idLocale}
+                locales={[idLocale]}
+                events={eventList}
+                nowIndicator={false}
+                height={"auto"}
+                dayHeaderClassNames={["bg-black text-white"]}
+                dayCellClassNames={["border border-black"]}
+                headerToolbar={{
+                  left: "title",
+                  center: "",
+                  right: "prev,next clear",
+                }}
+                customButtons={{
+                  clear: {
+                    text: "Clear",
+                    click: () => {
+                      onChange([]);
+                    },
+                  },
+                }}
+                eventContent={(arg) => (
+                  <ReservationSessionCard
+                    onClick={() =>
+                      handleSetEvents(arg?.event?.extendedProps?.id)
+                    }
+                    endTime={arg.event.startStr}
+                    startTime={arg.event.endStr}
+                    sessionName={arg.event.extendedProps.sessionName}
+                    selected={values.includes(arg.event.extendedProps.id)}
+                    status={arg.event.title}
+                    price={arg?.event?.extendedProps?.price}
+                    isOnCalendar
+                  />
+                )}
               />
-            )}
-          />
-          <div className="flex gap-5 mt-2">
-            <div className="flex justify-center items-center">
+            </div>
+          </div>
+          <div className="flex gap-5  flex-col md:flex-row mt-10">
+            <div className="flex  text-xs md:text-base items-center">
               <ColorIndicator status="Available" /> Available
             </div>
-            <div className="flex justify-center items-center">
+            <div className="flex  text-xs md:text-base items-center">
               <ColorIndicator status="Maintenance" /> Maintenance
             </div>
-            <div className="flex justify-center items-center">
+            <div className="flex  text-xs md:text-base items-center">
               <ColorIndicator status="Unavailable" /> Unavailable
             </div>
           </div>

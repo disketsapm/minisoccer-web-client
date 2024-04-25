@@ -23,49 +23,64 @@ import ReservationCalendar from "./reservation-calendar";
 import ReservationAction from "./reservation-action";
 import { IFormFieldSchema } from "../type/reservation.type";
 import ReservationAditionalItem from "./reservation-aditional-item";
+import ReservationGalery from "./reservation-galery";
 
 const ReservationForm = () => {
-  const { control } = useFormContext<IFormFieldSchema>();
+  const { control, getValues } = useFormContext<IFormFieldSchema>();
+
+  const fieldId = getValues("field_id");
 
   return (
-    <div className="w-full flex flex-col gap-4 px-4 h-full pb-6 ">
-      <FormField
-        name="field_id"
-        control={control}
-        render={({ field }) => {
-          return (
-            <FormItem>
-              <FormLabel>Pilih Lapangan</FormLabel>
-              <FormControl>
-                <ReservationSelectField
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          );
-        }}
-      />
+    <div className="w-full flex flex-col gap-6 px-4 h-full pb-6 relative ">
+      <div className="w-full h-full flex-col md:flex-row flex gap-3">
+        <div className="w-full">
+          <FormField
+            name="field_id"
+            control={control}
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Pilih Lapangan</FormLabel>
+                  <FormControl>
+                    <ReservationSelectField
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+        </div>
 
-      <FormField
-        name="type"
-        control={control}
-        render={({ field }) => {
-          return (
-            <FormItem>
-              <FormLabel>Jenis Reservasi</FormLabel>
-              <FormControl>
-                <ReservationSelectType
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          );
-        }}
-      />
+        <div className="w-full">
+          <FormField
+            name="type"
+            control={control}
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Jenis Reservasi</FormLabel>
+                  <FormControl>
+                    <ReservationSelectType
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+        </div>
+      </div>
+
+      <ReservationGalery />
+
+      {fieldId ? (
+        <p className="text-3xl font-black">Pilih Jadwal Booking</p>
+      ) : null}
 
       <FormField
         name="schedule_id"

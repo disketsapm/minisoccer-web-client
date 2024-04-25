@@ -16,10 +16,12 @@ const AuthMe = () => {
   });
 
   return (
-    <div className="flex w-full min-h-[70vh] flex-col md:flex-row  py-14 px-12 gap-2 radial-gradient-3">
-      <UserProfile data={data} isLoading={isLoading} />
+    <div className="w-full h-full radial-gradient-3">
+      <div className="flex w-full min-h-[70vh] flex-col md:flex-row  py-14  gap-2 container ">
+        <UserProfile data={data} isLoading={isLoading} />
 
-      <UserHistoryProfile userDetail={data} />
+        <UserHistoryProfile userDetail={data} />
+      </div>
     </div>
   );
 };

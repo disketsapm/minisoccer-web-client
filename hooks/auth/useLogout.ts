@@ -25,8 +25,9 @@ export function useLogout() {
     mutationFn: async () => fetcher(),
     onSuccess: () => {
       toast.success("Logout success ");
+      router.push("/auth");
+      deleteTokenFromLocalStorage();
       setTimeout(() => {
-        deleteTokenFromLocalStorage();
         window.location.reload();
       }, 500);
     },

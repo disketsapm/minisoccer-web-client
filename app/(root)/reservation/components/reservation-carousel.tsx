@@ -13,68 +13,31 @@ type IReservationCarousel = {
 };
 
 const ReservationCarousel: React.FC<IReservationCarousel> = ({ data }) => {
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
-  }, [api]);
-
   return (
-    <Carousel
-      setApi={setApi}
-      plugins={[
-        Autoplay({
-          delay: 10000,
-        }),
-      ]}
-      opts={{
-        align: "start",
-        loop: true,
-      }}
-    >
-      <div className="flex flex-col mb-10 flex-grow-0 flex-shrink-0">
+    <div className="w-full h-full">
+      <Carousel
+        opts={{
+          align: "start",
+        }}
+        className="w-full h-full overflow-hidden "
+      >
         <CarouselContent>
           {data?.map((item, index) => (
-            <CarouselItem key={index}>
-              <div className="flex items-center justify-center w-full h-full border-4 border-black rounded-xl overflow-hidden ">
-                <Image
-                  src={item?.url}
-                  alt="reservation-galery"
-                  width={1600}
-                  height={900}
-                  priority
-                  className="cursor-pointer"
-                />
+            <CarouselItem key={index} className="md:basis-1/4 basis-1/1">
+              <div className="md:w-full w-[270px] h-full rounded-xl overflow-hidden">
+                <div className="w-full h-[380px]">
+                  <img
+                    src={item?.url}
+                    alt="Facility"
+                    className="w-full h-full object-cover "
+                  />
+                </div>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <div className="z-20 flex justify-end space-x-5 -mt-10 pr-5">
-          {Array.from({ length: count }).map((_, i) => (
-            <div
-              key={i}
-              className={`h-4 w-4 rounded-full ${
-                current === i + 1
-                  ? "bg-black"
-                  : "bg-white border-2 border-black cursor-pointer"
-              }`}
-              onClick={() => api?.scrollTo(i)}
-            />
-          ))}
-        </div>
-      </div>
-    </Carousel>
+      </Carousel>
+    </div>
   );
 };
 

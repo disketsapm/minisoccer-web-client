@@ -25,6 +25,12 @@ import ReservationSessionCard from "./reservation-session-card";
 import usePostReservation from "../hooks/usePostReservation";
 import ErrorDialog from "@/components/ui/error-dialog";
 import ConfirmationDialog from "@/components/ui/confirmation-dialog";
+import { AnimatePresence, motion } from "framer-motion";
+
+const bookAnimation = {
+  open: { opacity: 1, y: 0 },
+  closed: { opacity: 0, y: 100 },
+};
 
 const LabelValues: React.FC<{
   label: string;
@@ -56,8 +62,6 @@ const ReservationAction: React.FC = () => {
     useFormContext<IFormFieldSchema>();
 
   const formValues = getValues();
-
-  console.log(formValues);
 
   const isValid: boolean = formState?.isValid;
 
@@ -104,19 +108,29 @@ const ReservationAction: React.FC = () => {
   };
 
   return (
-    <>
-      <div className="w-[fit-content]">
-        <Button
-          className="w-fit"
-          variant="accent-1"
-          onClick={() => {
-            trigger();
-            setIsOpen(true);
-          }}
+    <div className="w-full h-full relative">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key="book-now"
+          initial={{ opacity: 0, y: 100 }}
+          animate={isValid ? "open" : "closed"}
+          variants={bookAnimation}
+          className="fixed w-full h-[200px] flex justify-center items-center bg-gradient-to-b from-transparent to-[#999999] pt-20 bottom-0 z-10 left-0 right-0 m-auto"
         >
-          Book Sekarang
-        </Button>
-      </div>
+          <div className="container">
+            <Button
+              className="w-full"
+              variant="accent-1"
+              onClick={() => {
+                trigger();
+                setIsOpen(true);
+              }}
+            >
+              Book Sekarang
+            </Button>
+          </div>
+        </motion.div>
+      </AnimatePresence>
 
       <ErrorDialog
         isOpen={Boolean(submitErrorMsg)}
@@ -155,6 +169,7 @@ const ReservationAction: React.FC = () => {
                         sessionName={item?.session}
                         startTime={item?.timeStart.toString()}
                         endTime={item?.timeEnd.toString()}
+                        price={item?.price.toString()}
                       />
                     );
                   })}
@@ -227,7 +242,7 @@ const ReservationAction: React.FC = () => {
           </div>
         }
       />
-    </>
+    </div>
   );
 };
 

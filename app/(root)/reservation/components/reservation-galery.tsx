@@ -18,19 +18,22 @@ const ReservationGalery = () => {
     enabled: !!fieldId,
   });
 
+  console.log({ data });
+
   return (
-    <div className={cn("w-[60%] h-[400px]", { "bg-gray-100": !fieldId })}>
+    <div className={cn("w-full h-full")}>
       {isLoading && fieldId && <Skeleton className="w-full h-full" />}
 
       {!isLoading && !fieldId && (
-        <div className="w-full h-full flex justify-center items-center border border-black rounded-sm text-sm font-semibold">
-          Pilih lapangan terlebih dahulu
+        <div className="w-full h-[550px] flex justify-center items-center rounded-xl overflow-hidden radial-gradient-3   text-sm font-black shadow-sm">
+          Lapangan Belum Dipilih
         </div>
       )}
 
       {!isLoading && fieldId && (
-        <div className="h-full md:fixed -z-20 relative md:w-[35%] w-full">
+        <div className="h-full w-full flex flex-col gap-3">
           <ReservationCarousel data={data?.data?.assets || []} />
+
           <ReservationFacility data={data?.data?.yardFacilities || []} />
         </div>
       )}
