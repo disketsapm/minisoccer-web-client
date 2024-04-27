@@ -32,9 +32,9 @@ export default function Facility() {
     <div className="w-full h-full radial-gradient-4 py-3 overflow-hidden z-10">
       <section
         id="facility"
-        className="flex flex-col  items-center  my-20 md:flex-row  container relative z-10"
+        className="flex flex-col  items-center px-10 md:px-0  my-20 md:flex-row  container relative z-10"
       >
-        <div className="md:absolute w-fit   md:px-10 md:top-1/2 md:left-1/2 transform p-3 md:-translate-x-1/2 md:-translate-y-1/2 text-4xl font-black text-center bg-gradient-to-b   from-[#FFFFFF] to-[#FFFFFF00]  rounded-lg">
+        <div className="md:absolute   w-fit   md:px-10 md:top-1/2 md:left-1/2 transform p-3 md:-translate-x-1/2 md:-translate-y-1/2 text-4xl font-black text-center bg-gradient-to-b   from-[#FFFFFF] to-[#FFFFFF00]  rounded-lg">
           Fasilitas Soccer Chief
         </div>
 
@@ -75,7 +75,7 @@ function FacilityCard({
   image: string;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-2 text-center   radial-gradient-3 w-[450px] h-[250px]  p-5 rounded-xl shadow-lg ">
+    <div className="flex flex-col items-center justify-center gap-2 text-center   radial-gradient-3 md:w-[450px] md:h-[250px] w-full h-full  p-5 rounded-xl shadow-lg ">
       <div>
         <Image src={image} alt="Facility" priority width={70} height={70} />
       </div>

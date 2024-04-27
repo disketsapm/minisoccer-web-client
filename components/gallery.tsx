@@ -43,15 +43,8 @@ export default function Gallery() {
               key={index}
               className="px-5 md:basis-1/2 lg:basis-1/3"
             >
-              <Card className="overflow-hidden p-4 bg-white/20  rounded-xl">
-                <Image
-                  src={item.image}
-                  alt="Hero"
-                  layout="responsive"
-                  width={1600}
-                  height={400}
-                  priority
-                />
+              <Card className="overflow-hidden w-full h-[250px] relative   p-4 bg-white/20  rounded-xl">
+                <Image src={item.image} alt="Hero" fill />
               </Card>
             </CarouselItem>
           ))}
@@ -84,7 +77,7 @@ function HeaderGallery() {
   return (
     <div className="relative flex justify-center w-fit container flex-col md:gap-2 gap-5 ">
       <div className="z-10 bg-gradient-to-b border-[#00000033]  from-[#FFFFFF] to-[#FFFFFF00]  rounded-lg flex px-5 border-1 py-4 gap-3  ">
-        <div className="text-4xl  font-black text-[#070707]   ">
+        <div className="text-4xl text-center md:text-left   font-black text-[#070707]   ">
           Foto Lapangan
         </div>
         <div className="text-sm font-semibold hidden md:block">

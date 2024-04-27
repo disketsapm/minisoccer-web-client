@@ -24,12 +24,12 @@ export default function Find() {
             </div>
           </div>
 
-          <div className="md:w-1/2 w-[460px] h-[300px] md:h-full relative md:order-2 order-1 ">
+          <div className="md:w-1/2 w-[95%] h-[350px] md:h-full relative md:order-2 order-1 ">
             <div className="flex flex-col md:justify-center w-full  md:w-fit md:h-fit gap-8 px-4  md:py-5 md:px-10 absolute  radial-gradient md:rounded-xl rounded-2xl m-auto   top-0 md:bottom-0 -bottom-36  md:-left-12 py-10     ">
-              <div className="text-6xl md:text-7xl font-extrabold md:text-left text-center ">
+              <div className="text-5xl md:text-7xl font-extrabold md:text-left text-center ">
                 Temukan Kami
               </div>
-              <div className="grid w-full grid-cols-1 gap-4 text-base">
+              <div className="grid w-full grid-cols-1 gap-4 md:text-base text-sm">
                 <div className="flex items-center">
                   <PiPushPin className="flex-shrink-0 w-5 h-5 mr-2" />
                   <Link href="#blank">

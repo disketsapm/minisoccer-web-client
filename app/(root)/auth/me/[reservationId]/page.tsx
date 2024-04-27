@@ -33,10 +33,6 @@ const ReservationDetail = () => {
 
   const SKELETON_COUNT = 5;
 
-  const handleClickLocation = () => {
-    return window.open(data?.data?.schedules[0]?.field_url);
-  };
-
   const ReservationDetailCardItem: React.FC<{ item: IScheduleHistory }> = ({
     item,
   }) => {
@@ -49,7 +45,7 @@ const ReservationDetail = () => {
 
     return (
       <Card className="w-[300px] h-full rounded-xl">
-        <div className="w-full h-full flex  px-8 py-4 flex-col rounded-xl radial-gradient-5">
+        <div className="w-full h-full flex  px-8 py-4 flex-col rounded-xl radial-gradient-4">
           <div className="w-full h-full flex  flex-col gap-5   items-center justify-center">
             <div className="w-full h-full p-4 rounded-2xl shadow-lg  bg-white">
               <QRCode
