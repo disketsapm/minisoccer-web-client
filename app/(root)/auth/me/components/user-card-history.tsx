@@ -39,7 +39,7 @@ const UserCardHistory: React.FC<{
           { "bg-[#FFE143]": status === "Pending" },
           { "bg-[#F88686]": status === "Failed" },
           { "bg-[#88FFB1]": status === "Paid" },
-          { "md:w-[250px] w-[150px]": variant === "default" },
+          { "md:w-fit w-[150px]": variant === "default" },
           { "md:w-[150px]": variant === "detail" }
         )}
       >
@@ -144,7 +144,12 @@ const UserCardHistory: React.FC<{
           </div>
         </div>
 
-        <div className="grid md:grid-cols-4 grid-cols-1 w-full gap-5 md:gap-0">
+        <div
+          className={cn("grid  w-full  md:gap-0", {
+            "md:grid-cols-4 grid-cols-1 gap-5": variant === "default",
+            "grid-cols-2 gap-10": variant === "detail",
+          })}
+        >
           <LabelHistoryItem label="Status" isLoading={isLoading}>
             <StatusLabel status={historyUserData?.paymentStatus} />
           </LabelHistoryItem>
