@@ -1,31 +1,31 @@
-import About from '@/components/about';
-import Facility from '@/components/facility';
-import Find from '@/components/find';
-import Footer from '@/components/footer';
-import Gallery from '@/components/gallery';
-import Header from '@/components/header';
-import Hero from '@/components/hero';
-import { Button } from '@/components/ui/button';
+import About from "@/components/about";
+import Facility from "@/components/facility";
+import Find from "@/components/find";
+import Gallery from "@/components/gallery";
+import Hero from "@/components/hero";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function Page() {
   return (
     <>
-      <div className="mx-auto w-[80vw] ">
-        <Header />
-        <Hero />
-        <About />
-        <Facility />
-        <Gallery />
-        <Find />
-      </div>
-      <Footer />
-      <Button
-        variant={'accent-1'}
-        size={'lg'}
-        className=" fixed z-10 bottom-5 right-5"
-      >
-        <span> Whastapp</span>
+      <Button variant={"accent-1"} className="fixed z-20 bottom-5 right-5">
+        <div className="flex items-center justify-center gap-2">
+          <FaWhatsapp size={24} />{" "}
+          <span className="text-xs">
+            <Link href="https://wa.me/628112312356789" target="_blank">
+              Hubungi WhatsApp Kami
+            </Link>
+          </span>
+        </div>
       </Button>
+      <Hero />
+      <About />
+      <Facility />
+      <Gallery />
+
+      <Find />
     </>
   );
 }

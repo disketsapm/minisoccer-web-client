@@ -1,58 +1,42 @@
-import Image from 'next/image';
-import { Button } from './ui/button';
+import Image from "next/image";
+import { Button } from "./ui/button";
 
 export default function About() {
   return (
-    <div className="flex flex-col justify-center items-center mt-20">
-      <div className="w-full">
-        <Image
-          src="/images/about-1.png"
-          alt="About"
-          layout="responsive"
-          width={900}
-          height={400}
-        />
-        <div className=" flex justify-center ">
-          <div className="bg-[#18684F] z-10 -mt-40 border-4 border-black w-[60vw] mx-auto  h-[300px] rounded-3xl flex justify-between py-7 px-8 gap-x-5 relative">
-            <div className="absolute -top-32 right-0 hidden sm:block">
-              <Image
-                src="/images/hand.png"
-                alt="About"
-                width={180}
-                height={180}
-              />
-            </div>
+    <div
+      className="w-full h-full relative"
+      style={{
+        backgroundImage: `url(/images/banner-5.png)`,
+        backgroundSize: "cover",
+        backgroundPosition: "0 50%",
+      }}
+    >
+      <section id="about" className="px-4 md:px-0 container text-white">
+        <div className="w-full md:h-[1200px] h-[650px]  flex flex-col  gap-12 md:justify-center justify-end pb-10  md:pb-48">
+          <div className="w-full flex gap-2 justify-end">
+            <div className="w-[850px] h-full hidden md:block" />
 
-            <div className="w-1/2 flex justify-center">
-              <Image
-                src="/images/field.png"
-                alt="About"
-                width={400}
-                height={300}
-                style={{ objectFit: 'cover', objectPosition: 'center' }}
-              />
-            </div>
-            <div className="flex flex-col w-1/2 space-y-2 my-7 text-4xl">
-              <p className=" text-white font-light">Kenapa Harus </p>
-              <p className="font-extrabold  tracking-wider">
-                <span className=" text-white ">Bermain di</span>
-                <span className="text-[#FCCB04]"> Soccer Chief?</span>
+            <div className="flex flex-col  gap-6 md:text-black text-white items-center md:items-start z-10 ">
+              <div className="w-full font-black md:text-6xl text-3xl text-center md:text-left ">
+                Kenapa Anda Harus <br /> Bermain di Soccer Chief?
+              </div>
+
+              <p className="text-center md:text-left">
+                Soccer Chief menyediakan lapangan yang berkualitas tinggi dan{" "}
+                <br />
+                berstandar nasional. Tersedia juga beragam fasilitas pendukung
+                yang <br className="hidden md:block" /> membuat permainan Mini
+                Soccer-mu menjadi lebih menyenangkan.
               </p>
-              <p className="text-base text-white tracking-wide leading-loose ">
-                Dengan lapangan Kami yang berkualitas, membuat permainan Mini Soccer-mu jadi semakin seru dan nyaman!
-              </p>
+              <Button className="w-fit px-6 py-2" variant={"accent-1"}>
+                Lihat Lapangan
+              </Button>
+
+              <div className="bg-gradient-to-b from-[#0B0B0B00] to-[#000000] w-full h-[450px] absolute bottom-0 m-auto -z-10 md:hidden block " />
             </div>
           </div>
         </div>
-      </div>
-      <div className="-mt-8 z-10">
-        <Button
-          variant="accent-2"
-          size="xl"
-        >
-          Lihat Lapangan
-        </Button>
-      </div>
+      </section>
     </div>
   );
 }
