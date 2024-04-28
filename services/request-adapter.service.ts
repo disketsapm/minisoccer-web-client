@@ -14,7 +14,7 @@ export class RequestAdapter {
   public adapter: AxiosInstance;
 
   constructor(props?: RequestAdapterProps) {
-    const { baseURL = process.env.NEXT_PUBLIC_API_URL, ...rest } = props || {};
+    const { baseURL = process.env.NEXT_PUBLIC_PATH_API, ...rest } = props || {};
     this.adapter = axios.create({
       baseURL,
       ...rest,
