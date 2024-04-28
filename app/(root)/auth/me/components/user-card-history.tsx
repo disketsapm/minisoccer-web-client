@@ -145,9 +145,9 @@ const UserCardHistory: React.FC<{
         </div>
 
         <div
-          className={cn("grid  w-full  md:gap-0", {
-            "md:grid-cols-4 grid-cols-1 gap-5": variant === "default",
-            "grid-cols-2 gap-10": variant === "detail",
+          className={cn("w-full ", {
+            "grid grid-cols-2 gap-4": variant === "default",
+            "grid-cols-2 gap-10 grid  ": variant === "detail",
           })}
         >
           <LabelHistoryItem label="Status" isLoading={isLoading}>

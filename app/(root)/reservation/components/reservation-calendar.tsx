@@ -57,7 +57,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
   const fieldId = getValues("field_id");
 
   const { data, isLoading } = useQuery({
-    queryKey: ["calendar-field"],
+    queryKey: ["calendar-field", fieldId],
     queryFn: () =>
       fieldService.getSchedule({
         params: {

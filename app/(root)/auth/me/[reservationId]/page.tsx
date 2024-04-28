@@ -19,6 +19,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import UserCardHistory from "../components/user-card-history";
+import ReservationDetailCardItem from "./components/reservation-detail-card-item";
 
 const ReservationDetail = () => {
   const params = useParams();
@@ -32,50 +33,6 @@ const ReservationDetail = () => {
   const router = useRouter();
 
   const SKELETON_COUNT = 5;
-
-  const ReservationDetailCardItem: React.FC<{ item: IScheduleHistory }> = ({
-    item,
-  }) => {
-    const QRValue = {
-      order_id: data?.data?.referenceNumber,
-      schedule_id: item?.schedule_id,
-    };
-
-    const QRValueString = JSON.stringify(QRValue);
-
-    return (
-      <Card className="w-[300px] h-full rounded-xl">
-        <div className="w-full h-full flex  px-8 py-4 flex-col rounded-xl radial-gradient-4">
-          <div className="w-full h-full flex  flex-col gap-5   items-center justify-center">
-            <div className="w-full h-full p-4 rounded-2xl shadow-lg  bg-white">
-              <QRCode
-                value={QRValueString}
-                className="w-full h-full"
-                level="Q"
-              />
-            </div>
-
-            <div className="w-full flex justify-center items-center  gap-2 flex-col text-white">
-              <p className=" font-semibold text-xl">
-                {formatDateToIndonesian(item?.start_time)}
-              </p>
-              <p className="text-sm font-light">
-                {formattedTime(item?.start_time)} -{" "}
-                {formattedTime(item?.end_time)} ({item?.name})
-              </p>
-            </div>
-
-            <Button
-              variant="outline"
-              className="text-white border-white w-full hover:bg-black hover:border-black"
-            >
-              Tampilkan QR Code
-            </Button>
-          </div>
-        </div>
-      </Card>
-    );
-  };
 
   return (
     <div className="w-full h-full radial-gradient-3 px-4">
@@ -113,9 +70,13 @@ const ReservationDetail = () => {
               className="w-full overflow-hidden md:block "
             >
               <CarouselContent className="-ml-4">
-                {data?.data?.schedules?.map((item, index) => (
-                  <CarouselItem key={index} className="md:basis-1/4 basis-1/1">
-                    <ReservationDetailCardItem key={item?._id} item={item} />
+                {data?.data?.schedules?.map((item: any, index: number) => (
+                  <CarouselItem key={index} className="basis-1/1">
+                    <ReservationDetailCardItem
+                      key={item?._id}
+                      item={item}
+                      data={data?.data}
+                    />
                   </CarouselItem>
                 ))}
               </CarouselContent>

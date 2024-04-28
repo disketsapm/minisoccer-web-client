@@ -20,6 +20,14 @@ export const deleteTokenFromLocalStorage = () => {
   }
 };
 
+export const getDiffDays = (date: string) => {
+  const date1 = new Date(date);
+  const date2 = new Date();
+  const diffTime = date1.getTime() - date2.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+};
+
 export function formatCurrencyToIDR(amount: number | undefined): string {
   const formattedAmount = new Intl.NumberFormat("id-ID", {
     style: "currency",
