@@ -27,8 +27,9 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
+ARG NEXT_PUBLIC_API_URL
 RUN \
-  if [ -f yarn.lock ]; then yarn run build; \
+  if [ -f yarn.lock ]; then NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
   else echo "Lockfile not found." && exit 1; \
