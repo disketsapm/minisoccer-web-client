@@ -22,7 +22,7 @@ import ReservationSelectType from "./reservation-select-type";
 import ReservationCalendar from "./reservation-calendar";
 import ReservationAction from "./reservation-action";
 import { IFormFieldSchema } from "../type/reservation.type";
-import ReservationAditionalItem from "./reservation-aditional-item";
+
 import ReservationGalery from "./reservation-galery";
 
 const ReservationForm = () => {
@@ -92,24 +92,6 @@ const ReservationForm = () => {
                 <ReservationCalendar
                   onChange={field.onChange}
                   values={field.value}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          );
-        }}
-      />
-
-      <FormField
-        name="additional_item"
-        control={control}
-        render={({ field }) => {
-          return (
-            <FormItem>
-              <FormControl>
-                <ReservationAditionalItem
-                  onChange={field.onChange}
-                  value={field.value}
                 />
               </FormControl>
               <FormMessage />
