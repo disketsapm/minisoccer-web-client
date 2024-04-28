@@ -1,12 +1,3 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
 import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -92,19 +83,7 @@ const ReservationAction: React.FC = () => {
   });
 
   const onSubmit = async (data: IFormFieldSchema) => {
-    const deletedNameInAdditionalItem = data?.additional_item?.map((item) => {
-      return {
-        id: item?.id,
-        quantity: item?.quantity,
-      };
-    });
-
-    const transformData = {
-      ...data,
-      additional_item: deletedNameInAdditionalItem,
-    };
-
-    reservationMutations(transformData);
+    reservationMutations(data);
   };
 
   return (
@@ -184,26 +163,6 @@ const ReservationAction: React.FC = () => {
               value={getTotalPriceInListOfPrice(scheduleData)}
               isLoading={isListScheduleLoading}
             />
-
-            {formValues?.additional_item
-              ? formValues?.additional_item?.length > 0 && (
-                  <LabelValues
-                    label="Tambahan"
-                    value={
-                      <p>
-                        {formValues?.additional_item?.map((item) => {
-                          return `${item?.name} (${
-                            formValues?.schedule_id?.length === item?.quantity
-                              ? "Semua Sesi"
-                              : item?.quantity
-                          })`;
-                        })}
-                      </p>
-                    }
-                    isLoading={isFieldDetailLoading}
-                  />
-                )
-              : null}
 
             <LabelValues
               label="Lokasi"

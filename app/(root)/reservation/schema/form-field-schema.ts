@@ -14,19 +14,6 @@ const FormFieldSchema = z.object({
       })
     )
     .min(1, "Minimal satu jadwal harus dipilih"),
-  additional_item: z
-    .array(
-      z
-        .object({
-          id: z.string(),
-          quantity: z.number(),
-          name: z.string(),
-        })
-        .nullable()
-        .optional()
-    )
-    .nullable()
-    .optional(),
 });
 
 export default FormFieldSchema;

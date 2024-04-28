@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
@@ -67,7 +67,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
     enabled: !!fieldId,
   });
 
-  const events = data?.data || [];
+  const events = useMemo(() => data?.data || [], [data]);
 
   const calendarRef = useRef<FullCalendar>(null);
 
@@ -80,23 +80,25 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
     }
   }, [events]);
 
-  const eventList = events.map((event, index) => ({
-    start: event?.timeStart,
-    title: event?.status,
-    end: event?.timeEnd,
-    idSession: event?._id,
-    sessionName: event?.session,
-    price: event?.price,
-    dateSelected: new Date(event.date).toDateString(), // Get the date of the session
-    display: "block",
-    borderColor: "transparent",
-    backgroundColor: "transparent",
-    interactive: false,
-    extendedProps: {
-      id: event._id,
+  const eventList = useMemo(() => {
+    return events.map((event, index) => ({
+      start: event?.timeStart,
+      title: event?.status,
+      end: event?.timeEnd,
+      idSession: event?._id,
+      sessionName: event?.session,
       price: event?.price,
-    },
-  }));
+      dateSelected: new Date(event.date).toDateString(), // Get the date of the session
+      display: "block",
+      borderColor: "transparent",
+      backgroundColor: "transparent",
+      interactive: false,
+      extendedProps: {
+        id: event._id,
+        price: event?.price,
+      },
+    }));
+  }, [events]);
 
   const handleSetEvents = (id: string) => {
     let selectedItems = values;
