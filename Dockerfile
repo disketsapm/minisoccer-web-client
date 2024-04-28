@@ -8,12 +8,14 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json ./
+RUN \
+  fi
 
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
-COPY --from=deps /node_modules ./node_modules  
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Next.js collects completely anonymous telemetry data about general usage.
