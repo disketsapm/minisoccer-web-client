@@ -27,10 +27,10 @@ const useGetListOfScheduleById = ({ isOpen }: IUseGetListOfScheduleById) => {
     ],
     enabled: !!formValues?.field_id && isOpen && formState?.isValid,
     queryFn: () => {
-      const promises = formValues?.schedule_id?.map((id) => {
+      const promises = formValues?.schedule_id?.map((item) => {
         return fieldService.getScheduleById({
           params: {
-            _id: id,
+            _id: item?.id,
             search: formValues?.field_id,
           },
         });

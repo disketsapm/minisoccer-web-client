@@ -20,6 +20,8 @@ import { useRegister } from "@/hooks/auth/useRegister";
 import Link from "next/link";
 import { FaCheck } from "react-icons/fa";
 import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
+import CustomToast from "@/components/ui/toast";
 
 type AuthFormValues = {
   type?: string;
@@ -67,6 +69,10 @@ export const AuthForm = ({ type }: AuthFormValues) => {
     } else {
       await registerUser(dataForm);
     }
+
+    // toast.custom((t) => <CustomToast t={t} />, {
+    //   position: "top-right",
+    // });
   };
 
   return (

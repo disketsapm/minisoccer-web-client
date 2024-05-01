@@ -42,8 +42,8 @@ const ColorIndicator = ({ status }: { status: string }) => {
 };
 
 type IReservationCalendar = {
-  onChange: (id: string[]) => void;
-  values: string[];
+  onChange: (data: { id: string; startDate: Date; endDate: Date }[]) => void;
+  values: { id: string; startDate: Date; endDate: Date }[];
 };
 
 const ReservationCalendar: React.FC<IReservationCalendar> = ({
@@ -100,32 +100,28 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
     }));
   }, [events]);
 
-  const handleSetEvents = (id: string) => {
+  const handleSetEvents = ({
+    id,
+    startDate,
+    endDate,
+  }: {
+    id: string;
+    startDate: Date;
+    endDate: Date;
+  }) => {
     let selectedItems = values;
 
-    if (!values.includes(id)) {
-      selectedItems = [...values, id];
-    }
+    const isExist = selectedItems.find((item) => item.id === id);
 
-    if (values.includes(id)) {
-      selectedItems = values.filter((item) => item !== id);
+    if (isExist) {
+      selectedItems = selectedItems.filter((item) => item.id !== id);
+    } else {
+      selectedItems.push({ id, startDate, endDate });
     }
 
     onChange(selectedItems);
   };
 
-  const ClearButton = () => {
-    return (
-      <Button
-        variant="accent-2"
-        onClick={() => {
-          onChange([]);
-        }}
-      >
-        Clear
-      </Button>
-    );
-  };
   return (
     <div className="w-full h-full  relative">
       {isLoading && fieldId && <Skeleton className="w-full h-[650px]" />}
@@ -161,13 +157,27 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
                 }}
                 eventContent={(arg) => (
                   <ReservationSessionCard
-                    onClick={() =>
-                      handleSetEvents(arg?.event?.extendedProps?.id)
-                    }
+                    onClick={() => {
+                      const startTime = arg.event.startStr;
+
+                      const isLowerThanCurrentDate =
+                        new Date(startTime) < new Date();
+
+                      if (!isLowerThanCurrentDate)
+                        handleSetEvents({
+                          id: arg.event.extendedProps.id,
+                          startDate: new Date(arg.event.startStr),
+                          endDate: new Date(arg.event.endStr),
+                        });
+                    }}
                     endTime={arg.event.startStr}
                     startTime={arg.event.endStr}
                     sessionName={arg.event.extendedProps.sessionName}
-                    selected={values.includes(arg.event.extendedProps.id)}
+                    selected={Boolean(
+                      values.find(
+                        (item) => item.id === arg.event.extendedProps.id
+                      )
+                    )}
                     status={arg.event.title}
                     price={arg?.event?.extendedProps?.price}
                     isOnCalendar

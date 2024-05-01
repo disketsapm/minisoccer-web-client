@@ -25,9 +25,7 @@ const ReservationDetailCardItem: React.FC<{
 
   const isExpired = currentDiffDays < 0;
   const isToday = currentDiffDays === 0;
-  const isCommingSoon = currentDiffDays <= 2;
-
-  const isCanReschedule = currentDiffDays > 2;
+  const isCanReschedule = currentDiffDays > 1;
 
   const renderLabel = () => {
     if (isExpired) return "Booking Expired";
@@ -36,7 +34,7 @@ const ReservationDetailCardItem: React.FC<{
 
     if (isCanReschedule) return "Jadwal Ulang";
 
-    if (isCommingSoon) return `${currentDiffDays} Hari Lagi`;
+    return `${currentDiffDays} Hari Lagi`;
   };
 
   const QRValueString = JSON.stringify(QRValue);
@@ -72,13 +70,15 @@ const ReservationDetailCardItem: React.FC<{
 
           <Button
             variant="outline"
-            className={cn("text-white border-white w-full", {
-              "bg-black text-white border-black cursor-default  hover:bg-black ":
-                isExpired || isCommingSoon,
-              "hover:bg-black hover:border-black": isToday || isCanReschedule,
-            })}
+            className={cn(
+              "text-white w-full bg-black  cursor-default  hover:bg-black border-black ",
+              {
+                "hover:bg-black hover:border-black border-white bg-transparent cursor-pointer ":
+                  isToday || isCanReschedule,
+              }
+            )}
             onClick={() => {
-              if (isExpired || isCommingSoon) return;
+              if (isExpired) return;
 
               if (isToday) setViewQR(true);
 

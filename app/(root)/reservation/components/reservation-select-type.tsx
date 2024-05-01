@@ -14,12 +14,16 @@ import React from "react";
 
 const DATA_TYPE: { label: string; value: string }[] = [
   {
+    label: "Game",
+    value: "game",
+  },
+  {
     label: "Event",
     value: "event",
   },
   {
-    label: "Game",
-    value: "game",
+    label: "Training",
+    value: "training",
   },
 ];
 

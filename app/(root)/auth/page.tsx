@@ -91,6 +91,8 @@ export default function AuthPage() {
 
     if (type === "email-verified") return "Buat Akun";
 
+    if (type === "waiting-payment") return "Pembayaran";
+
     if (
       type === "forgot-password" ||
       type === "forgot-password-verify" ||
@@ -187,6 +189,17 @@ export default function AuthPage() {
               />
             ) : type === "forgot-password" ? (
               <ForgotPasswordForm />
+            ) : type === "waiting-payment" ? (
+              <SuccessContainer
+                title={
+                  <>
+                    Menunggu <br /> Pembayaran
+                  </>
+                }
+                description={
+                  <>Cek email kamu untuk melihat pembayaran lebih lanjut</>
+                }
+              />
             ) : type === "forgot-password-success" ? (
               <SuccessContainer
                 title={

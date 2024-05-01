@@ -149,6 +149,7 @@ const ReservationAction: React.FC = () => {
                         startTime={item?.timeStart.toString()}
                         endTime={item?.timeEnd.toString()}
                         price={item?.price.toString()}
+                        isOnCalendar={false}
                       />
                     );
                   })}

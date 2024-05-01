@@ -67,7 +67,7 @@ const ReservationDetail = () => {
               opts={{
                 align: "start",
               }}
-              className="w-full overflow-hidden md:block "
+              className="w-full overflow-hidden md:block"
             >
               <CarouselContent className="-ml-4">
                 {data?.data?.schedules?.map((item: any, index: number) => (

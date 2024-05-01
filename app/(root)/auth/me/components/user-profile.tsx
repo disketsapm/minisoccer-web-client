@@ -32,7 +32,7 @@ const UserProfile: React.FC<{ data: any; isLoading: boolean }> = ({
         <Avatar className="w-[120px] h-[120px] font-semibold text-xl">
           <AvatarImage src={data?.photo} />
           <AvatarFallback>
-            {getFirstLetterAndLastName(data?.fullName)}
+            {data?.fullName ? getFirstLetterAndLastName(data?.fullName) : ""}
           </AvatarFallback>
         </Avatar>
       )}
