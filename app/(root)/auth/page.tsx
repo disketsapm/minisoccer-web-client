@@ -17,6 +17,7 @@ import usePutReservationAfterPayment from "./hooks/usePutReservationAfterPayment
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import ModalInfoBooking from "../reservation/components/reservation-modal-info";
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<string>("register");
@@ -34,8 +35,7 @@ export default function AuthPage() {
   const orderId = type === "order-status" ? searchParams.get("order_id") : null;
   const transaction_status = searchParams.get("transaction_status");
 
-  const { mutate, isPending, isError, isSuccess } =
-    usePutReservationAfterPayment();
+  const { mutate, isPending, isError, isSuccess } = usePutReservationAfterPayment();
 
   useEffect(() => {
     if (orderId) {
@@ -109,7 +109,7 @@ export default function AuthPage() {
 
   const SuccessContainer = ({
     title,
-    description,
+    description
   }: {
     title: React.ReactNode;
     description: React.ReactNode;
@@ -135,7 +135,7 @@ export default function AuthPage() {
       style={{
         backgroundImage: `url(/images/auth/bg-auth.png)`,
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "center"
       }}
     >
       <Card className="rounded-2xl z-10  bg-gradient-to-b from-white to-[#999999] md:h-[530px] h-full pb-8  w-full  md:w-auto ">
@@ -168,8 +168,7 @@ export default function AuthPage() {
                 }
                 description={
                   <>
-                    Cek link yang telah dikirimkan di Email <br /> Kamu untuk
-                    memverifikasi akun.
+                    Cek link yang telah dikirimkan di Email <br /> Kamu untuk memverifikasi akun.
                   </>
                 }
               />
@@ -182,8 +181,7 @@ export default function AuthPage() {
                 }
                 description={
                   <>
-                    Email Kamu telah terverifikasi, <br /> silahkan login untuk
-                    melanjutkan.
+                    Email Kamu telah terverifikasi, <br /> silahkan login untuk melanjutkan.
                   </>
                 }
               />
@@ -196,9 +194,7 @@ export default function AuthPage() {
                     Menunggu <br /> Pembayaran
                   </>
                 }
-                description={
-                  <>Cek email kamu untuk melihat pembayaran lebih lanjut</>
-                }
+                description={<>Cek email kamu untuk melihat pembayaran lebih lanjut</>}
               />
             ) : type === "forgot-password-success" ? (
               <SuccessContainer
@@ -221,10 +217,7 @@ export default function AuthPage() {
                   </>
                 }
                 description={
-                  <>
-                    Cek link yang telah dikirimkan di Email Kamu untuk me-reset
-                    password.
-                  </>
+                  <>Cek link yang telah dikirimkan di Email Kamu untuk me-reset password.</>
                 }
               />
             ) : type === "order-status" ? (
@@ -233,9 +226,7 @@ export default function AuthPage() {
                   <Skeleton className="w-[250px] md:w-full  h-[250px]" />
                 )}
 
-                {!isPending && transaction_status && (
-                  <RenderLabelTransactionStatus />
-                )}
+                {!isPending && transaction_status && <RenderLabelTransactionStatus />}
               </div>
             ) : type === "reset-password" ? (
               <ResetPasswordForm token={token} />
@@ -246,11 +237,7 @@ export default function AuthPage() {
                     Verifikasi <br /> Login!
                   </>
                 }
-                description={
-                  <>
-                    Anda akan diarahkan ke halaman utama dalam beberapa detik.
-                  </>
-                }
+                description={<>Anda akan diarahkan ke halaman utama dalam beberapa detik.</>}
               />
             ) : (
               <Tabs
@@ -278,7 +265,7 @@ export default function AuthPage() {
 
                 <div
                   className={cn("w-full h-full  flex-col flex", {
-                    "md:justify-center": activeTab === "login",
+                    "md:justify-center": activeTab === "login"
                   })}
                 >
                   <div className="flex justify-center my-4">
