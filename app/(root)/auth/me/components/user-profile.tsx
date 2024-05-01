@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLogout } from "@/hooks/auth/useLogout";
-import { getTokenFromLocalStorage } from "@/lib/utils";
+import {
+  getFirstLetterAndLastName,
+  getTokenFromLocalStorage,
+} from "@/lib/utils";
 import { AuthService } from "@/services/auth.service";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { useQuery } from "@tanstack/react-query";
@@ -18,11 +21,6 @@ const UserProfile: React.FC<{ data: any; isLoading: boolean }> = ({
   isLoading,
 }) => {
   const { mutateAsync, isPending } = useLogout();
-
-  const getFirstLetterAndLastName = (fullName: string) => {
-    const name = fullName?.split(" ");
-    return `${name?.[0]?.charAt(0)}${name?.[name?.length - 1].charAt(0)}`;
-  };
 
   return (
     <Card className="p-4 md:w-[250px] w-full bg-gradient-to-t from-[#FFFFFF] to-[#999999]  rounded-xl h-[fit-content] flex flex-col gap-2 items-center">

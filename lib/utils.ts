@@ -19,11 +19,42 @@ interface Schedule {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
 export async function getTokenFromLocalStorage() {
   if (typeof localStorage !== "undefined") {
     return await localStorage.getItem("token");
   } else {
     return null; // or handle the case where localStorage is not available
+  }
+}
+
+export function getUserFromLocalStorage() {
+  if (typeof localStorage !== "undefined") {
+    return localStorage.getItem("user");
+  } else {
+    return null;
+  }
+}
+
+export const getFirstLetterAndLastName = (fullName: string) => {
+  const name = fullName?.split(" ");
+  return `${name?.[0]?.charAt(0)}${name?.[name?.length - 1].charAt(0)}`;
+};
+
+export function getItemFromLocalStorage<T>(key: string): T | null {
+  const itemString = localStorage.getItem(key);
+  if (itemString) {
+    try {
+      return JSON.parse(itemString) as T;
+    } catch (error) {
+      console.error(
+        `Error parsing item from localStorage with key '${key}':`,
+        error
+      );
+      return null;
+    }
+  } else {
+    return null;
   }
 }
 

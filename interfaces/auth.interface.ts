@@ -1,10 +1,22 @@
 export interface SignInResponse {
   token: string;
-  accountId: number;
-  fullName: string;
-  email: string;
-  active: number;
+  user: UserType;
 }
+
+export interface UserType {
+  _id: string;
+  email: string;
+  fullName: string;
+  phoneNumber: string;
+  roles: string;
+  updatedAt: Date;
+  isActivated: Boolean;
+  createdAt: string;
+  photo: string;
+
+  __v: 0;
+}
+
 export interface SignUpResponse {
   message: string;
 }
@@ -22,7 +34,7 @@ export interface RegisterRequestBody {
 }
 
 export enum AuthTypeForm {
-  LOGIN = 'login',
-  SSO = 'sso',
-  FORGOT_PASSWORD = 'forgot_password',
+  LOGIN = "login",
+  SSO = "sso",
+  FORGOT_PASSWORD = "forgot_password",
 }

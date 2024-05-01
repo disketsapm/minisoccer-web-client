@@ -83,7 +83,14 @@ const ReservationAction: React.FC = () => {
   });
 
   const onSubmit = async (data: IFormFieldSchema) => {
-    reservationMutations(data);
+    const getScheduleIds = data?.schedule_id?.map((item) => item?.id);
+
+    const newValues = {
+      ...data,
+      schedule_id: getScheduleIds,
+    };
+
+    reservationMutations(newValues);
   };
 
   return (
