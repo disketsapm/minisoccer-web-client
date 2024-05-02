@@ -21,11 +21,20 @@ import { Button } from "@/components/ui/button";
 import ReservationSelectType from "./reservation-select-type";
 import ReservationCalendar from "./reservation-calendar";
 import ReservationAction from "./reservation-action";
-import { IFormFieldSchema } from "../type/reservation.type";
+import { IFormFieldSchema, ISchedule } from "../type/reservation.type";
 
 import ReservationGalery from "./reservation-galery";
+import { IOrderHistory } from "../../auth/me/type/history.type";
 
-const ReservationForm = () => {
+type IReservationForm = {
+  type?: "default" | "detail";
+  data?: IOrderHistory;
+};
+
+const ReservationForm: React.FC<IReservationForm> = ({
+  type = "default",
+  data,
+}) => {
   const { control, getValues } = useFormContext<IFormFieldSchema>();
 
   const fieldId = getValues("field_id");
@@ -45,6 +54,7 @@ const ReservationForm = () => {
                     <ReservationSelectField
                       onValueChange={field.onChange}
                       defaultValue={field.value}
+                      disabled={type === "detail"}
                     />
                   </FormControl>
                   <FormMessage />
@@ -66,6 +76,7 @@ const ReservationForm = () => {
                     <ReservationSelectType
                       onValueChange={field.onChange}
                       defaultValue={field.value}
+                      disabled={type === "detail"}
                     />
                   </FormControl>
                   <FormMessage />
@@ -92,6 +103,8 @@ const ReservationForm = () => {
                 <ReservationCalendar
                   onChange={field.onChange}
                   values={field.value}
+                  detailData={data}
+                  isDetail={type === "detail"}
                 />
               </FormControl>
               <FormMessage />
@@ -100,7 +113,7 @@ const ReservationForm = () => {
         }}
       />
 
-      <ReservationAction />
+      <ReservationAction isDetail={type === "detail"} />
     </div>
   );
 };

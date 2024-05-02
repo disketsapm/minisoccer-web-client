@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cn, formatDateToIndonesian, getDiffDays } from "@/lib/utils";
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const ReservationDetailCardItem: React.FC<{
   item: IScheduleHistory;
@@ -18,6 +18,10 @@ const ReservationDetailCardItem: React.FC<{
   };
 
   const router = useRouter();
+
+  const params = useParams();
+
+  const { reservationId } = params;
 
   const [viewQR, setViewQR] = useState<boolean>(false);
 
@@ -82,8 +86,7 @@ const ReservationDetailCardItem: React.FC<{
 
               if (isToday) setViewQR(true);
 
-              if (isCanReschedule)
-                router.push(`/reservation/${item?.schedule_id}`);
+              if (isCanReschedule) router.push(`/reservation/${reservationId}`);
             }}
           >
             {renderLabel()}

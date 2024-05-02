@@ -6,10 +6,12 @@ import { AuthService } from "@/services/auth.service";
 import { useMutation } from "@tanstack/react-query";
 import { redirect, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import useCustomToast from "../core/useCustomToast";
 
 export function useLogout() {
   const authService = new AuthService();
   const router = useRouter();
+  const { openToast } = useCustomToast();
 
   const fetcher = async () => {
     const token = await getTokenFromLocalStorage();
@@ -24,15 +26,22 @@ export function useLogout() {
   return useMutation({
     mutationFn: async () => fetcher(),
     onSuccess: () => {
-      toast.success("Logout success ");
+      openToast({
+        message: "Logout berhasil",
+        variant: "success",
+      });
+
       router.push("/auth");
       deleteTokenFromLocalStorage();
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 500);
     },
     onError: (error: any) => {
-      toast.error(error.message);
+      openToast({
+        message: error.response.data.message,
+        variant: "error",
+      });
     },
   });
 }

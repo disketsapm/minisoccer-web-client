@@ -26,6 +26,8 @@ const ReservationSessionCard: React.FC<IReservationSessionCard> = ({
   const isLowerThanCurrentDate =
     new Date(startTime) < new Date() && isOnCalendar;
 
+  // TASK DEPRAS
+
   return (
     <div
       onClick={onClick}
@@ -39,7 +41,10 @@ const ReservationSessionCard: React.FC<IReservationSessionCard> = ({
           "w-full h-full justify-center items-center hover:bg-gray-100 cursor-pointer rounded ":
             isOnCalendar,
         },
-        { "w-fit h-fit px-2 py-1 rounded-lg bg-black": !isOnCalendar }
+        {
+          "w-fit h-fit px-6 py-1 rounded-lg bg-gradient-to-b from-[#45825A] to-[#364D48]":
+            !isOnCalendar,
+        }
       )}
     >
       {isLowerThanCurrentDate ? (
