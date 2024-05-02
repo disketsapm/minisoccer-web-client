@@ -61,7 +61,7 @@ export default function Header() {
     <header
       className={` w-full sticky top-0 z-50 bg-gradient-to-r from-white to-[#999999] py-5 ${shadowClass} `}
     >
-      <div className="flex justify-between items-center container px-2 md:px-[5rem]">
+      <div className="flex justify-between items-center md:container px-4 md:px-[5rem] ">
         <Link href="/">
           <Image src="/images/logo.png" alt="Logo" width={100} height={100} />
         </Link>

@@ -52,6 +52,10 @@ interface IAdditionalType {
 
 export type IFormFieldSchema = z.infer<typeof FormFieldSchema>;
 
+export type IScheduleArraySchema = z.infer<
+  typeof FormFieldSchema
+>["schedule_id"];
+
 export type SnapResponse = {
   snap_token: string;
   snap_redirect_url: string;

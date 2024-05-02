@@ -27,6 +27,7 @@ const usePostReservation = ({ onError }: IPostReservationResponse) => {
     },
 
     onError: (error) => {
+      console.log(error);
       onError && onError(error);
     },
   });

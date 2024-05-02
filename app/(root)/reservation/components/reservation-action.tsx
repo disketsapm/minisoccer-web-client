@@ -78,7 +78,10 @@ const ReservationAction: React.FC = () => {
   } = usePostReservation({
     onError: (error) => {
       setIsOpen(false);
-      setSubmitErrorMsg(error?.message);
+
+      if (error?.message !== "Request failed with status code 401") {
+        setSubmitErrorMsg(error?.message);
+      }
     },
   });
 

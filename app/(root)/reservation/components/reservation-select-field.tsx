@@ -15,12 +15,13 @@ import { useFormContext } from "react-hook-form";
 
 const ReservationSelectField: React.FC<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>
-> = ({ onValueChange, defaultValue }) => {
+> = ({ onValueChange, defaultValue, disabled }) => {
   const fieldService = new FieldService();
 
   const { data, isLoading, isFetched, fetchStatus } = useQuery({
     queryKey: ["list-field"],
     queryFn: () => fieldService.getListField(),
+    refetchInterval: false,
   });
 
   const firstRenderSelectedField =
@@ -38,6 +39,7 @@ const ReservationSelectField: React.FC<
         onValueChange={onValueChange}
         value={defaultValue}
         defaultValue={firstRenderSelectedField}
+        disabled={disabled}
       >
         <SelectTrigger isLoading={isLoading}>
           <SelectValue placeholder="Pilih Lapangan" />

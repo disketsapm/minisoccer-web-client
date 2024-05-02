@@ -24,8 +24,13 @@ import ReservationAction from "./reservation-action";
 import { IFormFieldSchema } from "../type/reservation.type";
 
 import ReservationGalery from "./reservation-galery";
+import { IOrderHistory } from "../../auth/me/type/history.type";
 
-const ReservationForm = () => {
+type IReservationForm = {
+  type?: "default" | "detail";
+};
+
+const ReservationForm: React.FC<IReservationForm> = ({ type = "default" }) => {
   const { control, getValues } = useFormContext<IFormFieldSchema>();
 
   const fieldId = getValues("field_id");
@@ -45,6 +50,7 @@ const ReservationForm = () => {
                     <ReservationSelectField
                       onValueChange={field.onChange}
                       defaultValue={field.value}
+                      disabled={type === "detail"}
                     />
                   </FormControl>
                   <FormMessage />
@@ -66,6 +72,7 @@ const ReservationForm = () => {
                     <ReservationSelectType
                       onValueChange={field.onChange}
                       defaultValue={field.value}
+                      disabled={type === "detail"}
                     />
                   </FormControl>
                   <FormMessage />

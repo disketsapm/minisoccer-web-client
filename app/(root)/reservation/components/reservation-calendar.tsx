@@ -129,7 +129,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
       {!isLoading && fieldId && (
         <div className="md:w-full  h-full p-4 bg-[#DEDEDE] rounded-xl  relative">
           <div className="w-full h-full overflow-x-scroll md:overflow-auto">
-            <div className="md:w-full h-full w-[800px]">
+            <div className="md:w-full h-full w-[1250px]">
               <FullCalendar
                 ref={calendarRef}
                 plugins={[dayGridPlugin]}
