@@ -3,11 +3,7 @@ import { useFormContext } from "react-hook-form";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 
-import {
-  cn,
-  formatCurrencyToIDR,
-  getTotalPriceInListOfPrice,
-} from "@/lib/utils";
+import { cn, formatCurrencyToIDR, getTotalPriceInListOfPrice } from "@/lib/utils";
 import { AlertCircle, HelpCircle, ExternalLink } from "lucide-react";
 import useGetListOfScheduleById from "../hooks/useGetListOfScheduleById";
 import useGetFieldById from "../hooks/useGetFieldById";
@@ -17,10 +13,12 @@ import usePostReservation from "../hooks/usePostReservation";
 import ErrorDialog from "@/components/ui/error-dialog";
 import ConfirmationDialog from "@/components/ui/confirmation-dialog";
 import { AnimatePresence, motion } from "framer-motion";
+import { Checkbox } from "@/components/ui/checkbox";
+import ModalInfoBooking from "./reservation-modal-term";
 
 const bookAnimation = {
   open: { opacity: 1, y: 0 },
-  closed: { opacity: 0, y: 100 },
+  closed: { opacity: 0, y: 100 }
 };
 
 const LabelValues: React.FC<{
@@ -31,9 +29,7 @@ const LabelValues: React.FC<{
 }> = ({ label, value, isLoading, loadingClassname }) => {
   return (
     <div className="flex gap-2 w-full h-full">
-      <div className="text-sm text-gray-500 w-[150px] flex-grow-0 flex-shrink-0">
-        {label}
-      </div>
+      <div className="text-sm text-gray-500 w-[150px] flex-grow-0 flex-shrink-0">{label}</div>
       <div>:</div>
       {isLoading ? (
         <Skeleton className={`w-36 h-5 ${loadingClassname}`} />
@@ -46,52 +42,47 @@ const LabelValues: React.FC<{
 
 const ReservationAction: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const [isOpenModalTerm, setIsOpenModalTerm] = React.useState<boolean>(false);
 
   const [submitErrorMsg, setSubmitErrorMsg] = React.useState<string>("");
 
-  const { getValues, handleSubmit, trigger, formState } =
-    useFormContext<IFormFieldSchema>();
+  const [checked, setChecked] = React.useState();
+
+  const { getValues, handleSubmit, trigger, formState } = useFormContext<IFormFieldSchema>();
 
   const formValues = getValues();
 
   const isValid: boolean = formState?.isValid;
 
-  const { data: fieldDetail, isLoading: isFieldDetailLoading } =
-    useGetFieldById({
-      key: [
-        "reservation-confirmation",
-        formValues?.field_id,
-        isOpen,
-        formState?.isValid,
-      ],
-      enabled: !!formValues?.field_id && isOpen && formState?.isValid,
-    });
-
-  const { data: scheduleData, isLoading: isListScheduleLoading } =
-    useGetListOfScheduleById({
-      isOpen,
-    });
-
-  const {
-    mutateAsync: reservationMutations,
-    isPending: isPendingReservationMutations,
-  } = usePostReservation({
-    onError: (error) => {
-      setIsOpen(false);
-      setSubmitErrorMsg(error?.message);
-    },
+  const { data: fieldDetail, isLoading: isFieldDetailLoading } = useGetFieldById({
+    key: ["reservation-confirmation", formValues?.field_id, isOpen, formState?.isValid],
+    enabled: !!formValues?.field_id && isOpen && formState?.isValid
   });
+
+  const { data: scheduleData, isLoading: isListScheduleLoading } = useGetListOfScheduleById({
+    isOpen
+  });
+
+  const { mutateAsync: reservationMutations, isPending: isPendingReservationMutations } =
+    usePostReservation({
+      onError: (error) => {
+        setIsOpen(false);
+        setSubmitErrorMsg(error?.message);
+      }
+    });
 
   const onSubmit = async (data: IFormFieldSchema) => {
     const getScheduleIds = data?.schedule_id?.map((item) => item?.id);
 
     const newValues = {
       ...data,
-      schedule_id: getScheduleIds,
+      schedule_id: getScheduleIds
     };
 
     reservationMutations(newValues);
   };
+
+  console.log(checked);
 
   return (
     <div className="w-full h-full relative">
@@ -125,6 +116,7 @@ const ReservationAction: React.FC = () => {
       />
 
       <ConfirmationDialog
+        isDisable={!checked}
         isOpen={isOpen && isValid}
         onSubmit={handleSubmit(onSubmit)}
         isLoading={isPendingReservationMutations}
@@ -187,8 +179,37 @@ const ReservationAction: React.FC = () => {
               }
               isLoading={isFieldDetailLoading}
             />
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                checked={checked}
+                onCheckedChange={(val: any) => setChecked(val)}
+                id="terms"
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Dengan ini Saya menyetujui
+                <span
+                  className="text-blue-600 cursor-pointer"
+                  onClick={() => {
+                    setIsOpenModalTerm(true);
+                  }}
+                >
+                  {" "}
+                  Syarat dan Ketentuan{" "}
+                </span>{" "}
+                yang berlaku.
+              </label>
+            </div>
           </div>
         }
+      />
+      <ModalInfoBooking
+        isOpen={isOpenModalTerm}
+        onClose={() => {
+          setIsOpenModalTerm(false);
+        }}
       />
 
       <ErrorDialog
@@ -199,9 +220,7 @@ const ReservationAction: React.FC = () => {
             {formState?.errors?.field_id ? (
               <div>* {formState?.errors?.field_id?.message}</div>
             ) : null}
-            {formState?.errors?.type ? (
-              <div>* {formState?.errors?.type?.message}</div>
-            ) : null}
+            {formState?.errors?.type ? <div>* {formState?.errors?.type?.message}</div> : null}
 
             {formState?.errors?.schedule_id ? (
               <div>* {formState?.errors?.schedule_id?.message}</div>

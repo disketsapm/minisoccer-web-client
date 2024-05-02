@@ -29,7 +29,7 @@ export default function ModalInfoBooking({
       open={isOpen}
       onOpenChange={onClose}
     >
-      <AlertDialogContent className="p-0 border-none rounded-md overflow-hidden ">
+      <AlertDialogContent className="p-0 border-none rounded-md overflow-hidden radial-gradient-3 ">
         <div className="w-full h-[400px] relative">
           <Image
             src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -39,8 +39,8 @@ export default function ModalInfoBooking({
           />
         </div>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-center">{title}</AlertDialogTitle>
-          <AlertDialogDescription className="text-justify w-full p-5">
+          <AlertDialogTitle className="text-center text-2xl font-black">{title}</AlertDialogTitle>
+          <AlertDialogDescription className="text-justify w-full p-5 text-black">
             {description}
           </AlertDialogDescription>
         </AlertDialogHeader>
