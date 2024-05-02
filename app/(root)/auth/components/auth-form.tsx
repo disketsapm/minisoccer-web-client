@@ -69,10 +69,6 @@ export const AuthForm = ({ type }: AuthFormValues) => {
     } else {
       await registerUser(dataForm);
     }
-
-    // toast.custom((t) => <CustomToast t={t} />, {
-    //   position: "top-right",
-    // });
   };
 
   return (

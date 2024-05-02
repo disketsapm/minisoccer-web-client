@@ -41,7 +41,7 @@ const ConfirmationDialog: React.FC<IConfirmationDialog> = ({
           </DialogTitle>
         </DialogHeader>
         <div className="w-full h-full rounded-sm border border-gray-100">{content}</div>
-        <DialogFooter>
+        <DialogFooter className="gap-2">
           <Button
             variant="outline"
             onClick={() => onChange(false)}

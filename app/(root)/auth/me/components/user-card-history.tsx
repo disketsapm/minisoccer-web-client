@@ -146,7 +146,7 @@ const UserCardHistory: React.FC<{
 
         <div
           className={cn("w-full ", {
-            "grid grid-cols-2 gap-4": variant === "default",
+            "grid md:grid-cols-2 grid-cols-1  gap-4": variant === "default",
             "grid-cols-2 gap-10 grid  ": variant === "detail",
           })}
         >

@@ -36,8 +36,6 @@ export class RequestAdapter {
         config.headers.Authorization = `Bearer ${token}`;
       } else {
         // window.location.href = "/auth";
-
-        console.log("no token");
       }
 
       return config;
@@ -50,6 +48,8 @@ export class RequestAdapter {
     {
       if (response.status === 401 || response.status === 403) {
         window.location.href = "/auth";
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
       }
       return response;
     }
@@ -57,7 +57,9 @@ export class RequestAdapter {
 
   private handleError(error: AxiosError): void {
     if (error.response?.status === 401 || error.response?.status === 403) {
-      window.location.href = "/auth";
+      window.location.href = "/auth?error=Silahkan Login Terlebih Dahulu !";
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     }
 
     if (error.response?.status === 400) {

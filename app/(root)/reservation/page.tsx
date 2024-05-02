@@ -16,8 +16,8 @@ const FieldView = () => {
     mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
-      schedule_id: []
-    }
+      schedule_id: [],
+    },
   });
 
   useEffect(() => {
@@ -34,10 +34,10 @@ const FieldView = () => {
         title="Harga Sudah Termasuk Fotografer"
         description="Harga yang tercantum pada lapangan ini, sudah termasuk dengan harga jasa fotografer. Informasi lebih lanjut bisa hubungi pihak lapangan."
       />
-      <div className="w-full h-full flex flex-col gap-3 container relative">
+      <div className="w-full h-full flex flex-col gap-3 md:container  relative">
         <div className="w-full h-full flex justify-center items-center py-8 flex-col">
           <div className="bg-gradient-to-b from-[#FFFFFF] to-[#FFFFFF00] flex flex-col gap-3 w-[450px] px-6 py-4 items-center rounded-xl">
-            <p className="font-bold text-3xl  md:text-[50px]">Booking Lapang</p>
+            <p className="font-bold text-4xl  md:text-[50px]">Booking Lapang</p>
             <p className="md:text-xs text-[10px] ">
               (Data ketersediaan lapang yang ditampilkan adalah data
               <b>real-time</b>)
@@ -46,7 +46,7 @@ const FieldView = () => {
         </div>
 
         <FormProvider {...methods}>
-          <div className="w-full flex gap-2 h-full p-4 flex-col ">
+          <div className="w-full flex gap-2 h-full md:p-4 p-0 flex-col ">
             <ReservationForm />
           </div>
         </FormProvider>

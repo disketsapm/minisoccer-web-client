@@ -40,7 +40,7 @@ const LabelValues: React.FC<{
   );
 };
 
-const ReservationAction: React.FC = () => {
+const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isOpenModalTerm, setIsOpenModalTerm] = React.useState<boolean>(false);
 
@@ -67,11 +67,18 @@ const ReservationAction: React.FC = () => {
     usePostReservation({
       onError: (error) => {
         setIsOpen(false);
-        setSubmitErrorMsg(error?.message);
+
+        if (error?.message !== "Request failed with status code 401") {
+          setSubmitErrorMsg(error?.message);
+        }
       }
     });
 
   const onSubmit = async (data: IFormFieldSchema) => {
+    // TASK DEPRAS : kasih conditional isDetail untuk handle reschedule methods
+    // isDetail = true => reschedule
+    // isDetail = false => booking
+
     const getScheduleIds = data?.schedule_id?.map((item) => item?.id);
 
     const newValues = {
