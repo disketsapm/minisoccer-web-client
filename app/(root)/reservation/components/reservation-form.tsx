@@ -113,7 +113,7 @@ const ReservationForm: React.FC<IReservationForm> = ({
         }}
       />
 
-      <ReservationAction />
+      <ReservationAction isDetail={type === "detail"} />
     </div>
   );
 };

@@ -26,6 +26,8 @@ const ReservationSessionCard: React.FC<IReservationSessionCard> = ({
   const isLowerThanCurrentDate =
     new Date(startTime) < new Date() && isOnCalendar;
 
+  // TASK DEPRAS
+
   return (
     <div
       onClick={onClick}
