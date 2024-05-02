@@ -14,21 +14,30 @@ import React from "react";
 
 const DATA_TYPE: { label: string; value: string }[] = [
   {
+    label: "Game",
+    value: "game",
+  },
+  {
     label: "Event",
     value: "event",
   },
   {
-    label: "Game",
-    value: "game",
+    label: "Training",
+    value: "training",
   },
 ];
 
 const ReservationSelectType: React.FC<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>
-> = ({ onValueChange, defaultValue }) => {
+> = ({ onValueChange, defaultValue, disabled }) => {
   return (
     <>
-      <Select onValueChange={onValueChange} defaultValue={defaultValue}>
+      <Select
+        onValueChange={onValueChange}
+        defaultValue={defaultValue}
+        value={defaultValue}
+        disabled={disabled}
+      >
         <SelectTrigger>
           <SelectValue placeholder="Pilih Tipe Booking" />
         </SelectTrigger>

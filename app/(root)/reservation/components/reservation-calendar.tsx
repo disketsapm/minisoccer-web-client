@@ -12,6 +12,10 @@ import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import ReservationSessionCard from "./reservation-session-card";
 import { Button } from "@/components/ui/button";
+import {
+  IOrderHistory,
+  IScheduleHistory,
+} from "../../auth/me/type/history.type";
 
 const ColorIndicator = ({ status }: { status: string }) => {
   switch (status) {
@@ -42,13 +46,17 @@ const ColorIndicator = ({ status }: { status: string }) => {
 };
 
 type IReservationCalendar = {
-  onChange: (id: string[]) => void;
-  values: string[];
+  onChange: (data: { id: string; startDate: Date; endDate: Date }[]) => void;
+  values: { id: string; startDate: Date; endDate: Date }[];
+  isDetail?: boolean;
+  detailData?: IOrderHistory;
 };
 
 const ReservationCalendar: React.FC<IReservationCalendar> = ({
   onChange,
   values,
+  isDetail,
+  detailData,
 }) => {
   const fieldService = new FieldService();
 
@@ -57,11 +65,12 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
   const fieldId = getValues("field_id");
 
   const { data, isLoading } = useQuery({
-    queryKey: ["calendar-field"],
+    queryKey: ["calendar-field", fieldId],
     queryFn: () =>
       fieldService.getSchedule({
         params: {
           search: fieldId,
+          priceBelow: isDetail ? detailData?.total : undefined,
         },
       }),
     enabled: !!fieldId,
@@ -100,32 +109,28 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
     }));
   }, [events]);
 
-  const handleSetEvents = (id: string) => {
+  const handleSetEvents = ({
+    id,
+    startDate,
+    endDate,
+  }: {
+    id: string;
+    startDate: Date;
+    endDate: Date;
+  }) => {
     let selectedItems = values;
 
-    if (!values.includes(id)) {
-      selectedItems = [...values, id];
-    }
+    const isExist = selectedItems.find((item) => item.id === id);
 
-    if (values.includes(id)) {
-      selectedItems = values.filter((item) => item !== id);
+    if (isExist) {
+      selectedItems = selectedItems.filter((item) => item.id !== id);
+    } else {
+      selectedItems.push({ id, startDate, endDate });
     }
 
     onChange(selectedItems);
   };
 
-  const ClearButton = () => {
-    return (
-      <Button
-        variant="accent-2"
-        onClick={() => {
-          onChange([]);
-        }}
-      >
-        Clear
-      </Button>
-    );
-  };
   return (
     <div className="w-full h-full  relative">
       {isLoading && fieldId && <Skeleton className="w-full h-[650px]" />}
@@ -133,7 +138,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
       {!isLoading && fieldId && (
         <div className="md:w-full  h-full p-4 bg-[#DEDEDE] rounded-xl  relative">
           <div className="w-full h-full overflow-x-scroll md:overflow-auto">
-            <div className="md:w-full h-full w-[800px]">
+            <div className="md:w-full h-full w-[1250px]">
               <FullCalendar
                 ref={calendarRef}
                 plugins={[dayGridPlugin]}
@@ -161,13 +166,27 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
                 }}
                 eventContent={(arg) => (
                   <ReservationSessionCard
-                    onClick={() =>
-                      handleSetEvents(arg?.event?.extendedProps?.id)
-                    }
+                    onClick={() => {
+                      const startTime = arg.event.startStr;
+
+                      const isLowerThanCurrentDate =
+                        new Date(startTime) < new Date();
+
+                      if (!isLowerThanCurrentDate)
+                        handleSetEvents({
+                          id: arg.event.extendedProps.id,
+                          startDate: new Date(arg.event.startStr),
+                          endDate: new Date(arg.event.endStr),
+                        });
+                    }}
                     endTime={arg.event.startStr}
                     startTime={arg.event.endStr}
                     sessionName={arg.event.extendedProps.sessionName}
-                    selected={values.includes(arg.event.extendedProps.id)}
+                    selected={Boolean(
+                      values.find(
+                        (item) => item.id === arg.event.extendedProps.id
+                      )
+                    )}
                     status={arg.event.title}
                     price={arg?.event?.extendedProps?.price}
                     isOnCalendar

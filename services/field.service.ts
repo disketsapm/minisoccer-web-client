@@ -47,6 +47,7 @@ export class FieldService extends RequestAdapter {
     params?: {
       search: string | undefined;
       _id?: string | undefined;
+      priceBelow?: number | undefined;
     };
   }) {
     try {

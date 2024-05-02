@@ -22,7 +22,7 @@ export default function Gallery() {
     },
   ];
   return (
-    <section className="radial-gradient md:h-[650px] h-full w-full  flex items-center flex-col justify-center md:p-0 p-6 gap-4">
+    <section className="radial-gradient  h-full w-full  py-20   flex items-center flex-col justify-center  gap-4">
       <HeaderGallery />
 
       <Carousel
@@ -32,19 +32,18 @@ export default function Gallery() {
           }),
         ]}
         opts={{
-          align: "center",
+          align: "start",
           loop: true,
         }}
         className="w-full overflow-hidden hidden md:block"
       >
         <CarouselContent className="mt-10 -ml-1">
           {listImage.map((item, index) => (
-            <CarouselItem
-              key={index}
-              className="px-5 md:basis-1/2 lg:basis-1/3"
-            >
-              <Card className="overflow-hidden w-full h-[250px] relative   p-4 bg-white/20  rounded-xl">
-                <Image src={item.image} alt="Hero" fill />
+            <CarouselItem key={index} className="px-5 basis-1/1">
+              <Card className="overflow-hidden  radial-gradient-3    p-4   rounded-xl">
+                <div className="w-[1475.11px] h-[830px] relative">
+                  <Image src={item.image} alt="Hero" fill />
+                </div>
               </Card>
             </CarouselItem>
           ))}

@@ -19,6 +19,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import UserCardHistory from "../components/user-card-history";
+import ReservationDetailCardItem from "./components/reservation-detail-card-item";
 
 const ReservationDetail = () => {
   const params = useParams();
@@ -32,50 +33,6 @@ const ReservationDetail = () => {
   const router = useRouter();
 
   const SKELETON_COUNT = 5;
-
-  const ReservationDetailCardItem: React.FC<{ item: IScheduleHistory }> = ({
-    item,
-  }) => {
-    const QRValue = {
-      order_id: data?.data?.referenceNumber,
-      schedule_id: item?.schedule_id,
-    };
-
-    const QRValueString = JSON.stringify(QRValue);
-
-    return (
-      <Card className="w-[300px] h-full rounded-xl">
-        <div className="w-full h-full flex  px-8 py-4 flex-col rounded-xl radial-gradient-4">
-          <div className="w-full h-full flex  flex-col gap-5   items-center justify-center">
-            <div className="w-full h-full p-4 rounded-2xl shadow-lg  bg-white">
-              <QRCode
-                value={QRValueString}
-                className="w-full h-full"
-                level="Q"
-              />
-            </div>
-
-            <div className="w-full flex justify-center items-center  gap-2 flex-col text-white">
-              <p className=" font-semibold text-xl">
-                {formatDateToIndonesian(item?.start_time)}
-              </p>
-              <p className="text-sm font-light">
-                {formattedTime(item?.start_time)} -{" "}
-                {formattedTime(item?.end_time)} ({item?.name})
-              </p>
-            </div>
-
-            <Button
-              variant="outline"
-              className="text-white border-white w-full hover:bg-black hover:border-black"
-            >
-              Tampilkan QR Code
-            </Button>
-          </div>
-        </div>
-      </Card>
-    );
-  };
 
   return (
     <div className="w-full h-full radial-gradient-3 px-4">
@@ -110,12 +67,16 @@ const ReservationDetail = () => {
               opts={{
                 align: "start",
               }}
-              className="w-full overflow-hidden md:block "
+              className="w-full overflow-hidden md:block"
             >
               <CarouselContent className="-ml-4">
-                {data?.data?.schedules?.map((item, index) => (
-                  <CarouselItem key={index} className="md:basis-1/4 basis-1/1">
-                    <ReservationDetailCardItem key={item?._id} item={item} />
+                {data?.data?.schedules?.map((item: any, index: number) => (
+                  <CarouselItem key={index} className="basis-1/1">
+                    <ReservationDetailCardItem
+                      key={item?._id}
+                      item={item}
+                      data={data?.data}
+                    />
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -137,6 +98,7 @@ const ReservationDetail = () => {
               <Skeleton className="w-full h-[250px]" />
             ) : (
               <iframe
+                // TASK DEPRAS : GANTI DENGAN DATA YANG ASLI
                 className="w-full h-full"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.938525379262!2d106.76214517453191!3d-6.271814661395947!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f0526938c0bf%3A0x945ab245061f8415!2sJl.%20RC.%20Veteran%20Raya%20No.1%2C%20RT.9%2FRW.3%2C%20Bintaro%2C%20Kec.%20Pesanggrahan%2C%20Kota%20Jakarta%20Selatan%2C%20Daerah%20Khusus%20Ibukota%20Jakarta%2012330!5e0!3m2!1sid!2sid!4v1707502591058!5m2!1sid!2sid"
                 width="1030"

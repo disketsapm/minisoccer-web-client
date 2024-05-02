@@ -21,7 +21,7 @@ export class AuthService extends RequestAdapter {
 
       if (data?.data?.token) {
         localStorage.setItem("token", data?.data?.token);
-        localStorage.setItem("user", JSON.stringify(body));
+        localStorage.setItem("user", JSON.stringify(data?.data?.user));
       }
 
       return data?.data?.token || "";

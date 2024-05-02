@@ -19,11 +19,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { usePathname } from "next/navigation";
 import { useLogout } from "@/hooks/auth/useLogout";
 import Loading from "@/app/loading";
+import {
+  getFirstLetterAndLastName,
+  getItemFromLocalStorage,
+  getUserFromLocalStorage,
+} from "@/lib/utils";
+import { SignInResponse, UserType } from "@/interfaces/auth.interface";
 export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [dataUser, setDataUser] = useState({} as any);
-  const { mutateAsync: logout } = useLogout();
 
   const handleScroll = () => {
     const offset = window.scrollY;
@@ -41,18 +45,7 @@ export default function Header() {
     };
   }, []);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const user = JSON.parse(localStorage.getItem("user") as string);
-        if (user) {
-          setDataUser(user);
-        }
-      } catch (error) {
-        console.error("Failed to parse user data from localStorage:", error);
-      }
-    }
-  }, [pathname]);
+  const dataUser = getItemFromLocalStorage<UserType>("user");
 
   let shadowClass = "";
   if (scrolled) {
@@ -68,7 +61,7 @@ export default function Header() {
     <header
       className={` w-full sticky top-0 z-50 bg-gradient-to-r from-white to-[#999999] py-5 ${shadowClass} `}
     >
-      <div className="flex justify-between items-center container px-2 md:px-[5rem]">
+      <div className="flex justify-between items-center md:container px-4 md:px-[5rem] ">
         <Link href="/">
           <Image src="/images/logo.png" alt="Logo" width={100} height={100} />
         </Link>
@@ -85,16 +78,20 @@ export default function Header() {
             </ul>
           </nav>
 
-          {dataUser.email ? (
+          {dataUser?.email ? (
             <Link href="/auth/me">
               <Avatar>
                 <AvatarImage
                   src={
-                    dataUser.photo ??
+                    dataUser?.photo ??
                     `https://drive.google.com/file/d/1em-PVgw9RWYunZvZHdNrBUnRLu6Hl3lY/view?usp=sharing`
                   }
                 />
-                <AvatarFallback>{dataUser.name}</AvatarFallback>
+                <AvatarFallback className="font-semibold">
+                  {dataUser?.fullName
+                    ? getFirstLetterAndLastName(dataUser?.fullName)
+                    : ""}
+                </AvatarFallback>
               </Avatar>
             </Link>
           ) : (

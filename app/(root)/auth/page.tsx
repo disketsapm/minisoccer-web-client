@@ -17,6 +17,8 @@ import usePutReservationAfterPayment from "./hooks/usePutReservationAfterPayment
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import ModalInfoBooking from "../reservation/components/reservation-modal-info";
+import useCustomToast from "@/hooks/core/useCustomToast";
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<string>("register");
@@ -33,6 +35,8 @@ export default function AuthPage() {
   const token = searchParams.get("token");
   const orderId = type === "order-status" ? searchParams.get("order_id") : null;
   const transaction_status = searchParams.get("transaction_status");
+
+  const error = searchParams.get("error");
 
   const { mutate, isPending, isError, isSuccess } =
     usePutReservationAfterPayment();
@@ -91,6 +95,8 @@ export default function AuthPage() {
 
     if (type === "email-verified") return "Buat Akun";
 
+    if (type === "waiting-payment") return "Pembayaran";
+
     if (
       type === "forgot-password" ||
       type === "forgot-password-verify" ||
@@ -98,6 +104,17 @@ export default function AuthPage() {
     )
       return "Lupa Password";
   };
+
+  const { openToast } = useCustomToast();
+
+  useEffect(() => {
+    if (error) {
+      openToast({
+        message: error,
+        variant: "error",
+      });
+    }
+  }, [error]);
 
   useEffect(() => {
     if (type) setActiveTab("");
@@ -129,7 +146,7 @@ export default function AuthPage() {
 
   return (
     <div
-      className="flex justify-center items-center min-h-[70vh] py-14 "
+      className="flex justify-center items-center min-h-[80vh] py-14 px-4 md:px-0  "
       style={{
         backgroundImage: `url(/images/auth/bg-auth.png)`,
         backgroundSize: "cover",
@@ -187,6 +204,17 @@ export default function AuthPage() {
               />
             ) : type === "forgot-password" ? (
               <ForgotPasswordForm />
+            ) : type === "waiting-payment" ? (
+              <SuccessContainer
+                title={
+                  <>
+                    Menunggu <br /> Pembayaran
+                  </>
+                }
+                description={
+                  <>Cek email kamu untuk melihat pembayaran lebih lanjut</>
+                }
+              />
             ) : type === "forgot-password-success" ? (
               <SuccessContainer
                 title={

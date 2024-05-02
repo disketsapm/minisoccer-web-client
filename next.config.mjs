@@ -1,12 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // reactStrictMode: false, // Disable React Strict Mode
+
   output: "standalone",
   images: {
-    domains: [
-      "rafi-demo-bucket.s3.amazonaws.com",
-      "www.eclosio.ong",
-      "i0.wp.com",
-      "images.sidearmdev.com",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
     ],
   },
 
