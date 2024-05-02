@@ -21,16 +21,20 @@ import { Button } from "@/components/ui/button";
 import ReservationSelectType from "./reservation-select-type";
 import ReservationCalendar from "./reservation-calendar";
 import ReservationAction from "./reservation-action";
-import { IFormFieldSchema } from "../type/reservation.type";
+import { IFormFieldSchema, ISchedule } from "../type/reservation.type";
 
 import ReservationGalery from "./reservation-galery";
 import { IOrderHistory } from "../../auth/me/type/history.type";
 
 type IReservationForm = {
   type?: "default" | "detail";
+  data?: IOrderHistory;
 };
 
-const ReservationForm: React.FC<IReservationForm> = ({ type = "default" }) => {
+const ReservationForm: React.FC<IReservationForm> = ({
+  type = "default",
+  data,
+}) => {
   const { control, getValues } = useFormContext<IFormFieldSchema>();
 
   const fieldId = getValues("field_id");
@@ -99,6 +103,8 @@ const ReservationForm: React.FC<IReservationForm> = ({ type = "default" }) => {
                 <ReservationCalendar
                   onChange={field.onChange}
                   values={field.value}
+                  detailData={data}
+                  isDetail={type === "detail"}
                 />
               </FormControl>
               <FormMessage />

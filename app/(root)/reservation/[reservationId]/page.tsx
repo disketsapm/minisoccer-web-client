@@ -40,11 +40,10 @@ const FieldView = () => {
 
   React.useEffect(() => {
     if (isSuccess && data?.data) {
-      console.log(methods?.getValues());
-
-      methods?.reset({
-        field_id: data?.data?.schedules?.[0]?.field_id,
-        schedule_id: data?.data?.schedules?.map(
+      methods?.setValue("field_id", data?.data?.schedules?.[0]?.field_id);
+      methods?.setValue(
+        "schedule_id",
+        data?.data?.schedules?.map(
           (schedule: { _id: any; start_time: any; end_time: any }) => {
             return {
               id: schedule?._id,
@@ -52,9 +51,9 @@ const FieldView = () => {
               endDate: schedule?.end_time,
             };
           }
-        ),
-        type: data?.data?.type,
-      });
+        )
+      );
+      methods?.setValue("type", data?.data?.type);
     }
   }, [isSuccess]);
 
@@ -75,7 +74,7 @@ const FieldView = () => {
 
         <FormProvider {...methods}>
           <div className="w-full flex gap-2 h-full p-4 flex-col ">
-            <ReservationForm type="detail" />
+            <ReservationForm type="detail" data={data?.data} />
           </div>
         </FormProvider>
       </div>

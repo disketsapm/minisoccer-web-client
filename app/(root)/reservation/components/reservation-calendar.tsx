@@ -12,6 +12,10 @@ import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import ReservationSessionCard from "./reservation-session-card";
 import { Button } from "@/components/ui/button";
+import {
+  IOrderHistory,
+  IScheduleHistory,
+} from "../../auth/me/type/history.type";
 
 const ColorIndicator = ({ status }: { status: string }) => {
   switch (status) {
@@ -44,11 +48,15 @@ const ColorIndicator = ({ status }: { status: string }) => {
 type IReservationCalendar = {
   onChange: (data: { id: string; startDate: Date; endDate: Date }[]) => void;
   values: { id: string; startDate: Date; endDate: Date }[];
+  isDetail?: boolean;
+  detailData?: IOrderHistory;
 };
 
 const ReservationCalendar: React.FC<IReservationCalendar> = ({
   onChange,
   values,
+  isDetail,
+  detailData,
 }) => {
   const fieldService = new FieldService();
 
@@ -62,6 +70,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
       fieldService.getSchedule({
         params: {
           search: fieldId,
+          priceBelow: isDetail ? detailData?.total : undefined,
         },
       }),
     enabled: !!fieldId,
