@@ -13,14 +13,17 @@ const DATA_FACILITY_IMAGE = {
   "1": "/images/facility/facility-1.png",
   "2": "/images/facility/facility-2.png",
   "3": "/images/facility/facility-4.png",
-  "4": "/images/facility/facility-3.png"
+  "4": "/images/facility/facility-3.png",
 };
 
-const ReservationFacility: React.FC<ReservationFacilityProps> = ({ data, description }) => {
+const ReservationFacility: React.FC<ReservationFacilityProps> = ({
+  data,
+  description,
+}) => {
   console.log(description);
   const FacilityItem = ({
     label,
-    iconId
+    iconId,
   }: {
     label: string;
     iconId: keyof typeof DATA_FACILITY_IMAGE;
@@ -30,10 +33,7 @@ const ReservationFacility: React.FC<ReservationFacilityProps> = ({ data, descrip
     return (
       <div className="md:w-[65px] md:h-[65px] w-[50px] h-[50px] ">
         <div className="w-[fit-content] h-[fit-content] flex flex-col justify-center items-center gap-1">
-          <img
-            className="w-10 h-10 bg-gray-200 rounded-lg"
-            src={getImage}
-          />
+          <img className="w-10 h-10 bg-gray-200 rounded-lg" src={getImage} />
 
           <div className="text-center text-xs font-semibold">{label}</div>
         </div>
@@ -46,7 +46,9 @@ const ReservationFacility: React.FC<ReservationFacilityProps> = ({ data, descrip
       <div className="w-full h-full radial-gradient-3 rounded-xl p-8">
         {/* TASK DEPRAS : DATA INITIATIONS DISIINI  */}
         <p className="font-black text-2xl">Deskripsi</p>
-        <div dangerouslySetInnerHTML={{ __html: description }}></div>
+        <div className="w-full h-full overflow-y-auto py-2 ">
+          <div dangerouslySetInnerHTML={{ __html: description }}></div>
+        </div>
       </div>
 
       <div className="md:w-1/2 w-full flex flex-col gap-5">

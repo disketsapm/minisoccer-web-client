@@ -11,27 +11,26 @@ import {
 } from "@/components/ui/select";
 
 import React from "react";
-import { useFormContext } from "react-hook-form";
 
 const ReservationSelectField: React.FC<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>
 > = ({ onValueChange, defaultValue, disabled }) => {
   const fieldService = new FieldService();
 
-  const { data, isLoading, isFetched, fetchStatus } = useQuery({
+  const { data, isLoading, isFetched, fetchStatus, isSuccess } = useQuery({
     queryKey: ["list-field"],
     queryFn: () => fieldService.getListField(),
     refetchInterval: false,
   });
 
   const firstRenderSelectedField =
-    isFetched && fetchStatus === "idle" ? data?.data[0]?._id : "";
+    isFetched && isSuccess ? data?.data[0]?._id : "";
 
   React.useEffect(() => {
     if (firstRenderSelectedField && onValueChange) {
       onValueChange(firstRenderSelectedField);
     }
-  }, [firstRenderSelectedField, onValueChange]);
+  }, [firstRenderSelectedField]);
 
   return (
     <>

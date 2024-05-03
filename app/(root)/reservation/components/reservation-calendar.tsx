@@ -148,6 +148,9 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
                 locales={[idLocale]}
                 events={eventList}
                 nowIndicator={false}
+                validRange={{
+                  start: new Date(),
+                }}
                 height={"auto"}
                 dayHeaderClassNames={["bg-black text-white"]}
                 dayCellClassNames={["border border-black"]}
@@ -190,6 +193,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
                     status={arg.event.title}
                     price={arg?.event?.extendedProps?.price}
                     isOnCalendar
+                    isDetail={isDetail}
                   />
                 )}
               />

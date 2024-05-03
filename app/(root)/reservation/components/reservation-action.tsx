@@ -3,7 +3,11 @@ import { useFormContext } from "react-hook-form";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 
-import { cn, formatCurrencyToIDR, getTotalPriceInListOfPrice } from "@/lib/utils";
+import {
+  cn,
+  formatCurrencyToIDR,
+  getTotalPriceInListOfPrice,
+} from "@/lib/utils";
 import { AlertCircle, HelpCircle, ExternalLink } from "lucide-react";
 import useGetListOfScheduleById from "../hooks/useGetListOfScheduleById";
 import useGetFieldById from "../hooks/useGetFieldById";
@@ -18,7 +22,7 @@ import ModalInfoBooking from "./reservation-modal-term";
 
 const bookAnimation = {
   open: { opacity: 1, y: 0 },
-  closed: { opacity: 0, y: 100 }
+  closed: { opacity: 0, y: 100 },
 };
 
 const LabelValues: React.FC<{
@@ -29,7 +33,9 @@ const LabelValues: React.FC<{
 }> = ({ label, value, isLoading, loadingClassname }) => {
   return (
     <div className="flex gap-2 w-full h-full">
-      <div className="text-sm text-gray-500 w-[150px] flex-grow-0 flex-shrink-0">{label}</div>
+      <div className="text-sm text-gray-500 w-[150px] flex-grow-0 flex-shrink-0">
+        {label}
+      </div>
       <div>:</div>
       {isLoading ? (
         <Skeleton className={`w-36 h-5 ${loadingClassname}`} />
@@ -48,31 +54,41 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
 
   const [checked, setChecked] = React.useState();
 
-  const { getValues, handleSubmit, trigger, formState } = useFormContext<IFormFieldSchema>();
+  const { getValues, handleSubmit, trigger, formState } =
+    useFormContext<IFormFieldSchema>();
 
   const formValues = getValues();
 
   const isValid: boolean = formState?.isValid;
 
-  const { data: fieldDetail, isLoading: isFieldDetailLoading } = useGetFieldById({
-    key: ["reservation-confirmation", formValues?.field_id, isOpen, formState?.isValid],
-    enabled: !!formValues?.field_id && isOpen && formState?.isValid
-  });
-
-  const { data: scheduleData, isLoading: isListScheduleLoading } = useGetListOfScheduleById({
-    isOpen
-  });
-
-  const { mutateAsync: reservationMutations, isPending: isPendingReservationMutations } =
-    usePostReservation({
-      onError: (error) => {
-        setIsOpen(false);
-
-        if (error?.message !== "Request failed with status code 401") {
-          setSubmitErrorMsg(error?.message);
-        }
-      }
+  const { data: fieldDetail, isLoading: isFieldDetailLoading } =
+    useGetFieldById({
+      key: [
+        "reservation-confirmation",
+        formValues?.field_id,
+        isOpen,
+        formState?.isValid,
+      ],
+      enabled: !!formValues?.field_id && isOpen && formState?.isValid,
     });
+
+  const { data: scheduleData, isLoading: isListScheduleLoading } =
+    useGetListOfScheduleById({
+      isOpen,
+    });
+
+  const {
+    mutateAsync: reservationMutations,
+    isPending: isPendingReservationMutations,
+  } = usePostReservation({
+    onError: (error) => {
+      setIsOpen(false);
+
+      if (error?.message !== "Request failed with status code 401") {
+        setSubmitErrorMsg(error?.message);
+      }
+    },
+  });
 
   const onSubmit = async (data: IFormFieldSchema) => {
     // TASK DEPRAS : kasih conditional isDetail untuk handle reschedule methods
@@ -83,7 +99,7 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
 
     const newValues = {
       ...data,
-      schedule_id: getScheduleIds
+      schedule_id: getScheduleIds,
     };
 
     reservationMutations(newValues);
@@ -131,7 +147,7 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
         title="Konfirmasi Reservasi"
         onChange={(val: boolean) => setIsOpen(val)}
         content={
-          <div className={cn("flex  flex-col  w-full h-full p-4 gap-2")}>
+          <div className={cn("flex  flex-col  w-full h-full p-4 gap-4")}>
             <LabelValues
               label="Lapangan"
               value={fieldDetail?.data?.yardName || ""}
@@ -227,7 +243,9 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
             {formState?.errors?.field_id ? (
               <div>* {formState?.errors?.field_id?.message}</div>
             ) : null}
-            {formState?.errors?.type ? <div>* {formState?.errors?.type?.message}</div> : null}
+            {formState?.errors?.type ? (
+              <div>* {formState?.errors?.type?.message}</div>
+            ) : null}
 
             {formState?.errors?.schedule_id ? (
               <div>* {formState?.errors?.schedule_id?.message}</div>

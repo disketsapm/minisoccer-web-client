@@ -29,7 +29,7 @@ const ReservationDetailCardItem: React.FC<{
 
   const isExpired = currentDiffDays < 0;
   const isToday = currentDiffDays === 0;
-  const isCanReschedule = currentDiffDays > 1;
+  const isCanReschedule = currentDiffDays > 0;
 
   const renderLabel = () => {
     if (isExpired) return "Booking Expired";
