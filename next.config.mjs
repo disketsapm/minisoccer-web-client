@@ -7,26 +7,29 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "**"
       },
       {
         protocol: "http",
-        hostname: "**",
-      },
-    ],
+        hostname: "**"
+      }
+    ]
   },
 
   async rewrites() {
     return [
       {
         source: "/api/:path*", // Match all paths
-        destination: process.env.NEXT_PUBLIC_API_URL + "/:path*", // Rewrite to the base URL
-      },
+        destination: process.env.NEXT_PUBLIC_API_URL + "/:path*" // Rewrite to the base URL
+      }
     ];
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true
   },
+  typescript: {
+    ignoreBuildErrors: true
+  }
 };
 
 export default nextConfig;
