@@ -152,9 +152,9 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
                       <ReservationSessionCard
                         key={item?._id}
                         sessionName={item?.session}
-                        startTime={item?.timeStart.toString()}
-                        endTime={item?.timeEnd.toString()}
-                        price={item?.price.toString()}
+                        startTime={item?.timeStart?.toString()}
+                        endTime={item?.timeEnd?.toString()}
+                        price={item?.price?.toString()}
                         isOnCalendar={false}
                       />
                     );

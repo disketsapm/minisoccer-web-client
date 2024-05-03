@@ -77,6 +77,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Reset default list styles */
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none; /* Remove default bullets or numbers */
+}
+
+/* Apply custom styles for unordered lists (bullets) */
+ul {
+  @apply list-disc list-inside;
+}
+
+/* Apply custom styles for ordered lists (numbers) */
+ol {
+  @apply list-decimal;
+}
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;

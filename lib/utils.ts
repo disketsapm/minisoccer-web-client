@@ -47,10 +47,7 @@ export function getItemFromLocalStorage<T>(key: string): T | null {
     try {
       return JSON.parse(itemString) as T;
     } catch (error) {
-      console.error(
-        `Error parsing item from localStorage with key '${key}':`,
-        error
-      );
+      console.error(`Error parsing item from localStorage with key '${key}':`, error);
       return null;
     }
   } else {
@@ -106,7 +103,7 @@ export function getWeeksOfMonth(year: number, month: number): Week[] {
       weekNo,
       startingDate: currentWeekStart.format("YYYY-MM-DD"),
       endingDate: currentWeekEnd.format("YYYY-MM-DD"),
-      days: daysInWeek,
+      days: daysInWeek
     };
     weeks.push(week);
     currentWeekStart = moment(currentWeekEnd).add(1, "day");
@@ -126,31 +123,19 @@ export const getDiffDays = (date: string) => {
 export function formatCurrencyToIDR(amount: number | undefined): string {
   const formattedAmount = new Intl.NumberFormat("id-ID", {
     style: "currency",
-    currency: "IDR",
+    currency: "IDR"
   }).format(amount ?? 0);
   return formattedAmount;
 }
 
-export function getTotalPriceInListOfPrice(
-  scheduleData: ISchedule[] | undefined
-): string {
-  const total = scheduleData
-    ?.map((item) => item.price ?? 0)
-    .reduce((acc, curr) => acc + curr, 0);
+export function getTotalPriceInListOfPrice(scheduleData: ISchedule[] | undefined): string {
+  const total = scheduleData?.map((item) => item.price ?? 0).reduce((acc, curr) => acc + curr, 0);
 
   return total !== undefined ? formatCurrencyToIDR(total) : "";
 }
 
 export function formatDateToIndonesian(date: string): string {
-  const days: string[] = [
-    "Minggu",
-    "Senin",
-    "Selasa",
-    "Rabu",
-    "Kamis",
-    "Jumat",
-    "Sabtu",
-  ];
+  const days: string[] = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
   const months: string[] = [
     "Januari",
     "Februari",
@@ -163,7 +148,7 @@ export function formatDateToIndonesian(date: string): string {
     "September",
     "Oktober",
     "November",
-    "Desember",
+    "Desember"
   ];
 
   const utcDate: Date = new Date(date);
@@ -175,4 +160,11 @@ export function formatDateToIndonesian(date: string): string {
   const year: number = utcDate.getUTCFullYear();
 
   return `${day}, ${dateNumber} ${month} ${year}`;
+}
+
+export function extractSrcFromEmbedUrl(embedUrl: any) {
+  console.log(embedUrl);
+  const regex = /src=["']([^"']+)["']/;
+  const match = embedUrl?.match(regex);
+  return match ? match[1] : "";
 }

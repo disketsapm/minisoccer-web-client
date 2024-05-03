@@ -21,12 +21,14 @@ const ReservationSessionCard: React.FC<IReservationSessionCard> = ({
   sessionName,
   selected,
   isOnCalendar = false,
-  price,
+  price
 }) => {
-  const isLowerThanCurrentDate =
-    new Date(startTime) < new Date() && isOnCalendar;
+  const isLowerThanCurrentDate = new Date(startTime) < new Date() && isOnCalendar;
+  console.log(status);
 
-  // TASK DEPRAS
+  const isBooked = status === "booked";
+
+  // TASK DEPRAS DONE
 
   return (
     <div
@@ -39,15 +41,15 @@ const ReservationSessionCard: React.FC<IReservationSessionCard> = ({
         {
           "bg-[#88FFB1]": selected,
           "w-full h-full justify-center items-center hover:bg-gray-100 cursor-pointer rounded ":
-            isOnCalendar,
+            isOnCalendar
         },
         {
           "w-fit h-fit px-6 py-1 rounded-lg bg-gradient-to-b from-[#45825A] to-[#364D48]":
-            !isOnCalendar,
+            !isOnCalendar
         }
       )}
     >
-      {isLowerThanCurrentDate ? (
+      {isLowerThanCurrentDate || isBooked ? (
         <div className="absolute w-full h-full bg-black/80 flex items-center justify-center z-50 cursor-default rounded-sm ">
           <p className="font-semibold text-sm">Ditutup</p>
         </div>
@@ -57,7 +59,7 @@ const ReservationSessionCard: React.FC<IReservationSessionCard> = ({
         <p
           className={cn({
             "text-xs text-black font-black": isOnCalendar,
-            "text-[13px] text-white font-semibold text-center": !isOnCalendar,
+            "text-[13px] text-white font-semibold text-center": !isOnCalendar
           })}
         >
           {sessionName}
@@ -65,7 +67,7 @@ const ReservationSessionCard: React.FC<IReservationSessionCard> = ({
         <p
           className={cn({
             "text-xs text-black": isOnCalendar,
-            "text-[10px] text-white text-center": !isOnCalendar,
+            "text-[10px] text-white text-center": !isOnCalendar
           })}
         >
           {formattedTime(startTime)} - {formattedTime(endTime)}
@@ -74,7 +76,7 @@ const ReservationSessionCard: React.FC<IReservationSessionCard> = ({
         <p
           className={cn({
             "text-base text-black": isOnCalendar,
-            "text-[10px] text-white text-center": !isOnCalendar,
+            "text-[10px] text-white text-center": !isOnCalendar
           })}
         >
           {formatCurrencyToIDR(Number(price))}
