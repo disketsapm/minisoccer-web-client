@@ -47,7 +47,10 @@ export function getItemFromLocalStorage<T>(key: string): T | null {
     try {
       return JSON.parse(itemString) as T;
     } catch (error) {
-      console.error(`Error parsing item from localStorage with key '${key}':`, error);
+      console.error(
+        `Error parsing item from localStorage with key '${key}':`,
+        error
+      );
       return null;
     }
   } else {
@@ -89,6 +92,26 @@ export function checkWeeksHaveOneDay(schedules: Schedule[]): boolean {
   return true;
 }
 
+export function checkWeeksHaveOneDayBasedOnDate(
+  schedules: Schedule[],
+  dateToCheck: Date
+): boolean {
+  if (schedules.length === 0) {
+    return false; // Return false if there are no schedules
+  }
+
+  // Get the start of the week for the first schedule
+  const firstScheduleStartWeek = moment(schedules[0].startDate)
+    .startOf("week")
+    .valueOf();
+
+  // Get the start of the week for the date to check
+  const dateToCheckStartWeek = moment(dateToCheck).startOf("week").valueOf();
+
+  // Check if the start of the week for the first schedule matches the start of the week for the date to check
+  return firstScheduleStartWeek === dateToCheckStartWeek;
+}
+
 export function getWeeksOfMonth(year: number, month: number): Week[] {
   const weeks: Week[] = [];
   const firstDayOfMonth = moment(`${year}-${month}-01`);
@@ -103,7 +126,7 @@ export function getWeeksOfMonth(year: number, month: number): Week[] {
       weekNo,
       startingDate: currentWeekStart.format("YYYY-MM-DD"),
       endingDate: currentWeekEnd.format("YYYY-MM-DD"),
-      days: daysInWeek
+      days: daysInWeek,
     };
     weeks.push(week);
     currentWeekStart = moment(currentWeekEnd).add(1, "day");
@@ -123,19 +146,31 @@ export const getDiffDays = (date: string) => {
 export function formatCurrencyToIDR(amount: number | undefined): string {
   const formattedAmount = new Intl.NumberFormat("id-ID", {
     style: "currency",
-    currency: "IDR"
+    currency: "IDR",
   }).format(amount ?? 0);
   return formattedAmount;
 }
 
-export function getTotalPriceInListOfPrice(scheduleData: ISchedule[] | undefined): string {
-  const total = scheduleData?.map((item) => item.price ?? 0).reduce((acc, curr) => acc + curr, 0);
+export function getTotalPriceInListOfPrice(
+  scheduleData: ISchedule[] | undefined
+): string {
+  const total = scheduleData
+    ?.map((item) => item.price ?? 0)
+    .reduce((acc, curr) => acc + curr, 0);
 
   return total !== undefined ? formatCurrencyToIDR(total) : "";
 }
 
 export function formatDateToIndonesian(date: string): string {
-  const days: string[] = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const days: string[] = [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu",
+  ];
   const months: string[] = [
     "Januari",
     "Februari",
@@ -148,7 +183,7 @@ export function formatDateToIndonesian(date: string): string {
     "September",
     "Oktober",
     "November",
-    "Desember"
+    "Desember",
   ];
 
   const utcDate: Date = new Date(date);
@@ -167,4 +202,10 @@ export function extractSrcFromEmbedUrl(embedUrl: any) {
   const regex = /src=["']([^"']+)["']/;
   const match = embedUrl?.match(regex);
   return match ? match[1] : "";
+}
+
+export function addDays(date: Date, days: number) {
+  var result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
 }

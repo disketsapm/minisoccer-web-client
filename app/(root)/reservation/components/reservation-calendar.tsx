@@ -9,13 +9,14 @@ import { useQuery } from "@tanstack/react-query";
 import { ISchedule } from "../type/reservation.type";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useFormContext } from "react-hook-form";
-import { cn } from "@/lib/utils";
+import { addDays, cn } from "@/lib/utils";
 import ReservationSessionCard from "./reservation-session-card";
 import { Button } from "@/components/ui/button";
 import {
   IOrderHistory,
   IScheduleHistory,
 } from "../../auth/me/type/history.type";
+import { useSearchParams } from "next/navigation";
 
 const ColorIndicator = ({ status }: { status: string }) => {
   switch (status) {
@@ -48,14 +49,14 @@ const ColorIndicator = ({ status }: { status: string }) => {
 type IReservationCalendar = {
   onChange: (data: { id: string; startDate: Date; endDate: Date }[]) => void;
   values: { id: string; startDate: Date; endDate: Date }[];
-  isDetail?: boolean;
+  isOnReschedulePage?: boolean;
   detailData?: IOrderHistory;
 };
 
 const ReservationCalendar: React.FC<IReservationCalendar> = ({
   onChange,
   values,
-  isDetail,
+  isOnReschedulePage,
   detailData,
 }) => {
   const fieldService = new FieldService();
@@ -64,19 +65,34 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
 
   const fieldId = getValues("field_id");
 
+  const queryParams = useSearchParams();
+
+  const schedule_id = queryParams.get("schedule_id");
+
+  const getScheduleDataByParameter = detailData?.schedules?.find(
+    (schedule) => schedule?.schedule_id === schedule_id
+  );
+
   const { data, isLoading } = useQuery({
-    queryKey: ["calendar-field", fieldId],
+    queryKey: [
+      "calendar-field",
+      fieldId,
+      isOnReschedulePage,
+      detailData?.total,
+    ],
     queryFn: () =>
       fieldService.getSchedule({
         params: {
           search: fieldId,
-          priceBelow: isDetail ? detailData?.total : undefined,
+          priceBelow: isOnReschedulePage
+            ? getScheduleDataByParameter?.finalPrice
+            : undefined,
         },
       }),
     enabled: !!fieldId,
   });
 
-  const events = useMemo(() => data?.data || [], [data]);
+  const events = data?.data || [];
 
   const calendarRef = useRef<FullCalendar>(null);
 
@@ -105,6 +121,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
       extendedProps: {
         id: event._id,
         price: event?.price,
+        finalPrice: event?.finalPrice,
       },
     }));
   }, [events]);
@@ -149,7 +166,9 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
                 events={eventList}
                 nowIndicator={false}
                 validRange={{
-                  start: new Date(),
+                  start: isOnReschedulePage
+                    ? addDays(new Date(), 1)
+                    : new Date(),
                 }}
                 height={"auto"}
                 dayHeaderClassNames={["bg-black text-white"]}
@@ -170,17 +189,11 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
                 eventContent={(arg) => (
                   <ReservationSessionCard
                     onClick={() => {
-                      const startTime = arg.event.startStr;
-
-                      const isLowerThanCurrentDate =
-                        new Date(startTime) < new Date();
-
-                      if (!isLowerThanCurrentDate)
-                        handleSetEvents({
-                          id: arg.event.extendedProps.id,
-                          startDate: new Date(arg.event.startStr),
-                          endDate: new Date(arg.event.endStr),
-                        });
+                      handleSetEvents({
+                        id: arg.event.extendedProps.id,
+                        startDate: new Date(arg.event.startStr),
+                        endDate: new Date(arg.event.endStr),
+                      });
                     }}
                     endTime={arg.event.startStr}
                     startTime={arg.event.endStr}
@@ -193,7 +206,9 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
                     status={arg.event.title}
                     price={arg?.event?.extendedProps?.price}
                     isOnCalendar
-                    isDetail={isDetail}
+                    finalPrice={arg?.event?.extendedProps?.finalPrice}
+                    isOnReschedulePage={isOnReschedulePage}
+                    currentScheduleId={arg?.event?.extendedProps?.id}
                   />
                 )}
               />

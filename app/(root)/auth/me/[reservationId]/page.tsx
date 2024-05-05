@@ -98,7 +98,6 @@ const ReservationDetail = () => {
               <Skeleton className="w-full h-[250px]" />
             ) : (
               <iframe
-                // TASK DEPRAS : GANTI DENGAN DATA YANG ASLI
                 className="w-full h-full"
                 // src={extractSrcFromEmbedUrl(data?.data?.schedules?.field_embed_url)}
                 width="1030"

@@ -27,7 +27,7 @@ import ReservationGalery from "./reservation-galery";
 import { IOrderHistory } from "../../auth/me/type/history.type";
 
 type IReservationForm = {
-  type?: "default" | "detail";
+  type?: "default" | "reschedule";
   data?: IOrderHistory;
 };
 
@@ -54,7 +54,7 @@ const ReservationForm: React.FC<IReservationForm> = ({
                     <ReservationSelectField
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      disabled={type === "detail"}
+                      disabled={type === "reschedule"}
                     />
                   </FormControl>
                   <FormMessage />
@@ -76,7 +76,7 @@ const ReservationForm: React.FC<IReservationForm> = ({
                     <ReservationSelectType
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      disabled={type === "detail"}
+                      disabled={type === "reschedule"}
                     />
                   </FormControl>
                   <FormMessage />
@@ -104,7 +104,7 @@ const ReservationForm: React.FC<IReservationForm> = ({
                   onChange={field.onChange}
                   values={field.value}
                   detailData={data}
-                  isDetail={type === "detail"}
+                  isOnReschedulePage={type === "reschedule"}
                 />
               </FormControl>
               <FormMessage />
@@ -113,7 +113,10 @@ const ReservationForm: React.FC<IReservationForm> = ({
         }}
       />
 
-      <ReservationAction isDetail={type === "detail"} />
+      <ReservationAction
+        isOnReschedulePage={type === "reschedule"}
+        detailData={data}
+      />
     </div>
   );
 };

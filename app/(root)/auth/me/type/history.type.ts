@@ -3,12 +3,16 @@ export type IScheduleHistory = {
   field_id: string;
   name: string;
   price: number;
+  finalPrice: number;
   status: boolean;
   field_url: string;
   field_name: string;
   start_time: string;
   end_time: string;
   _id: string;
+  isQrScanned: boolean;
+  isRescheduled: boolean;
+  date: string;
 };
 
 export type IOrderHistory = {

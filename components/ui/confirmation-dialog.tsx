@@ -23,15 +23,12 @@ const ConfirmationDialog: React.FC<IConfirmationDialog> = ({
   isLoading,
   submitTitle,
   title,
-  isDisable
+  isDisable,
 }) => {
   return (
-    <Dialog
-      open={isOpen || isLoading}
-      onOpenChange={onChange}
-    >
-      <DialogContent>
-        <DialogHeader>
+    <Dialog open={isOpen || isLoading} onOpenChange={onChange}>
+      <DialogContent className="w-full">
+        <DialogHeader className="w-full">
           <DialogTitle className="text-base">
             <div className="flex gap-2 items-center">
               <HelpCircle className="text-blue-500" />
@@ -40,12 +37,12 @@ const ConfirmationDialog: React.FC<IConfirmationDialog> = ({
             </div>
           </DialogTitle>
         </DialogHeader>
-        <div className="w-full h-full rounded-sm border border-gray-100">{content}</div>
+
+        <div className="w-full h-full rounded-sm border border-gray-100">
+          {content}
+        </div>
         <DialogFooter className="gap-2">
-          <Button
-            variant="outline"
-            onClick={() => onChange(false)}
-          >
+          <Button variant="outline" onClick={() => onChange(false)}>
             Tutup
           </Button>
 

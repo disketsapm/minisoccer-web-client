@@ -48,6 +48,8 @@ export class ReservationService extends RequestAdapter {
         `/reservation`,
         {
           search,
+          filterType: "desc",
+          columnName: "createdAt",
         }
       );
 
@@ -63,6 +65,27 @@ export class ReservationService extends RequestAdapter {
         { order_id: string },
         AxiosResponse<any>
       >(`/reservation/payment`, body);
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async rescheduleReservation(body: {
+    order_id: string;
+    original_schedule_id: string;
+    reschedule_schedule_id: string;
+  }) {
+    try {
+      const response = await this.sendPutRequest<
+        {
+          order_id: string;
+          original_schedule_id: string;
+          reschedule_schedule_id: string;
+        },
+        AxiosResponse<any>
+      >(`/reservation/reschedule`, body);
 
       return response;
     } catch (error) {
