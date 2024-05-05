@@ -6,6 +6,7 @@ type ReservationFacilityProps = {
     name: string;
     _id: string;
   }[];
+  description: string;
 };
 
 const DATA_FACILITY_IMAGE = {
@@ -15,7 +16,11 @@ const DATA_FACILITY_IMAGE = {
   "4": "/images/facility/facility-3.png",
 };
 
-const ReservationFacility: React.FC<ReservationFacilityProps> = ({ data }) => {
+const ReservationFacility: React.FC<ReservationFacilityProps> = ({
+  data,
+  description,
+}) => {
+  console.log(description);
   const FacilityItem = ({
     label,
     iconId,
@@ -38,9 +43,12 @@ const ReservationFacility: React.FC<ReservationFacilityProps> = ({ data }) => {
 
   return (
     <div className="w-full md:h-[450px] h-[650px] gap-5 flex flex-col md:flex-row py-10 md:py-0">
-      <div className="w-full h-full radial-gradient-3 rounded-xl p-3">
+      <div className="w-full h-full radial-gradient-3 rounded-xl p-8">
         {/* TASK DEPRAS : DATA INITIATIONS DISIINI  */}
         <p className="font-black text-2xl">Deskripsi</p>
+        <div className="w-full h-full overflow-y-auto py-2 ">
+          <div dangerouslySetInnerHTML={{ __html: description }}></div>
+        </div>
       </div>
 
       <div className="md:w-1/2 w-full flex flex-col gap-5">

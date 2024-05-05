@@ -25,18 +25,23 @@ const ReservationDetailCardItem: React.FC<{
 
   const [viewQR, setViewQR] = useState<boolean>(false);
 
-  const currentDiffDays = getDiffDays(item?.start_time);
+  const currentDiffDays = getDiffDays(item?.date);
+
+  const isQrScanned = item?.isQrScanned;
+  const isRescheduled = item?.isRescheduled;
 
   const isExpired = currentDiffDays < 0;
   const isToday = currentDiffDays === 0;
-  const isCanReschedule = currentDiffDays > 1;
+  const isCanReschedule = currentDiffDays > 5;
 
   const renderLabel = () => {
     if (isExpired) return "Booking Expired";
 
-    if (isToday) return "Tampilkan QR";
+    if (isToday && !isQrScanned) return "Tampilkan QR";
 
-    if (isCanReschedule) return "Jadwal Ulang";
+    if (isQrScanned && isToday) return "Sudah Selesai";
+
+    if (isCanReschedule && !isRescheduled) return "Jadwal Ulang";
 
     return `${currentDiffDays} Hari Lagi`;
   };
@@ -78,15 +83,19 @@ const ReservationDetailCardItem: React.FC<{
               "text-white w-full bg-black  cursor-default  hover:bg-black border-black ",
               {
                 "hover:bg-black hover:border-black border-white bg-transparent cursor-pointer ":
-                  isToday || isCanReschedule,
+                  (isToday && !isQrScanned) ||
+                  (isCanReschedule && !isRescheduled),
               }
             )}
             onClick={() => {
               if (isExpired) return;
 
-              if (isToday) setViewQR(true);
+              if (isToday && !isQrScanned) setViewQR(true);
 
-              if (isCanReschedule) router.push(`/reservation/${reservationId}`);
+              if (isCanReschedule && !isRescheduled)
+                router.push(
+                  `/reservation/${reservationId}?schedule_id=${item?.schedule_id}`
+                );
             }}
           >
             {renderLabel()}

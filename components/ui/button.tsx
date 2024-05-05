@@ -23,6 +23,7 @@ const buttonVariants = cva(
           "bg-gradient-to-r from-[#45825A] to-[#364D48] text-primary-foreground  font-semibold rounded-xl ",
         "accent-2":
           "bg-[#FCCB04] font-semibold text-primary  border-2 border-primary",
+        disableOpacity: "disabled:opacity-100",
       },
       size: {
         default: "h-10 px-4 py-2",

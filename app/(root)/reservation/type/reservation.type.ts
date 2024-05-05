@@ -13,6 +13,7 @@ export type ISchedule = {
   scheduleBoardId: string;
   createdAt: Date;
   session: string;
+  finalPrice: number;
   __v: number;
 };
 

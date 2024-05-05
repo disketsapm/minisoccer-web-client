@@ -92,6 +92,26 @@ export function checkWeeksHaveOneDay(schedules: Schedule[]): boolean {
   return true;
 }
 
+export function checkWeeksHaveOneDayBasedOnDate(
+  schedules: Schedule[],
+  dateToCheck: Date
+): boolean {
+  if (schedules.length === 0) {
+    return false; // Return false if there are no schedules
+  }
+
+  // Get the start of the week for the first schedule
+  const firstScheduleStartWeek = moment(schedules[0].startDate)
+    .startOf("week")
+    .valueOf();
+
+  // Get the start of the week for the date to check
+  const dateToCheckStartWeek = moment(dateToCheck).startOf("week").valueOf();
+
+  // Check if the start of the week for the first schedule matches the start of the week for the date to check
+  return firstScheduleStartWeek === dateToCheckStartWeek;
+}
+
 export function getWeeksOfMonth(year: number, month: number): Week[] {
   const weeks: Week[] = [];
   const firstDayOfMonth = moment(`${year}-${month}-01`);
@@ -175,4 +195,17 @@ export function formatDateToIndonesian(date: string): string {
   const year: number = utcDate.getUTCFullYear();
 
   return `${day}, ${dateNumber} ${month} ${year}`;
+}
+
+export function extractSrcFromEmbedUrl(embedUrl: any) {
+  console.log(embedUrl);
+  const regex = /src=["']([^"']+)["']/;
+  const match = embedUrl?.match(regex);
+  return match ? match[1] : "";
+}
+
+export function addDays(date: Date, days: number) {
+  var result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
 }

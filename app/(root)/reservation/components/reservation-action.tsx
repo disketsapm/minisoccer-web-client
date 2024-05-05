@@ -17,6 +17,12 @@ import usePostReservation from "../hooks/usePostReservation";
 import ErrorDialog from "@/components/ui/error-dialog";
 import ConfirmationDialog from "@/components/ui/confirmation-dialog";
 import { AnimatePresence, motion } from "framer-motion";
+import { Checkbox } from "@/components/ui/checkbox";
+import ModalInfoBooking from "./reservation-modal-term";
+import ReservationSessionCardByQueryParamater from "./reservation-session-card-by-query-parameter";
+import { useSearchParams } from "next/navigation";
+import { IOrderHistory } from "../../auth/me/type/history.type";
+import useRescheduleReservations from "../hooks/useRescheduleReservations";
 
 const bookAnimation = {
   open: { opacity: 1, y: 0 },
@@ -44,10 +50,17 @@ const LabelValues: React.FC<{
   );
 };
 
-const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
+const ReservationAction: React.FC<{
+  isOnReschedulePage: boolean;
+  detailData?: IOrderHistory;
+}> = ({ isOnReschedulePage, detailData }) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const [isOpenModalTerm, setIsOpenModalTerm] = React.useState<boolean>(false);
+  const [countModalTermOpen, setCountModalTermOpen] = React.useState<number>(0);
 
   const [submitErrorMsg, setSubmitErrorMsg] = React.useState<string>("");
+
+  const [checked, setChecked] = React.useState();
 
   const { getValues, handleSubmit, trigger, formState } =
     useFormContext<IFormFieldSchema>();
@@ -55,6 +68,10 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
   const formValues = getValues();
 
   const isValid: boolean = formState?.isValid;
+
+  const queryParams = useSearchParams();
+
+  const original_schedule_id = queryParams?.get("schedule_id");
 
   const { data: fieldDetail, isLoading: isFieldDetailLoading } =
     useGetFieldById({
@@ -85,11 +102,12 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
     },
   });
 
-  const onSubmit = async (data: IFormFieldSchema) => {
-    // TASK DEPRAS : kasih conditional isDetail untuk handle reschedule methods
-    // isDetail = true => reschedule
-    // isDetail = false => booking
+  const {
+    mutateAsync: rescheduleReservation,
+    isPending: isPendingResecheduleMutations,
+  } = useRescheduleReservations({});
 
+  const onSubmit = async (data: IFormFieldSchema) => {
     const getScheduleIds = data?.schedule_id?.map((item) => item?.id);
 
     const newValues = {
@@ -97,7 +115,17 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
       schedule_id: getScheduleIds,
     };
 
-    reservationMutations(newValues);
+    if (!isOnReschedulePage) reservationMutations(newValues);
+
+    if (isOnReschedulePage) {
+      const transformRescheduleData = {
+        order_id: detailData?.referenceNumber ?? "",
+        original_schedule_id: original_schedule_id ?? "",
+        reschedule_schedule_id: data?.schedule_id[0]?.id ?? "",
+      };
+
+      rescheduleReservation(transformRescheduleData);
+    }
   };
 
   return (
@@ -119,7 +147,9 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
                 setIsOpen(true);
               }}
             >
-              Book Sekarang
+              {isOnReschedulePage
+                ? "Atur Ulang Jadwal Sekarang"
+                : "Booking Sekarang"}
             </Button>
           </div>
         </motion.div>
@@ -132,14 +162,23 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
       />
 
       <ConfirmationDialog
+        isDisable={!checked}
         isOpen={isOpen && isValid}
         onSubmit={handleSubmit(onSubmit)}
-        isLoading={isPendingReservationMutations}
-        submitTitle="Proses Reservasi"
-        title="Konfirmasi Reservasi"
+        isLoading={
+          isPendingReservationMutations || isPendingResecheduleMutations
+        }
+        submitTitle={
+          isOnReschedulePage ? "Proses Atur Ulang Jadwal" : "Prosess Booking"
+        }
+        title={
+          isOnReschedulePage
+            ? "Konfirmasi Atur Ulang Jadwal"
+            : "Konfirmasi Reservasi"
+        }
         onChange={(val: boolean) => setIsOpen(val)}
         content={
-          <div className={cn("flex  flex-col  w-full h-full p-4 gap-2")}>
+          <div className={cn("flex  flex-col  w-full h-full p-4 gap-4")}>
             <LabelValues
               label="Lapangan"
               value={fieldDetail?.data?.yardName || ""}
@@ -155,15 +194,20 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
               label="Sesi"
               value={
                 <div className="w-full h-full flex gap-2 flex-wrap">
+                  {isOnReschedulePage ? (
+                    <ReservationSessionCardByQueryParamater />
+                  ) : null}
+
                   {scheduleData?.map((item) => {
                     return (
                       <ReservationSessionCard
                         key={item?._id}
                         sessionName={item?.session}
-                        startTime={item?.timeStart.toString()}
-                        endTime={item?.timeEnd.toString()}
-                        price={item?.price.toString()}
+                        startTime={item?.timeStart?.toString()}
+                        endTime={item?.timeEnd?.toString()}
+                        price={item?.price?.toString()}
                         isOnCalendar={false}
+                        finalPrice={item?.finalPrice?.toString()}
                       />
                     );
                   })}
@@ -173,11 +217,13 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
               isLoading={isListScheduleLoading}
             />
 
-            <LabelValues
-              label="Total Harga"
-              value={getTotalPriceInListOfPrice(scheduleData)}
-              isLoading={isListScheduleLoading}
-            />
+            {isOnReschedulePage ? null : (
+              <LabelValues
+                label="Total Harga"
+                value={getTotalPriceInListOfPrice(scheduleData)}
+                isLoading={isListScheduleLoading}
+              />
+            )}
 
             <LabelValues
               label="Lokasi"
@@ -194,8 +240,39 @@ const ReservationAction: React.FC<{ isDetail: boolean }> = ({ isDetail }) => {
               }
               isLoading={isFieldDetailLoading}
             />
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                checked={checked}
+                disabled={countModalTermOpen > 0 ? false : true}
+                onCheckedChange={(val: any) => setChecked(val)}
+                id="terms"
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Dengan ini Saya menyetujui{" "}
+                <span
+                  className="text-blue-600 cursor-pointer"
+                  onClick={() => {
+                    setIsOpenModalTerm(true);
+                  }}
+                >
+                  Syarat dan Ketentuan
+                </span>{" "}
+                yang berlaku.
+              </label>
+            </div>
           </div>
         }
+      />
+      <ModalInfoBooking
+        isOpen={isOpenModalTerm}
+        onClose={() => {
+          setIsOpenModalTerm(false);
+          setCountModalTermOpen(countModalTermOpen + 1);
+        }}
       />
 
       <ErrorDialog
