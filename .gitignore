@@ -40,5 +40,4 @@ docker-compose.yml
 docker-compose.prod.yml
 yarn.lock
 package-lock.json
-
-
+.env.prod
