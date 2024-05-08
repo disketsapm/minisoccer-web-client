@@ -38,7 +38,6 @@ next-env.d.ts
 
 # docker files
 docker-compose.yml
-Dockerfile
 
 # lock files
 yarn.lock
