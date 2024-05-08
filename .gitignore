@@ -27,6 +27,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
 
 # vercel
 .vercel
@@ -35,9 +36,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.env
+# docker files
 docker-compose.yml
-docker-compose.prod.yml
+Dockerfile
+
+# lock files
 yarn.lock
 package-lock.json
-.env.prod
