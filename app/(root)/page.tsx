@@ -3,6 +3,7 @@ import Facility from "@/components/facility";
 import Find from "@/components/find";
 import Gallery from "@/components/gallery";
 import Hero from "@/components/hero";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
@@ -21,6 +22,7 @@ export default function Page() {
         </div>
       </Button>
       <Hero />
+
       <About />
       <Facility />
       <Gallery />

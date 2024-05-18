@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 export default function About() {
   return (
@@ -28,9 +29,11 @@ export default function About() {
                 yang <br className="hidden md:block" /> membuat permainan Mini
                 Soccer-mu menjadi lebih menyenangkan.
               </p>
-              <Button className="w-fit px-6 py-2" variant={"accent-1"}>
-                Lihat Lapangan
-              </Button>
+              <Link href="#galery">
+                <Button className="w-fit px-6 py-2" variant={"accent-1"}>
+                  Lihat Lapangan
+                </Button>
+              </Link>
 
               <div className="bg-gradient-to-b from-[#0B0B0B00] to-[#000000] w-full h-[450px] absolute bottom-0 m-auto -z-10 md:hidden block " />
             </div>
