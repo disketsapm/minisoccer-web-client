@@ -26,16 +26,8 @@ export default function ModalInfoBooking({
           <AlertDialogTitle className="text-center text-3xl font-black">
             Syarat dan <br /> Ketentuan Booking
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-justify w-full p-5 max-h-[400px] overflow-y-auto text-black">
-            Merupakan tanggung jawab penyewa untuk membaca dan memahami Syarat
-            dan Ketentuan Pemesananan ini, ketentuan-ketentuan lainnya yang
-            dikeluarkan oleh Soccer Chief untuk memahami risiko, kewajiban dan
-            tanggung jawab yang menyertainya. Soccer Chief tidak akan
-            bertanggung jawab atas keterlambatan, kerugian, dan biaya yang
-            timbul dari kelalaian dan kesalahan penyewa dalam memenuhi
-            kewajiban-kewajiban penyewaan.
-            <br />
-            <br />
+          <AlertDialogDescription className="text-justify w-full p-5 h-[750px] overflow-y-auto text-black relative">
+            <iframe src="./files/TNC_MINSOC.pdf" width="100%" height="100%" />
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="p-5">
