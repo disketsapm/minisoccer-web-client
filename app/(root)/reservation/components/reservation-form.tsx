@@ -42,7 +42,7 @@ const ReservationForm: React.FC<IReservationForm> = ({
   return (
     <div className="w-full flex flex-col gap-6 px-4 h-full pb-6 relative ">
       <div className="w-full h-full flex-col md:flex-row flex gap-3">
-        <div className="w-full">
+        <div className="w-full h-full">
           <FormField
             name="field_id"
             control={control}
@@ -64,7 +64,7 @@ const ReservationForm: React.FC<IReservationForm> = ({
           />
         </div>
 
-        <div className="w-full">
+        <div className="w-full h-full">
           <FormField
             name="type"
             control={control}
@@ -90,7 +90,9 @@ const ReservationForm: React.FC<IReservationForm> = ({
       <ReservationGalery />
 
       {fieldId ? (
-        <p className="text-3xl font-black">Pilih Jadwal Booking</p>
+        <p className="text-3xl font-black h-full w-full">
+          Pilih Jadwal Booking
+        </p>
       ) : null}
 
       <FormField

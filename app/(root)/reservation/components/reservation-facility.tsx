@@ -43,7 +43,7 @@ const ReservationFacility: React.FC<ReservationFacilityProps> = ({
   };
 
   return (
-    <div className="w-full md:h-[450px] h-[650px] gap-5 flex flex-col md:flex-row py-10 md:py-0">
+    <div className="w-full md:h-[450px]  h-full  gap-5 flex flex-col md:flex-row py-10 md:py-0">
       <div className="w-full h-full radial-gradient-3 rounded-xl p-8">
         <p className="font-black text-2xl">Deskripsi</p>
         <div className="w-full h-full overflow-y-auto py-2 ">
