@@ -19,6 +19,13 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import ModalInfoBooking from "../reservation/components/reservation-modal-info";
 import useCustomToast from "@/hooks/core/useCustomToast";
+import {
+  ActionType,
+  TransactionStatusEnum,
+  getLabelByTab,
+  getLabelByType,
+} from "./constants/auth.data";
+import { TransactionStatus } from "./components/transaction-status";
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<string>("register");
@@ -38,70 +45,22 @@ export default function AuthPage() {
 
   const error = searchParams.get("error");
 
-  const { mutate, isPending, isError, isSuccess } = usePutReservationAfterPayment();
+  const {
+    mutate: mutateReservationAfterPayment,
+    isError: isErrorReservationAfterPayment,
+  } = usePutReservationAfterPayment();
 
   useEffect(() => {
     if (orderId) {
-      mutate({ order_id: orderId });
+      mutateReservationAfterPayment({ order_id: orderId });
     }
-  }, [orderId, mutate]);
+  }, [orderId, mutateReservationAfterPayment]);
 
-  const RenderLabelTransactionStatus = () => {
-    if (transaction_status) {
-      if (transaction_status === "pending") {
-        return (
-          <>
-            <div className="text-6xl font-bold">
-              Pembayaran <br /> Anda <br /> Sedang Diproses
-            </div>
-            <p>Silakan Tunggu Secara Berkala</p>
-          </>
-        );
-      }
+  const renderLabel = (): string => {
+    const tabLabel = getLabelByTab(activeTab);
+    if (tabLabel) return tabLabel;
 
-      if (transaction_status === "error" || isError) {
-        return (
-          <>
-            <div className="text-6xl font-bold">
-              Terjadi <br /> Kesalahan <br /> Pembayaran
-            </div>
-            <p>Silakan Coba Kembali Pembayaran</p>
-          </>
-        );
-      }
-
-      if (transaction_status === "settlement") {
-        return (
-          <>
-            <div className="text-6xl font-bold">
-              Pembayaran <br /> Anda <br /> Berhasil!
-            </div>
-            <p>Silakan Cek Email Anda</p>
-          </>
-        );
-      }
-    }
-
-    return <></>;
-  };
-
-  const renderLabel = () => {
-    if (activeTab === "register") return "Buat Akun";
-
-    if (activeTab === "login") return "Masuk";
-
-    if (type === "register-success") return "Buat Akun";
-
-    if (type === "email-verified") return "Buat Akun";
-
-    if (type === "waiting-payment") return "Pembayaran";
-
-    if (
-      type === "forgot-password" ||
-      type === "forgot-password-verify" ||
-      type === "forgot-password-success"
-    )
-      return "Lupa Password";
+    return getLabelByType(type as ActionType);
   };
 
   const { openToast } = useCustomToast();
@@ -110,7 +69,7 @@ export default function AuthPage() {
     if (error) {
       openToast({
         message: error,
-        variant: "error"
+        variant: "error",
       });
     }
   }, [error]);
@@ -123,7 +82,7 @@ export default function AuthPage() {
 
   const SuccessContainer = ({
     title,
-    description
+    description,
   }: {
     title: React.ReactNode;
     description: React.ReactNode;
@@ -149,7 +108,7 @@ export default function AuthPage() {
       style={{
         backgroundImage: `url(/images/auth/bg-auth.png)`,
         backgroundSize: "cover",
-        backgroundPosition: "center"
+        backgroundPosition: "center",
       }}
     >
       <Card className="rounded-2xl z-10  bg-gradient-to-b from-white to-[#999999] md:h-[530px] h-full pb-8  w-full  md:w-auto ">
@@ -173,7 +132,7 @@ export default function AuthPage() {
                 />
               </div>
             </div>
-            {type === "register-success" ? (
+            {type === ActionType.RegisterSuccess ? (
               <SuccessContainer
                 title={
                   <>
@@ -182,11 +141,12 @@ export default function AuthPage() {
                 }
                 description={
                   <>
-                    Cek link yang telah dikirimkan di Email <br /> Kamu untuk memverifikasi akun.
+                    Cek link yang telah dikirimkan di Email <br /> Kamu untuk
+                    memverifikasi akun.
                   </>
                 }
               />
-            ) : type === "email-verified" ? (
+            ) : type === ActionType.EmailVerified ? (
               <SuccessContainer
                 title={
                   <>
@@ -195,22 +155,25 @@ export default function AuthPage() {
                 }
                 description={
                   <>
-                    Email Kamu telah terverifikasi, <br /> silahkan login untuk melanjutkan.
+                    Email Kamu telah terverifikasi, <br /> silahkan login untuk
+                    melanjutkan.
                   </>
                 }
               />
-            ) : type === "forgot-password" ? (
+            ) : type === ActionType.ForgotPassword ? (
               <ForgotPasswordForm />
-            ) : type === "waiting-payment" ? (
+            ) : type === ActionType.WaitingPayment ? (
               <SuccessContainer
                 title={
                   <>
                     Menunggu <br /> Pembayaran
                   </>
                 }
-                description={<>Cek email kamu untuk melihat pembayaran lebih lanjut</>}
+                description={
+                  <>Cek email kamu untuk melihat pembayaran lebih lanjut</>
+                }
               />
-            ) : type === "forgot-password-success" ? (
+            ) : type === ActionType.ForgotPasswordSuccess ? (
               <SuccessContainer
                 title={
                   <>
@@ -223,7 +186,7 @@ export default function AuthPage() {
                   </>
                 }
               />
-            ) : type === "forgot-password-verify" ? (
+            ) : type === ActionType.ForgotPasswordVerify ? (
               <SuccessContainer
                 title={
                   <>
@@ -231,16 +194,15 @@ export default function AuthPage() {
                   </>
                 }
                 description={
-                  <>Cek link yang telah dikirimkan di Email Kamu untuk me-reset password.</>
+                  <>
+                    Cek link yang telah dikirimkan di Email Kamu untuk me-reset
+                    password.
+                  </>
                 }
               />
-            ) : type === "order-status" ? (
+            ) : type === ActionType.OrderStatus ? (
               <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
-                {isPending && transaction_status && (
-                  <Skeleton className="w-[250px] md:w-full  h-[250px]" />
-                )}
-
-                {!isPending && transaction_status && <RenderLabelTransactionStatus />}
+                <TransactionStatus />
               </div>
             ) : type === "reset-password" ? (
               <ResetPasswordForm token={token} />
@@ -251,7 +213,11 @@ export default function AuthPage() {
                     Verifikasi <br /> Login!
                   </>
                 }
-                description={<>Anda akan diarahkan ke halaman utama dalam beberapa detik.</>}
+                description={
+                  <>
+                    Anda akan diarahkan ke halaman utama dalam beberapa detik.
+                  </>
+                }
               />
             ) : (
               <Tabs
@@ -279,7 +245,7 @@ export default function AuthPage() {
 
                 <div
                   className={cn("w-full h-full  flex-col flex", {
-                    "md:justify-center": activeTab === "login"
+                    "md:justify-center": activeTab === "login",
                   })}
                 >
                   <div className="flex justify-center my-4">
