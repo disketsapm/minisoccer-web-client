@@ -26,7 +26,7 @@ export default function ModalInfoBooking({
           <AlertDialogTitle className="text-center text-3xl font-black">
             Syarat dan <br /> Ketentuan Booking
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-justify w-full p-5 h-[750px] overflow-y-auto text-black relative">
+          <AlertDialogDescription className="text-justify w-full p-5 h-[550px] overflow-y-auto text-black relative">
             <iframe src="./files/TNC_MINSOC.pdf" width="100%" height="100%" />
           </AlertDialogDescription>
         </AlertDialogHeader>
