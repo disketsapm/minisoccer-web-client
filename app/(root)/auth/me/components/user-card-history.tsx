@@ -167,9 +167,11 @@ const UserCardHistory: React.FC<{
           <LabelHistoryItem label="Lokasi Lapang" isLoading={isLoading}>
             <Link
               href={historyUserData?.schedules[0]?.field_url}
-              className="overflow-hidden whitespace-nowrap underline font-semibold text-ellipsis md:w-[200px] w-[150px] cursor-pointer"
+              className="w-full"
             >
-              {historyUserData?.schedules[0]?.field_url}
+              <p className="overflow-hidden whitespace-nowrap underline font-semibold text-ellipsis md:w-[200px] w-[150px] cursor-pointer">
+                {historyUserData?.schedules[0]?.field_url}
+              </p>
             </Link>
           </LabelHistoryItem>
         </div>
