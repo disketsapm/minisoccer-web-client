@@ -98,8 +98,8 @@ const ReservationDetail = () => {
               <Skeleton className="w-full h-[250px]" />
             ) : (
               <iframe
+                src={data?.data?.schedules[0]?.field_embed_url}
                 className="w-full h-full"
-                // src={extractSrcFromEmbedUrl(data?.data?.schedules?.field_embed_url)}
                 width="1030"
                 height="700"
               ></iframe>

@@ -15,8 +15,9 @@ const ReservationGalery = () => {
 
   const { data, isLoading } = useGetFieldById({
     key: ["field-galery", fieldId],
-    enabled: !!fieldId
+    enabled: !!fieldId,
   });
+
   return (
     <div className={cn("w-full h-full")}>
       {isLoading && fieldId && <Skeleton className="w-full h-[650px]" />}
@@ -32,8 +33,9 @@ const ReservationGalery = () => {
           <ReservationCarousel data={data?.data?.assets || []} />
 
           <ReservationFacility
-            description={data?.data?.yardDescription as any}
+            description={data?.data?.yardDescription as string}
             data={data?.data?.yardFacilities || []}
+            embededMap={data?.data?.yardLocationEmbed as string}
           />
         </div>
       )}

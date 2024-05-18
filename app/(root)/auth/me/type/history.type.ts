@@ -13,6 +13,7 @@ export type IScheduleHistory = {
   isQrScanned: boolean;
   isRescheduled: boolean;
   date: string;
+  field_embed_url: string;
 };
 
 export type IOrderHistory = {

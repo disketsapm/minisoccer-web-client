@@ -7,6 +7,7 @@ type ReservationFacilityProps = {
     _id: string;
   }[];
   description: string;
+  embededMap: string;
 };
 
 const DATA_FACILITY_IMAGE = {
@@ -19,8 +20,8 @@ const DATA_FACILITY_IMAGE = {
 const ReservationFacility: React.FC<ReservationFacilityProps> = ({
   data,
   description,
+  embededMap,
 }) => {
-  console.log(description);
   const FacilityItem = ({
     label,
     iconId,
@@ -44,7 +45,6 @@ const ReservationFacility: React.FC<ReservationFacilityProps> = ({
   return (
     <div className="w-full md:h-[450px] h-[650px] gap-5 flex flex-col md:flex-row py-10 md:py-0">
       <div className="w-full h-full radial-gradient-3 rounded-xl p-8">
-        {/* TASK DEPRAS : DATA INITIATIONS DISIINI  */}
         <p className="font-black text-2xl">Deskripsi</p>
         <div className="w-full h-full overflow-y-auto py-2 ">
           <div dangerouslySetInnerHTML={{ __html: description }}></div>
@@ -54,8 +54,7 @@ const ReservationFacility: React.FC<ReservationFacilityProps> = ({
       <div className="md:w-1/2 w-full flex flex-col gap-5">
         <iframe
           className="w-full h-full rounded-xl"
-          // TASK DEPRAS : GANTI DENGAN DATA ASLI
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.938525379262!2d106.76214517453191!3d-6.271814661395947!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f0526938c0bf%3A0x945ab245061f8415!2sJl.%20RC.%20Veteran%20Raya%20No.1%2C%20RT.9%2FRW.3%2C%20Bintaro%2C%20Kec.%20Pesanggrahan%2C%20Kota%20Jakarta%20Selatan%2C%20Daerah%20Khusus%20Ibukota%20Jakarta%2012330!5e0!3m2!1sid!2sid!4v1707502591058!5m2!1sid!2sid"
+          src={embededMap}
           width="1030"
           height="700"
         ></iframe>

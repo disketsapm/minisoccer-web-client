@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AuthService } from "@/services/auth.service";
 import { Button } from "@/components/ui/button";
 import { IOrderHistory } from "../type/history.type";
+import Link from "next/link";
 
 const UserCardHistory: React.FC<{
   historyUserData: IOrderHistory;
@@ -164,12 +165,12 @@ const UserCardHistory: React.FC<{
           </LabelHistoryItem>
 
           <LabelHistoryItem label="Lokasi Lapang" isLoading={isLoading}>
-            <p
-              onClick={() => window.open("item?.schedules[0]?.field_url")}
+            <Link
+              href={historyUserData?.schedules[0]?.field_url}
               className="overflow-hidden whitespace-nowrap underline font-semibold text-ellipsis md:w-[200px] w-[150px] cursor-pointer"
             >
               {historyUserData?.schedules[0]?.field_url}
-            </p>
+            </Link>
           </LabelHistoryItem>
         </div>
       </>
