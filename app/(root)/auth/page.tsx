@@ -288,7 +288,7 @@ export default function AuthPage() {
                       className="w-full bg-gradient-to-b from-white to-[#C4C4C4] py-7"
                       onClick={() =>
                         (window.location.href =
-                          "https://api.soccerchief.co/auth/google?role=Customer")
+                          process.env.NEXT_PUBLIC_API_URL + "/auth/google?role=Customer")
                       }
                     >
                       <FcGoogle className="w-7 h-7 mr-2 text-xl" /> Sign{" "}
