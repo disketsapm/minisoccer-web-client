@@ -10,18 +10,17 @@ import { useSearchParams } from "next/navigation";
 
 import { ForgotPasswordForm } from "./components/forgot-password-form";
 import { ResetPasswordForm } from "./components/reset-password-form";
-import Link from "next/link";
+
 import { useLoginGoogle } from "@/hooks/auth/useLoginGoogle";
 import { useEffect, useState } from "react";
 import usePutReservationAfterPayment from "./hooks/usePutReservationAfterPayment";
-import { Skeleton } from "@/components/ui/skeleton";
+
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import ModalInfoBooking from "../reservation/components/reservation-modal-info";
+
 import useCustomToast from "@/hooks/core/useCustomToast";
 import {
   ActionType,
-  TransactionStatusEnum,
   getLabelByTab,
   getLabelByType,
 } from "./constants/auth.data";
@@ -40,21 +39,8 @@ export default function AuthPage() {
 
   const type = searchParams.get("type");
   const token = searchParams.get("token");
-  const orderId = type === "order-status" ? searchParams.get("order_id") : null;
-  const transaction_status = searchParams.get("transaction_status");
 
   const error = searchParams.get("error");
-
-  const {
-    mutate: mutateReservationAfterPayment,
-    isError: isErrorReservationAfterPayment,
-  } = usePutReservationAfterPayment();
-
-  useEffect(() => {
-    if (orderId) {
-      mutateReservationAfterPayment({ order_id: orderId });
-    }
-  }, [orderId, mutateReservationAfterPayment]);
 
   const renderLabel = (): string => {
     const tabLabel = getLabelByTab(activeTab);
@@ -253,8 +239,7 @@ export default function AuthPage() {
                       variant={"outline"}
                       className="w-full bg-gradient-to-b from-white to-[#C4C4C4] py-7"
                       onClick={() =>
-                        (window.location.href =
-                          "https://api.soccerchief.co/auth/google?role=Customer")
+                        (window.location.href = `${process?.env?.NEXT_PUBLIC_API_URL}/auth/google?role=Customer`)
                       }
                     >
                       <FcGoogle className="w-7 h-7 mr-2 text-xl" /> Sign{" "}
