@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "ckeditor-tailwind-reset/ckeditor-tailwind-reset";
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -78,23 +80,17 @@
   }
 }
 
-/* Reset default list styles */
-ul,
-ol {
-  margin: 0;
-  padding: 0;
-  list-style: none; /* Remove default bullets or numbers */
+#channelDescription table,
+#channelDescription th,
+#channelDescription td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 4px;
+}
+#channelDescription ul {
+  list-style: circle;
 }
 
-/* Apply custom styles for unordered lists (bullets) */
-ul {
-  @apply list-disc list-inside;
-}
-
-/* Apply custom styles for ordered lists (numbers) */
-ol {
-  @apply list-decimal;
-}
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;
