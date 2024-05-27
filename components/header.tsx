@@ -13,7 +13,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "./ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { usePathname } from "next/navigation";
@@ -22,9 +22,9 @@ import Loading from "@/app/loading";
 import {
   getFirstLetterAndLastName,
   getItemFromLocalStorage,
-  getUserFromLocalStorage
 } from "@/lib/utils";
 import { SignInResponse, UserType } from "@/interfaces/auth.interface";
+
 export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
@@ -53,9 +53,9 @@ export default function Header() {
   }
   const links = [
     { href: "/reservation", label: "Booking" },
-    { href: "#about", label: "Tentang kami" },
-    { href: "#facility", label: "Kerja Sama" },
-    { href: "#find", label: "Hubungi Kami" }
+    { href: "#about", label: "Kenapa Kami" },
+    { href: "#facility", label: "Fasilitas" },
+    { href: "#find", label: "Hubungi Kami" },
   ];
   return (
     <header
@@ -63,22 +63,14 @@ export default function Header() {
     >
       <div className="flex justify-between items-center md:container px-4 md:px-[5rem] ">
         <Link href="/">
-          <Image
-            src="/images/logo.png"
-            alt="Logo"
-            width={100}
-            height={100}
-          />
+          <Image src="/images/logo.png" alt="Logo" width={100} height={100} />
         </Link>
         <div className="flex items-center justify-center gap-2 md:gap-x-10">
           <nav>
             <ul className="items-center hidden space-x-16 md:flex list-none">
               {links.map(({ href, label }) => (
                 <li key={`${href}${label}`}>
-                  <Link
-                    href={href}
-                    className="text-sm font-semibold"
-                  >
+                  <Link href={href} className="text-sm font-semibold">
                     {label}
                   </Link>
                 </li>
@@ -96,7 +88,9 @@ export default function Header() {
                   }
                 />
                 <AvatarFallback className="font-semibold">
-                  {dataUser?.fullName ? getFirstLetterAndLastName(dataUser?.fullName) : ""}
+                  {dataUser?.fullName
+                    ? getFirstLetterAndLastName(dataUser?.fullName)
+                    : ""}
                 </AvatarFallback>
               </Avatar>
             </Link>
@@ -113,10 +107,7 @@ export default function Header() {
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                className="md:hidden "
-              >
+              <Button variant="outline" className="md:hidden ">
                 <CiMenuBurger size={15} />
               </Button>
             </SheetTrigger>
@@ -125,10 +116,7 @@ export default function Header() {
                 <ul className="flex flex-col items-start gap-y-16 justify-center">
                   {links.map(({ href, label }) => (
                     <li key={`${href}${label}`}>
-                      <Link
-                        href={href}
-                        className="text-3xl font-semibold "
-                      >
+                      <Link href={href} className="text-3xl font-semibold ">
                         <SheetClose>{label}</SheetClose>
                       </Link>
                     </li>

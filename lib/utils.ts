@@ -155,7 +155,7 @@ export function getTotalPriceInListOfPrice(
   scheduleData: ISchedule[] | undefined
 ): string {
   const total = scheduleData
-    ?.map((item) => item.price ?? 0)
+    ?.map((item) => item.finalPrice ?? 0)
     .reduce((acc, curr) => acc + curr, 0);
 
   return total !== undefined ? formatCurrencyToIDR(total) : "";

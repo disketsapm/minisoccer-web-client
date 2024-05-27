@@ -42,8 +42,8 @@ export default function Find() {
                 </div>
                 <div className="flex items-center">
                   <FiInstagram className="w-5 h-5 mr-2" />
-                  <Link href="https://www.instagram.com/soccerchief.co/">
-                    @soccerchief.co
+                  <Link href="https://www.instagram.com/soccerchief_">
+                    @soccerchief_
                   </Link>
                 </div>
                 <div className="flex items-center">
