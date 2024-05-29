@@ -51,6 +51,7 @@ type IReservationCalendar = {
   values: { id: string; startDate: Date; endDate: Date }[];
   isOnReschedulePage?: boolean;
   detailData?: IOrderHistory;
+  refetchValue?: number
 };
 
 const ReservationCalendar: React.FC<IReservationCalendar> = ({
@@ -58,6 +59,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
   values,
   isOnReschedulePage,
   detailData,
+  refetchValue
 }) => {
   const fieldService = new FieldService();
 
@@ -73,7 +75,8 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
     (schedule) => schedule?.schedule_id === schedule_id
   );
 
-  const { data, isLoading } = useQuery({
+
+  const { data, isLoading, isRefetching, refetch } = useQuery({
     queryKey: [
       "calendar-field",
       fieldId,
@@ -90,7 +93,14 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
         },
       }),
     enabled: !!fieldId,
+
   });
+
+
+  useEffect(() => {
+    if (refetchValue as number >= 99) refetch()
+  }, [refetchValue as number >= 99])
+
 
   const events = data?.data || [];
 
@@ -147,6 +157,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
 
     onChange(selectedItems);
   };
+
 
   return (
     <div className="w-full h-full  relative">

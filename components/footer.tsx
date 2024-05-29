@@ -12,15 +12,15 @@ export default function Footer() {
           <Link href="/reservation" className="text-md">
             Booking
           </Link>
-          <Link href={"#about"} className="text-md">
+          <Link href={"/#about"} className="text-md">
             Kenapa Kami
           </Link>
         </div>
         <div className="flex flex-col gap-20">
-          <Link href={"#facility"} className="text-md">
+          <Link href={"/#facility"} className="text-md">
             Fasilitas
           </Link>
-          <Link href={"#find"} className="text-md">
+          <Link href={"/#find"} className="text-md">
             Hubungi Kami
           </Link>
         </div>
