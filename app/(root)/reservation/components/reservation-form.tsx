@@ -1,6 +1,7 @@
 "use client";
-
-import React from "react";
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import React, { useEffect, useState } from "react";
 import ReservationSelectField from "./reservation-select-field";
 import {
   FieldValues,
@@ -38,7 +39,33 @@ const ReservationForm: React.FC<IReservationForm> = ({
   const { control, getValues } = useFormContext<IFormFieldSchema>();
 
   const fieldId = getValues("field_id");
+  const [refetchValue, setRefetchValue] = useState<number>(0);
 
+
+  useEffect(() => {
+    const duration = 5000; // 5 seconds
+    let interval: NodeJS.Timeout;
+    let startTime: number;
+
+    const startInterval = () => {
+      startTime = Date.now();
+      interval = setInterval(() => {
+        const elapsedTime = Date.now() - startTime;
+        const progress = Math.min((elapsedTime / duration) * 100, 100);
+        setRefetchValue(progress);
+
+        if (elapsedTime >= duration) {
+          clearInterval(interval);
+          // Reset refetchValue to 0 to loop the progress
+          setRefetchValue(0);
+        }
+      }, 150); // Update every 50ms for smoother animation
+    };
+
+    startInterval();
+
+    return () => clearInterval(interval); // Clear interval on component unmount
+  }, [refetchValue === 0]);
   return (
     <div className="w-full flex flex-col gap-6 px-4 h-full pb-6 relative ">
       <div className="w-full h-full flex-col md:flex-row flex gap-3">
@@ -90,10 +117,22 @@ const ReservationForm: React.FC<IReservationForm> = ({
       <ReservationGalery />
 
       {fieldId ? (
-        <p className="text-3xl font-black h-full w-full">
-          Pilih Jadwal Booking
-        </p>
-      ) : null}
+        <div className="w-fit items-center flex gap-2 ">
+          <p className="text-3xl font-black h-full w-full">
+            Pilih Jadwal Booking
+          </p>
+          <div className='w-5 h-5'>
+            <CircularProgressbar value={refetchValue} strokeWidth={50} className='w-full h-full' styles={buildStyles({
+              textColor: '#f88',
+              trailColor: '#d6d6d6',
+              pathColor: "hsl(var(--primary))",
+              backgroundColor: 'gray',
+              strokeLinecap: "butt"
+            })} />
+          </div>
+        </div>
+      ) : null
+      }
 
       <FormField
         name="schedule_id"
@@ -103,6 +142,7 @@ const ReservationForm: React.FC<IReservationForm> = ({
             <FormItem>
               <FormControl>
                 <ReservationCalendar
+                  refetchValue={refetchValue}
                   onChange={field.onChange}
                   values={field.value}
                   detailData={data}
@@ -119,7 +159,7 @@ const ReservationForm: React.FC<IReservationForm> = ({
         isOnReschedulePage={type === "reschedule"}
         detailData={data}
       />
-    </div>
+    </div >
   );
 };
 
