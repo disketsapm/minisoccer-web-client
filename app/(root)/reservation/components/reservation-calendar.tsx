@@ -113,7 +113,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
       const firstEventDate = new Date(events[0]?.timeStart);
       calendarRef.current.getApi().gotoDate(firstEventDate);
     }
-  }, [events]);
+  }, []);
 
   const eventList = useMemo(() => {
     return events.map((event, index) => ({
@@ -157,6 +157,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
 
     onChange(selectedItems);
   };
+
 
 
   return (
