@@ -165,11 +165,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
                 locales={[idLocale]}
                 events={eventList}
                 nowIndicator={false}
-                validRange={{
-                  start: isOnReschedulePage
-                    ? addDays(new Date(), 1)
-                    : new Date(),
-                }}
+                showNonCurrentDates={false}
                 height={"auto"}
                 dayHeaderClassNames={["bg-black text-white"]}
                 dayCellClassNames={["border border-black"]}
