@@ -42,6 +42,8 @@ export type IField = {
   schedule_id: YardScheduleId[];
   additional_item: IAdditionalType[]; // Change `any[]` to the appropriate type if possible
   __v: number;
+  yardLocationEmbed: string;
+  yardDescription: string;
 };
 
 interface IAdditionalType {

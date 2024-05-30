@@ -9,16 +9,20 @@ export default function Footer() {
       </div>
       <div className="flex justify-between w-full mx-auto md:w-1/3">
         <div className="flex flex-col gap-20">
-          <Link href={"#"} className="text-md">
+          <Link href="/reservation" className="text-md">
             Booking
           </Link>
-          <Link href={"#about"} className="text-md">
-            Tentang Kami
+          <Link href={"/#about"} className="text-md">
+            Kenapa Kami
           </Link>
         </div>
         <div className="flex flex-col gap-20">
-          <div>Kerja Sama</div>
-          <div>Hubungi Kami</div>
+          <Link href={"/#facility"} className="text-md">
+            Fasilitas
+          </Link>
+          <Link href={"/#find"} className="text-md">
+            Hubungi Kami
+          </Link>
         </div>
       </div>
       <div className="mt-2 w-full md:w-[300px] h-[180px] relative">

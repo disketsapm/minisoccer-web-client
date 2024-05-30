@@ -22,7 +22,10 @@ export default function Gallery() {
     },
   ];
   return (
-    <section className="radial-gradient  h-full w-full  py-20   flex items-center flex-col justify-center  gap-4">
+    <section
+      id="galery"
+      className="radial-gradient  h-full w-full  py-20   flex items-center flex-col justify-center  gap-4"
+    >
       <HeaderGallery />
 
       <Carousel

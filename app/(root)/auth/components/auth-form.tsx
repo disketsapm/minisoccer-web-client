@@ -177,13 +177,6 @@ export const AuthForm = ({ type }: AuthFormValues) => {
                   Lupa Password
                 </Link>
               )}
-
-              {type === "register" && (
-                <div className="w-full text-xs  flex gap-1">
-                  <FaCheck />
-                  Silahkan cek email Anda untuk <b>verifikasi</b>
-                </div>
-              )}
             </div>
           </form>
         </Form>

@@ -5,20 +5,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  run_deploy_stg:
-    name: Deploy to Staging
+  run_pull:
+    name: Run Shell Command
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Install SSH keys
+      - name: Install SSH Key
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-
-      - name: Run deploy script
+      
+      - name: Run Shell Command
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && ./deploy-stg.sh"
-
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "sh ${{ secrets.SHELL_SCRIPT }} && exit"
       - name: Cleanup
         run: rm -rf ~/.ssh
