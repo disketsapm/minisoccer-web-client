@@ -19,9 +19,9 @@ interface ImageData {
   id: string;
 }
 
-const BANNER_API = "https://api-stg.soccerchief.co/admin/bannerPeriods";
-const VIEW_COUNT_API = "https://api-stg.soccerchief.co/admin/banner/viewCount";
-const CTA_COUNT_API = "https://api-stg.soccerchief.co/admin/banner/ctaCount";
+const BANNER_API = `${process.env.NEXT_PUBLIC_PATH_API}/admin/bannerPeriods`;
+const VIEW_COUNT_API = `${process.env.NEXT_PUBLIC_PATH_API}/admin/banner/viewCount`;
+const CTA_COUNT_API = `${process.env.NEXT_PUBLIC_PATH_API}/admin/banner/ctaCount`
 
 const Hero: React.FC = () => {
   const [images, setImages] = useState<ImageData[]>([]);
@@ -145,11 +145,10 @@ const Hero: React.FC = () => {
                 {Array.from({ length: count }).map((_, i) => (
                   <div
                     key={i}
-                    className={`h-4 w-4 rounded-full border border-black  ${
-                      current === i + 1
-                        ? "bg-[#45825A] "
-                        : "bg-white  cursor-pointer"
-                    }`}
+                    className={`h-4 w-4 rounded-full border border-black  ${current === i + 1
+                      ? "bg-[#45825A] "
+                      : "bg-white  cursor-pointer"
+                      }`}
                     onClick={() => api?.scrollTo(i)}
                   />
                 ))}
