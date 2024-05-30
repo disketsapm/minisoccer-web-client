@@ -18,6 +18,14 @@ import {
 } from "../../auth/me/type/history.type";
 import { useSearchParams } from "next/navigation";
 
+/*
+ * TODO:
+  * - terdapat bug ketika melakukan reschedule, kemungkinan racing condition 
+  *   dengan latest adjustment (menampikan seluruh session dengan session kemarin dibuat tidak tersedia)
+  * - jumlah minimal booking event dikurangi menjadi hanya 2 
+  *   implementasi pemilihan booking training disamakan dengan booking event (tidak perlu 1 minggu 1 sesi)
+  */
+
 const ColorIndicator = ({ status }: { status: string }) => {
   switch (status) {
     case "Available":

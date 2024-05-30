@@ -241,6 +241,14 @@ const ReservationAction: React.FC<{
               isLoading={isFieldDetailLoading}
             />
 
+            { 
+              /*
+               * TODO
+               * When user click checkbox, Open S&K modal 
+               * Then, on S&K Modal dismissed, the checkbox is ticked
+              */
+            }
+
             <div className="flex items-center space-x-2">
               <Checkbox
                 checked={checked}
