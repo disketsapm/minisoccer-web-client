@@ -38,7 +38,7 @@ const FieldView = () => {
       <div className="w-full h-full flex flex-col gap-3 md:container  relative">
         <div className="w-full h-full flex justify-center items-center py-8 flex-col">
           <div className="bg-gradient-to-b from-[#FFFFFF] to-[#FFFFFF00] flex flex-col gap-3 w-[450px] px-6 py-4 items-center rounded-xl">
-            <p className="font-bold text-4xl  md:text-[50px]">Booking Lapang</p>
+            <p className="font-bold text-4xl  md:text-[50px]">Booking Lapangan</p>
             <p className="md:text-xs text-[10px] ">
               (Data ketersediaan lapang yang ditampilkan adalah data
               <b>real-time</b>)
