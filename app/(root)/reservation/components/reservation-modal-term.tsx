@@ -21,7 +21,10 @@ export default function ModalInfoBooking({
 }: ModalInfoBookingProps) {
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className=" border-none rounded-md overflow-hidden radial-gradient-3 ">
+      <AlertDialogContent
+        sizes="2xl"
+        className=" border-none w-full md:w-[80vw]  rounded-md overflow-hidden radial-gradient-3 "
+      >
         <AlertDialogHeader>
           <AlertDialogTitle className="text-center text-3xl font-black">
             Syarat dan <br /> Ketentuan Booking
