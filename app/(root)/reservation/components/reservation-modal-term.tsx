@@ -7,8 +7,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
 interface ModalInfoBookingProps {
   isOpen: boolean;
@@ -23,14 +21,18 @@ export default function ModalInfoBooking({
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent
         sizes="2xl"
-        className=" border-none w-full md:w-[80vw]  rounded-md overflow-hidden radial-gradient-3 "
+        className=" border-none w-[80vw]  rounded-md overflow-hidden radial-gradient-3 "
       >
         <AlertDialogHeader>
           <AlertDialogTitle className="text-center text-3xl font-black">
             Syarat dan <br /> Ketentuan Booking
           </AlertDialogTitle>
           <AlertDialogDescription className="text-justify w-full p-5 h-[550px] overflow-y-auto text-black relative">
-            <iframe src="./files/TNC_MINSOC.pdf" width="100%" height="100%" />
+            <iframe
+              src="../../../../public/files/TNC_MINSOC.pdf"
+              width="100%"
+              height="100%"
+            />
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="p-5">
