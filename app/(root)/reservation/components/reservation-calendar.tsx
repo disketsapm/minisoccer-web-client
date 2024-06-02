@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ISchedule } from "../type/reservation.type";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useFormContext } from "react-hook-form";
-import { addDays, cn } from "@/lib/utils";
+import { addDays, cn, formatCurrencyToIDR } from "@/lib/utils";
 import ReservationSessionCard from "./reservation-session-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -160,6 +160,24 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
 
       {!isLoading && fieldId && (
         <div className="md:w-full  h-full p-4 bg-[#DEDEDE] rounded-xl  relative">
+          {eventList?.length === 0 && (
+            <div className="w-full h-full z-50  bg-black bg-opacity-80 grid place-items-center absolute inset-0">
+              <div className="font-semibold text-2xl text-white ">
+                {isOnReschedulePage ? (
+                  <p className="text-center">
+                    Tidak ada jadwal tersedia dengan harga di bawah harga yang
+                    dibooking <br />(
+                    {formatCurrencyToIDR(
+                      getScheduleDataByParameter?.finalPrice,
+                    )}
+                    )
+                  </p>
+                ) : (
+                  "Tidak ada jadwal tersedia"
+                )}
+              </div>
+            </div>
+          )}
           <div className="w-full h-full overflow-x-scroll md:overflow-auto">
             <div className="md:w-full h-full w-[1250px]">
               <FullCalendar

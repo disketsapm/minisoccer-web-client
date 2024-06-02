@@ -36,7 +36,7 @@ type AlertDialogContentProps = React.ComponentPropsWithoutRef<
 const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
   AlertDialogContentProps
->(({ className, sizes = "lg", ...props }, ref) => (
+>(({ className, sizes = "md", ...props }, ref) => (
   <AlertDialogPortal>
     <AlertDialogOverlay />
     <AlertDialogPrimitive.Content
