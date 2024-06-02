@@ -53,9 +53,9 @@ export default function Header() {
   }
   const links = [
     { href: "/reservation", label: "Booking" },
-    { href: "#about", label: "Kenapa Kami" },
-    { href: "#facility", label: "Fasilitas" },
-    { href: "#find", label: "Hubungi Kami" },
+    { href: "/#about", label: "Kenapa Kami" },
+    { href: "/#facility", label: "Fasilitas" },
+    { href: "/#find", label: "Hubungi Kami" },
   ];
   return (
     <header
