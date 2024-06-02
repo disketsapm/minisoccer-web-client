@@ -16,7 +16,7 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useLogout } from "@/hooks/auth/useLogout";
 import Loading from "@/app/loading";
 import {
@@ -38,6 +38,8 @@ export default function Header() {
     }
   };
 
+  const router = useRouter();
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -53,9 +55,9 @@ export default function Header() {
   }
   const links = [
     { href: "/reservation", label: "Booking" },
-    { href: "#about", label: "Kenapa Kami" },
-    { href: "#facility", label: "Fasilitas" },
-    { href: "#find", label: "Hubungi Kami" },
+    { href: "/#about", label: "Kenapa Kami" },
+    { href: "/#facility", label: "Fasilitas" },
+    { href: "/#find", label: "Hubungi Kami" },
   ];
   return (
     <header
@@ -95,14 +97,13 @@ export default function Header() {
               </Avatar>
             </Link>
           ) : (
-            <Link href="/auth">
-              <Button
-                variant={"accent-1"}
-                className="px-6 py-2 text-xs md:px-10 md:py-6"
-              >
-                Masuk/Daftar
-              </Button>
-            </Link>
+            <Button
+              variant={"accent-1"}
+              className="px-6 py-2 text-xs md:px-10 md:py-6"
+              onClick={() => router.push("/auth")}
+            >
+              Masuk/Daftar
+            </Button>
           )}
 
           <Sheet>
