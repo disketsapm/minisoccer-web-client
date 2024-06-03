@@ -32,7 +32,7 @@ const FormFieldSchema = z
   .refine(
     (value) => {
       if (value?.type === "Event" && value?.reservation_type !== "reschedule") {
-        return value.schedule_id.length === 2;
+        return value.schedule_id.length >= 2;
       }
 
       if (value?.type === "Event" && value?.reservation_type === "reschedule") {
@@ -106,7 +106,7 @@ const FormFieldSchema = z
         value?.type === "Training" &&
         value?.reservation_type !== "reschedule"
       ) {
-        return value.schedule_id.length === 4;
+        return value.schedule_id.length >= 4;
       }
 
       if (
