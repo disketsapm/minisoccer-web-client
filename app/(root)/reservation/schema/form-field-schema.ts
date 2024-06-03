@@ -32,7 +32,7 @@ const FormFieldSchema = z
   .refine(
     (value) => {
       if (value?.type === "Event" && value?.reservation_type !== "reschedule") {
-        return value.schedule_id.length === 3;
+        return value.schedule_id.length >= 2;
       }
 
       if (value?.type === "Event" && value?.reservation_type === "reschedule") {
@@ -44,7 +44,7 @@ const FormFieldSchema = z
     {
       message: "Event harus memiliki 3 jadwal",
       path: ["schedule_id"],
-    }
+    },
   )
 
   .refine(
@@ -62,52 +62,66 @@ const FormFieldSchema = z
     {
       message: "Game harus memiliki minimal 1 jadwal",
       path: ["schedule_id"],
-    }
+    },
   )
   .refine(
     (value) => {
+      //FIXME: uncomment this code for unable to submit training if not have 4 weeks
+      // if (
+      //   value.type === "Training" &&
+      //   value.reservation_type !== "reschedule"
+      // ) {
+      // //   const checkWeeks = checkWeeksHaveOneDay(value.schedule_id);
+      //
+      //   if (!checkWeeks) {
+      //     return false;
+      //   }
+      //
+      //   if (value?.schedule_id.length !== 4) {
+      //     return false;
+      //   }
+      // }
+      //
+      // if (
+      //   value.type === "Training" &&
+      //   value.reservation_type === "reschedule"
+      // ) {
+      //   const checkWeeks = checkWeeksHaveOneDayBasedOnDate(
+      //     value.schedule_id,
+      //     value?.startDateReschedule as Date,
+      //   );
+      //
+      //   console.log(checkWeeks);
+      //
+      //   if (!checkWeeks) {
+      //     return false;
+      //   }
+      //
+      //   if (value?.schedule_id.length > 1) {
+      //     return false;
+      //   }
+      // }
+
       if (
-        value.type === "Training" &&
-        value.reservation_type !== "reschedule"
+        value?.type === "Training" &&
+        value?.reservation_type !== "reschedule"
       ) {
-        const checkWeeks = checkWeeksHaveOneDay(value.schedule_id);
-
-        if (!checkWeeks) {
-          return false;
-        }
-
-        if (value?.schedule_id.length !== 4) {
-          return false;
-        }
+        return value.schedule_id.length >= 4;
       }
 
       if (
-        value.type === "Training" &&
-        value.reservation_type === "reschedule"
+        value?.type === "Training" &&
+        value?.reservation_type === "reschedule"
       ) {
-        const checkWeeks = checkWeeksHaveOneDayBasedOnDate(
-          value.schedule_id,
-          value?.startDateReschedule as Date
-        );
-
-        console.log(checkWeeks);
-
-        if (!checkWeeks) {
-          return false;
-        }
-
-        if (value?.schedule_id.length > 1) {
-          return false;
-        }
+        return value?.schedule_id.length === 1;
       }
 
-      return true;
+      return true; // For other types, any schedule length is valid
     },
     {
-      message:
-        "Training harus memiliki 4 minggu, setiap minggu harus memiliki satu jadwal",
+      message: "Training harus memiliki minimal 1 jadwal",
       path: ["schedule_id"],
-    }
+    },
   );
 
 export default FormFieldSchema;

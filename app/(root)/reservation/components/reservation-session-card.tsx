@@ -3,8 +3,17 @@ import { cn, formatCurrencyToIDR } from "@/lib/utils";
 import { formattedTime } from "@/utils/formatTime";
 import { useSearchParams } from "next/navigation";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
+
+const renderLabelInBackdrop = (isClosed: boolean, status: string) => {
+  if (isClosed) {
+    if (status === "booked") {
+      return "Sudah Di Booking";
+    }
+    return "Ditutup";
+  }
+};
 
 type IReservationSessionCard = {
   status?: string;
@@ -35,53 +44,35 @@ const ReservationSessionCard: React.FC<IReservationSessionCard> = ({
   currentScheduleId,
   isRescheduled,
 }) => {
-  const isLowerThanCurrentDate =
-    new Date(startTime) < new Date() && isOnCalendar;
+  const isLowerThanCurrentDate = useMemo(() => {
+    return new Date(startTime) < new Date() && isOnCalendar;
+  }, [startTime, isOnCalendar]);
 
-  const isClosed =
-    status === "booked" ||
-    status === "draft" ||
-    status === "unavailable" ||
-    isLowerThanCurrentDate;
-
-  const RenderPrice = () => {
-    if (price > finalPrice) {
-      return (
-        <div className="flex flex-col gap-2">
-          <p className="line-through text-xs">
-            {formatCurrencyToIDR(Number(price))}
-          </p>
-          <p className="font-semibold text-sm">
-            {formatCurrencyToIDR(Number(finalPrice))}
-          </p>
-        </div>
-      );
-    }
-
-    if (price === finalPrice)
-      return <p className="text-sm">{formatCurrencyToIDR(Number(price))}</p>;
-
-    return <></>;
-  };
+  const isClosed = useMemo(() => {
+    return (
+      status === "booked" ||
+      status === "draft" ||
+      status === "unavailable" ||
+      isLowerThanCurrentDate
+    );
+  }, [status, isLowerThanCurrentDate]);
 
   const params = useSearchParams();
 
-  const selectedScheduleIdInDetailBookingPage = isOnReschedulePage
-    ? params?.get("schedule_id")
-    : "";
+  const selectedScheduleIdInDetailBookingPage = useMemo(() => {
+    return isOnReschedulePage ? params?.get("schedule_id") : "";
+  }, [params, isOnReschedulePage]);
 
-  const isSelectedScheduleIdInDetailBookingPage =
-    selectedScheduleIdInDetailBookingPage === currentScheduleId &&
-    isOnReschedulePage;
-
-  const renderLabelInBackdrop = () => {
-    if (isClosed) {
-      if (status === "booked") {
-        return "Sudah Di Booking";
-      }
-      return "Ditutup";
-    }
-  };
+  const isSelectedScheduleIdInDetailBookingPage = useMemo(() => {
+    return (
+      selectedScheduleIdInDetailBookingPage === currentScheduleId &&
+      isOnReschedulePage
+    );
+  }, [
+    selectedScheduleIdInDetailBookingPage,
+    currentScheduleId,
+    isOnReschedulePage,
+  ]);
 
   return (
     <Button
@@ -107,7 +98,7 @@ const ReservationSessionCard: React.FC<IReservationSessionCard> = ({
         {
           "w-full h-[150px] justify-center items-center bg-gradient-to-b from-[#45825A] to-[#364D48]    cursor-pointer rounded":
             isClosed && isSelectedScheduleIdInDetailBookingPage,
-        }
+        },
       )}
     >
       {isClosed && !isSelectedScheduleIdInDetailBookingPage ? (
@@ -116,10 +107,12 @@ const ReservationSessionCard: React.FC<IReservationSessionCard> = ({
             "absolute w-full h-full flex items-center justify-center z-50 cursor-default rounded-sm ",
             {
               "bg-black/80": isClosed,
-            }
+            },
           )}
         >
-          <p className="font-semibold text-sm">{renderLabelInBackdrop()}</p>
+          <p className="font-semibold text-sm">
+            {renderLabelInBackdrop(isClosed, status as string)}
+          </p>
         </div>
       ) : null}
 
@@ -154,21 +147,34 @@ const ReservationSessionCard: React.FC<IReservationSessionCard> = ({
             "text-white": isClosed && isSelectedScheduleIdInDetailBookingPage,
           })}
         >
-          {/* 
-            TODO: 
-            - open yard asset picture in full size when clicked
-            - open modal when changing jenis reservasi, just like initial modal (fotografer) but with different content (content to be created)
-            - fix description ckeditor html value rendering
-            - adjust map embed
-            - when clicking [tentang kami, kerja sama, hubungi kami] ON BOOKING/RIWAYAT PAGE go back to home with the highlighted section
-
-          */}
-
-          <RenderPrice />
+          <RenderPrice price={Number(price)} finalPrice={Number(finalPrice)} />
         </p>
       </div>
     </Button>
   );
+};
+
+const RenderPrice: React.FC<{ price: number; finalPrice: number }> = ({
+  price,
+  finalPrice,
+}) => {
+  if (price > finalPrice) {
+    return (
+      <div className="flex flex-col gap-2">
+        <p className="line-through text-xs">
+          {formatCurrencyToIDR(Number(price))}
+        </p>
+        <p className="font-semibold text-sm">
+          {formatCurrencyToIDR(Number(finalPrice))}
+        </p>
+      </div>
+    );
+  }
+
+  if (price === finalPrice)
+    return <p className="text-sm">{formatCurrencyToIDR(Number(price))}</p>;
+
+  return <></>;
 };
 
 export default ReservationSessionCard;

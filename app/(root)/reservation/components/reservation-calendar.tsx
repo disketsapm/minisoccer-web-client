@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ISchedule } from "../type/reservation.type";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useFormContext } from "react-hook-form";
-import { addDays, cn } from "@/lib/utils";
+import { addDays, cn, formatCurrencyToIDR } from "@/lib/utils";
 import ReservationSessionCard from "./reservation-session-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +17,14 @@ import {
   IScheduleHistory,
 } from "../../auth/me/type/history.type";
 import { useSearchParams } from "next/navigation";
+
+/*
+ * TODO:
+  * - terdapat bug ketika melakukan reschedule, kemungkinan racing condition 
+  *   dengan latest adjustment (menampikan seluruh session dengan session kemarin dibuat tidak tersedia)
+  * - jumlah minimal booking event dikurangi menjadi hanya 2 
+  *   implementasi pemilihan booking training disamakan dengan booking event (tidak perlu 1 minggu 1 sesi)
+  */
 
 const ColorIndicator = ({ status }: { status: string }) => {
   switch (status) {
@@ -51,7 +59,7 @@ type IReservationCalendar = {
   values: { id: string; startDate: Date; endDate: Date }[];
   isOnReschedulePage?: boolean;
   detailData?: IOrderHistory;
-  refetchValue?: number
+  refetchValue?: number;
 };
 
 const ReservationCalendar: React.FC<IReservationCalendar> = ({
@@ -59,7 +67,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
   values,
   isOnReschedulePage,
   detailData,
-  refetchValue
+  refetchValue,
 }) => {
   const fieldService = new FieldService();
 
@@ -72,9 +80,8 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
   const schedule_id = queryParams.get("schedule_id");
 
   const getScheduleDataByParameter = detailData?.schedules?.find(
-    (schedule) => schedule?.schedule_id === schedule_id
+    (schedule) => schedule?.schedule_id === schedule_id,
   );
-
 
   const { data, isLoading, isRefetching, refetch } = useQuery({
     queryKey: [
@@ -93,14 +100,11 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
         },
       }),
     enabled: !!fieldId,
-
   });
 
-
   useEffect(() => {
-    if (refetchValue as number >= 99) refetch()
-  }, [refetchValue as number >= 99])
-
+    if ((refetchValue as number) >= 99) refetch();
+  }, [(refetchValue as number) >= 99]);
 
   const events = data?.data || [];
 
@@ -158,14 +162,30 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
     onChange(selectedItems);
   };
 
-
-
   return (
     <div className="w-full h-full  relative">
       {isLoading && fieldId && <Skeleton className="w-full h-[650px]" />}
 
       {!isLoading && fieldId && (
         <div className="md:w-full  h-full p-4 bg-[#DEDEDE] rounded-xl  relative">
+          {eventList?.length === 0 && (
+            <div className="w-full h-full z-50  bg-black bg-opacity-80 grid place-items-center absolute inset-0">
+              <div className="font-semibold text-2xl text-white ">
+                {isOnReschedulePage ? (
+                  <p className="text-center">
+                    Tidak ada jadwal tersedia dengan harga di bawah harga yang
+                    dibooking <br />(
+                    {formatCurrencyToIDR(
+                      getScheduleDataByParameter?.finalPrice,
+                    )}
+                    )
+                  </p>
+                ) : (
+                  "Tidak ada jadwal tersedia"
+                )}
+              </div>
+            </div>
+          )}
           <div className="w-full h-full overflow-x-scroll md:overflow-auto">
             <div className="md:w-full h-full w-[1250px]">
               <FullCalendar
@@ -208,8 +228,8 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
                     sessionName={arg.event.extendedProps.sessionName}
                     selected={Boolean(
                       values.find(
-                        (item) => item.id === arg.event.extendedProps.id
-                      )
+                        (item) => item.id === arg.event.extendedProps.id,
+                      ),
                     )}
                     status={arg.event.title}
                     price={arg?.event?.extendedProps?.price}

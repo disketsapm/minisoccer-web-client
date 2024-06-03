@@ -26,8 +26,10 @@ export function useLogin() {
       router.replace("/");
     },
     onError: (error: any) => {
+      console.log(error);
+
       openToast({
-        message: error.response.data.message,
+        message: error?.message,
         variant: "error",
       });
     },

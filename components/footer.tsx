@@ -7,12 +7,12 @@ export default function Footer() {
       <div className="relative w-32 h-32">
         <Image src="/images/logo-2.png" alt="logo" fill objectFit="contain" />
       </div>
-      <div className="flex justify-between w-full mx-auto md:w-1/3">
+      <div className="flex justify-between w-full z-50  mx-auto md:w-1/3">
         <div className="flex flex-col gap-20">
           <Link href="/reservation" className="text-md">
             Booking
           </Link>
-          <Link href={"/#about"} className="text-md">
+          <Link href="/#about" className="text-md">
             Kenapa Kami
           </Link>
         </div>
@@ -20,7 +20,7 @@ export default function Footer() {
           <Link href={"/#facility"} className="text-md">
             Fasilitas
           </Link>
-          <Link href={"/#find"} className="text-md">
+          <Link href="/#find" className="text-md">
             Hubungi Kami
           </Link>
         </div>

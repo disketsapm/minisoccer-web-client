@@ -13,7 +13,6 @@ import { ResetPasswordForm } from "./components/reset-password-form";
 
 import { useLoginGoogle } from "@/hooks/auth/useLoginGoogle";
 import { useEffect, useState } from "react";
-import usePutReservationAfterPayment from "./hooks/usePutReservationAfterPayment";
 
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -42,7 +41,6 @@ export default function AuthPage() {
 
   const error = searchParams.get("error");
 
-
   const renderLabel = (): string => {
     const tabLabel = getLabelByTab(activeTab);
     if (tabLabel) return tabLabel;
@@ -56,38 +54,16 @@ export default function AuthPage() {
     if (error) {
       openToast({
         message: error,
-        variant: "error"
+        variant: "error",
       });
     }
   }, [error]);
 
   useEffect(() => {
-    if (type) setActiveTab("");
+    if (type) setActiveTab("register");
   }, [type]);
 
   const router = useRouter();
-
-  const SuccessContainer = ({
-    title,
-    description
-  }: {
-    title: React.ReactNode;
-    description: React.ReactNode;
-  }) => {
-    return (
-      <div className="flex items-start justify-center w-full gap-4 rounded-xl flex-col">
-        <div className="text-6xl font-extrabold">{title}</div>
-        <p className="text-sm">{description}</p>
-        <Button
-          variant={"accent-1"}
-          className="px-6 py-2 text-xs md:px-10 md:py-6"
-          onClick={() => router.push("/")}
-        >
-          Kembali ke Beranda
-        </Button>
-      </div>
-    );
-  };
 
   return (
     <div
@@ -95,7 +71,7 @@ export default function AuthPage() {
       style={{
         backgroundImage: `url(/images/auth/bg-auth.png)`,
         backgroundSize: "cover",
-        backgroundPosition: "center"
+        backgroundPosition: "center",
       }}
     >
       <Card className="rounded-2xl z-10  bg-gradient-to-b from-white to-[#999999] md:h-[530px] h-full pb-8  w-full  md:w-auto ">
@@ -128,7 +104,8 @@ export default function AuthPage() {
                 }
                 description={
                   <>
-                    Cek link yang telah dikirimkan di Email <br /> Kamu untuk memverifikasi akun.
+                    Cek link yang telah dikirimkan di Email <br /> Kamu untuk
+                    memverifikasi akun.
                   </>
                 }
               />
@@ -141,7 +118,8 @@ export default function AuthPage() {
                 }
                 description={
                   <>
-                    Email Kamu telah terverifikasi, <br /> silahkan login untuk melanjutkan.
+                    Email Kamu telah terverifikasi, <br /> silahkan login untuk
+                    melanjutkan.
                   </>
                 }
               />
@@ -154,7 +132,9 @@ export default function AuthPage() {
                     Menunggu <br /> Pembayaran
                   </>
                 }
-                description={<>Cek email kamu untuk melihat pembayaran lebih lanjut</>}
+                description={
+                  <>Cek email kamu untuk melihat pembayaran lebih lanjut</>
+                }
               />
             ) : type === ActionType.ForgotPasswordSuccess ? (
               <SuccessContainer
@@ -177,14 +157,15 @@ export default function AuthPage() {
                   </>
                 }
                 description={
-                  <>Cek link yang telah dikirimkan di Email Kamu untuk me-reset password.</>
+                  <>
+                    Cek link yang telah dikirimkan di Email Kamu untuk me-reset
+                    password.
+                  </>
                 }
               />
             ) : type === ActionType.OrderStatus ? (
               <div className="flex items-start justify-center w-full gap-10 rounded-xl flex-col">
-
                 <TransactionStatus />
-
               </div>
             ) : type === "reset-password" ? (
               <ResetPasswordForm token={token} />
@@ -195,7 +176,11 @@ export default function AuthPage() {
                     Verifikasi <br /> Login!
                   </>
                 }
-                description={<>Anda akan diarahkan ke halaman utama dalam beberapa detik.</>}
+                description={
+                  <>
+                    Anda akan diarahkan ke halaman utama dalam beberapa detik.
+                  </>
+                }
               />
             ) : (
               <Tabs
@@ -223,7 +208,7 @@ export default function AuthPage() {
 
                 <div
                   className={cn("w-full h-full  flex-col flex", {
-                    "md:justify-center": activeTab === "login"
+                    "md:justify-center": activeTab === "login",
                   })}
                 >
                   <div className="flex justify-center my-4">
@@ -231,9 +216,7 @@ export default function AuthPage() {
                       variant={"outline"}
                       className="w-full bg-gradient-to-b from-white to-[#C4C4C4] py-7"
                       onClick={() =>
-
                         (window.location.href = `${process?.env?.NEXT_PUBLIC_API_URL}/auth/google?role=Customer`)
-
                       }
                     >
                       <FcGoogle className="w-7 h-7 mr-2 text-xl" /> Sign{" "}
@@ -259,3 +242,27 @@ export default function AuthPage() {
     </div>
   );
 }
+
+const SuccessContainer = ({
+  title,
+  description,
+}: {
+  title: React.ReactNode;
+  description: React.ReactNode;
+}) => {
+  const router = useRouter();
+
+  return (
+    <div className="flex items-start justify-center w-full gap-4 rounded-xl flex-col">
+      <div className="text-6xl font-extrabold">{title}</div>
+      <p className="text-sm">{description}</p>
+      <Button
+        variant={"accent-1"}
+        className="px-6 py-2 text-xs md:px-10 md:py-6"
+        onClick={() => router.push("/")}
+      >
+        Kembali ke Beranda
+      </Button>
+    </div>
+  );
+};

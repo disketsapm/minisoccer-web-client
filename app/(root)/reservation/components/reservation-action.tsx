@@ -60,7 +60,7 @@ const ReservationAction: React.FC<{
 
   const [submitErrorMsg, setSubmitErrorMsg] = React.useState<string>("");
 
-  const [checked, setChecked] = React.useState();
+  const [checked, setChecked] = React.useState<boolean>();
 
   const { getValues, handleSubmit, trigger, formState } =
     useFormContext<IFormFieldSchema>();
@@ -241,11 +241,23 @@ const ReservationAction: React.FC<{
               isLoading={isFieldDetailLoading}
             />
 
+            { 
+              /*
+               * TODO
+               * When user click checkbox, Open S&K modal 
+               * Then, on S&K Modal dismissed, the checkbox is ticked
+              */
+            }
+
             <div className="flex items-center space-x-2">
               <Checkbox
                 checked={checked}
-                disabled={countModalTermOpen > 0 ? false : true}
-                onCheckedChange={(val: any) => setChecked(val)}
+                onCheckedChange={(val: any) => {
+                  setChecked(val);
+                  if (countModalTermOpen === 0) {
+                    setIsOpenModalTerm(true);
+                  }
+                }}
                 id="terms"
               />
               <label
