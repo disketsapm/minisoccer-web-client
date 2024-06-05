@@ -1,6 +1,6 @@
 "use client";
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import React, { useEffect, useState } from "react";
 import ReservationSelectField from "./reservation-select-field";
 import {
@@ -40,7 +40,6 @@ const ReservationForm: React.FC<IReservationForm> = ({
 
   const fieldId = getValues("field_id");
   const [refetchValue, setRefetchValue] = useState<number>(0);
-
 
   useEffect(() => {
     const duration = 5000; // 5 seconds
@@ -102,7 +101,7 @@ const ReservationForm: React.FC<IReservationForm> = ({
                   <FormControl>
                     <ReservationSelectType
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={"Game"}
                       disabled={type === "reschedule"}
                     />
                   </FormControl>
@@ -121,18 +120,22 @@ const ReservationForm: React.FC<IReservationForm> = ({
           <p className="text-3xl font-black h-full w-full">
             Pilih Jadwal Booking
           </p>
-          <div className='w-5 h-5'>
-            <CircularProgressbar value={refetchValue} strokeWidth={50} className='w-full h-full' styles={buildStyles({
-              textColor: '#f88',
-              trailColor: '#d6d6d6',
-              pathColor: "hsl(var(--primary))",
-              backgroundColor: 'gray',
-              strokeLinecap: "butt"
-            })} />
+          <div className="w-5 h-5">
+            <CircularProgressbar
+              value={refetchValue}
+              strokeWidth={50}
+              className="w-full h-full"
+              styles={buildStyles({
+                textColor: "#f88",
+                trailColor: "#d6d6d6",
+                pathColor: "hsl(var(--primary))",
+                backgroundColor: "gray",
+                strokeLinecap: "butt",
+              })}
+            />
           </div>
         </div>
-      ) : null
-      }
+      ) : null}
 
       <FormField
         name="schedule_id"
@@ -159,7 +162,7 @@ const ReservationForm: React.FC<IReservationForm> = ({
         isOnReschedulePage={type === "reschedule"}
         detailData={data}
       />
-    </div >
+    </div>
   );
 };
 
