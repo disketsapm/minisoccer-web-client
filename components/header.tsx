@@ -1,29 +1,18 @@
 "use client";
 
-import Image from "next/image";
-import { Button } from "./ui/button";
-import Link from "next/link";
-import { CiMenuBurger } from "react-icons/ci";
-import { useEffect, useState } from "react";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "./ui/sheet";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { usePathname, useRouter } from "next/navigation";
-import { useLogout } from "@/hooks/auth/useLogout";
-import Loading from "@/app/loading";
+import { UserType } from "@/interfaces/auth.interface";
 import {
   getFirstLetterAndLastName,
   getItemFromLocalStorage,
 } from "@/lib/utils";
-import { SignInResponse, UserType } from "@/interfaces/auth.interface";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { CiMenuBurger } from "react-icons/ci";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "./ui/sheet";
 
 export default function Header() {
   const pathname = usePathname();
@@ -112,13 +101,16 @@ export default function Header() {
                 <CiMenuBurger size={15} />
               </Button>
             </SheetTrigger>
-            <SheetContent className="bg-gradient-to-b from-[#E7D8D8] to-[#999999] h-full flex flex-col gap-2 ">
+            <SheetContent className="bg-gradient-to-b overflow-y-auto from-[#E7D8D8] to-[#999999] h-full flex flex-col gap-2 ">
               <nav className="mt-10 h-full flex-col gap-2">
-                <ul className="flex flex-col items-start gap-y-16 justify-center">
+                <ul className="flex flex-col w-full items-start gap-y-16 text-left justify-center">
                   {links.map(({ href, label }) => (
-                    <li key={`${href}${label}`}>
-                      <Link href={href} className="text-3xl font-semibold ">
-                        <SheetClose>{label}</SheetClose>
+                    <li key={`${href}${label}`} className="w-full">
+                      <Link
+                        href={href}
+                        className="text-3xl w-full  font-semibold text-left "
+                      >
+                        <SheetClose className="w-full">{label}</SheetClose>
                       </Link>
                     </li>
                   ))}

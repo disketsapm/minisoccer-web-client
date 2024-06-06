@@ -234,17 +234,6 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
               />
             </div>
           </div>
-          <div className="flex gap-5  flex-col md:flex-row mt-10">
-            <div className="flex  text-xs md:text-base items-center">
-              <ColorIndicator status="Available" /> Available
-            </div>
-            <div className="flex  text-xs md:text-base items-center">
-              <ColorIndicator status="Maintenance" /> Maintenance
-            </div>
-            <div className="flex  text-xs md:text-base items-center">
-              <ColorIndicator status="Unavailable" /> Unavailable
-            </div>
-          </div>
         </div>
       )}
     </div>
