@@ -29,13 +29,13 @@ const DATA_TYPE: { label: string; value: string }[] = [
 
 const ReservationSelectType: React.FC<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>
-> = ({ onValueChange, defaultValue, disabled }) => {
+> = ({ onValueChange, defaultValue, disabled, value }) => {
   return (
     <>
       <Select
         onValueChange={onValueChange}
-        defaultValue={defaultValue}
-        value={defaultValue}
+        defaultValue="Game"
+        value={value}
         disabled={disabled}
       >
         <SelectTrigger>
