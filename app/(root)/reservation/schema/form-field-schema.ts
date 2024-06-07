@@ -42,7 +42,7 @@ const FormFieldSchema = z
       return true; // For other types, any schedule length is valid
     },
     {
-      message: "Event harus memiliki 3 jadwal",
+      message: "Event harus memiliki minimal 2 jadwal",
       path: ["schedule_id"],
     },
   )

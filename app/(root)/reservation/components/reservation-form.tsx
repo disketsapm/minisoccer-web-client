@@ -101,7 +101,7 @@ const ReservationForm: React.FC<IReservationForm> = ({
                   <FormControl>
                     <ReservationSelectType
                       onValueChange={field.onChange}
-                      value={field.value}
+                      defaultValue={field.value}
                       disabled={type === "reschedule"}
                     />
                   </FormControl>
