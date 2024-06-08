@@ -29,13 +29,21 @@ const DATA_TYPE: { label: string; value: string }[] = [
 
 const ReservationSelectType: React.FC<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>
-> = ({ onValueChange, defaultValue, disabled, value }) => {
+> = ({ onValueChange, defaultValue, disabled }) => {
+  const firstRenderSelectedField = DATA_TYPE[0].label;
+
+  React.useEffect(() => {
+    if (firstRenderSelectedField && onValueChange) {
+      onValueChange(firstRenderSelectedField);
+    }
+  }, [firstRenderSelectedField]);
+
   return (
     <>
       <Select
         onValueChange={onValueChange}
-        defaultValue="Game"
-        value={value}
+        value={defaultValue}
+        defaultValue={firstRenderSelectedField}
         disabled={disabled}
       >
         <SelectTrigger>
