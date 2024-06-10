@@ -49,7 +49,7 @@ export function getItemFromLocalStorage<T>(key: string): T | null {
     } catch (error) {
       console.error(
         `Error parsing item from localStorage with key '${key}':`,
-        error
+        error,
       );
       return null;
     }
@@ -77,7 +77,7 @@ export function checkWeeksHaveOneDay(schedules: Schedule[]): boolean {
       acc[weekStart].push(schedule);
       return acc;
     },
-    {} as Record<number, Schedule[]> // Specify the initial type of `acc`
+    {} as Record<number, Schedule[]>, // Specify the initial type of `acc`
   );
 
   // Check if each week has exactly one day
@@ -94,7 +94,7 @@ export function checkWeeksHaveOneDay(schedules: Schedule[]): boolean {
 
 export function checkWeeksHaveOneDayBasedOnDate(
   schedules: Schedule[],
-  dateToCheck: Date
+  dateToCheck: Date,
 ): boolean {
   if (schedules.length === 0) {
     return false; // Return false if there are no schedules
@@ -152,7 +152,7 @@ export function formatCurrencyToIDR(amount: number | undefined): string {
 }
 
 export function getTotalPriceInListOfPrice(
-  scheduleData: ISchedule[] | undefined
+  scheduleData: ISchedule[] | undefined,
 ): string {
   const total = scheduleData
     ?.map((item) => item.finalPrice ?? 0)
@@ -208,4 +208,10 @@ export function addDays(date: Date, days: number) {
   var result = new Date(date);
   result.setDate(result.getDate() + days);
   return result;
+}
+
+export function getIndonesianMonthName(date: Date): string {
+  const options: Intl.DateTimeFormatOptions = { month: "long" };
+  const indonesianLocale = "id-ID";
+  return new Intl.DateTimeFormat(indonesianLocale, options).format(date);
 }

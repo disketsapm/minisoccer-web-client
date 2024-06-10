@@ -9,7 +9,12 @@ import { useQuery } from "@tanstack/react-query";
 import { ISchedule } from "../type/reservation.type";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useFormContext } from "react-hook-form";
-import { addDays, cn, formatCurrencyToIDR } from "@/lib/utils";
+import {
+  addDays,
+  cn,
+  formatCurrencyToIDR,
+  getIndonesianMonthName,
+} from "@/lib/utils";
 import ReservationSessionCard from "./reservation-session-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +22,8 @@ import {
   IScheduleHistory,
 } from "../../auth/me/type/history.type";
 import { useSearchParams } from "next/navigation";
+import moment from "moment";
+moment.locale("id");
 
 const ColorIndicator = ({ status }: { status: string }) => {
   switch (status) {
@@ -52,6 +59,17 @@ type IReservationCalendar = {
   isOnReschedulePage?: boolean;
   detailData?: IOrderHistory;
   refetchValue?: number;
+};
+
+const renderDayCellContent = (info: any) => {
+  const dayNumber = info.dayNumberText;
+  const month = getIndonesianMonthName(info.date);
+
+  return (
+    <span>
+      {month} {dayNumber}
+    </span>
+  );
 };
 
 const ReservationCalendar: React.FC<IReservationCalendar> = ({
@@ -181,6 +199,7 @@ const ReservationCalendar: React.FC<IReservationCalendar> = ({
           <div className="w-full h-full overflow-x-scroll md:overflow-auto">
             <div className="md:w-full h-full w-[1250px]">
               <FullCalendar
+                dayCellContent={renderDayCellContent}
                 ref={calendarRef}
                 plugins={[dayGridPlugin]}
                 initialView="dayGridMonth"
