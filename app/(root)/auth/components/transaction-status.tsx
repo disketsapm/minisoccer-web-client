@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { TransactionStatusEnum } from "../constants/auth.data";
 import usePutReservationAfterPayment from "../hooks/usePutReservationAfterPayment";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 const className = "text-6xl font-bold";
 
-const getTransactionMessage = (status: TransactionStatusEnum) => {
+const getTransactionMessage = (status: TransactionStatusEnum, router: any) => {
   switch (status) {
     case TransactionStatusEnum.Pending:
       return {
@@ -16,6 +17,9 @@ const getTransactionMessage = (status: TransactionStatusEnum) => {
               Pembayaran <br /> Anda <br /> Sedang Diproses
             </div>
             <p>Silakan Tunggu Secara Berkala</p>
+            <Button onClick={() => router.push("/auth/me")} variant="accent-1">
+              Cek Status Pembayaran
+            </Button>
           </>
         ),
       };
@@ -54,6 +58,7 @@ export const TransactionStatus: React.FC = () => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
   const transaction_status = searchParams.get("transaction_status");
+  const router = useRouter();
 
   const {
     mutate: mutateReservationAfterPayment,
@@ -93,7 +98,8 @@ export const TransactionStatus: React.FC = () => {
 
     // handle transaction status message
     const { message } = getTransactionMessage(
-      transaction_status as TransactionStatusEnum
+      transaction_status as TransactionStatusEnum,
+      router,
     );
     return message;
   }

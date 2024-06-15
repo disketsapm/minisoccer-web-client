@@ -84,7 +84,6 @@ export default function AuthPage() {
                   {renderLabel()}
                 </div>
               </div>
-
               <div className="flex-shrink-0 hidden  lg:block">
                 <Image
                   src="/images/auth/bola.png"
@@ -127,13 +126,23 @@ export default function AuthPage() {
               <ForgotPasswordForm />
             ) : type === ActionType.WaitingPayment ? (
               <SuccessContainer
+                isHideBackHome
                 title={
                   <>
                     Menunggu <br /> Pembayaran
                   </>
                 }
                 description={
-                  <>Cek email kamu untuk melihat pembayaran lebih lanjut</>
+                  <div className="w-full h-full flex-col gap-5 flex">
+                    <p>Cek email kamu untuk melihat pembayaran lebih lanjut</p>
+                    <Button
+                      className="w-fit "
+                      onClick={() => router.push("/auth/me")}
+                      variant="accent-1"
+                    >
+                      Cek Status Pembayaran
+                    </Button>
+                  </div>
                 }
               />
             ) : type === ActionType.ForgotPasswordSuccess ? (
@@ -246,9 +255,11 @@ export default function AuthPage() {
 const SuccessContainer = ({
   title,
   description,
+  isHideBackHome,
 }: {
   title: React.ReactNode;
   description: React.ReactNode;
+  isHideBackHome?: boolean;
 }) => {
   const router = useRouter();
 
@@ -256,13 +267,15 @@ const SuccessContainer = ({
     <div className="flex items-start justify-center w-full gap-4 rounded-xl flex-col">
       <div className="text-6xl font-extrabold">{title}</div>
       <p className="text-sm">{description}</p>
-      <Button
-        variant={"accent-1"}
-        className="px-6 py-2 text-xs md:px-10 md:py-6"
-        onClick={() => router.push("/")}
-      >
-        Kembali ke Beranda
-      </Button>
+      {isHideBackHome ? null : (
+        <Button
+          variant={"accent-1"}
+          className="px-6 py-2 text-xs md:px-10 md:py-6"
+          onClick={() => router.push("/")}
+        >
+          Kembali ke Beranda
+        </Button>
+      )}
     </div>
   );
 };

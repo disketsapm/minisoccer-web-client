@@ -22,7 +22,7 @@ const usePostReservation = ({ onError }: IPostReservationResponse) => {
       router?.push("/auth?type=waiting-payment");
 
       if (snapRedirectUrl) {
-        window.location.href = snapRedirectUrl;
+        window.open(snapRedirectUrl, "_blank");
       }
     },
 
