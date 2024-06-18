@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
-import ReservationGalery from "./components/reservation-galery";
-import ReservationForm from "./components/reservation-form";
-import { Form, FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormFieldSchema from "./schema/form-field-schema";
+import React, { useEffect } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
+import ReservationForm from "./components/reservation-form";
 import ModalInfoBooking from "./components/reservation-modal-info";
+import FormFieldSchema from "./schema/form-field-schema";
 
 const FieldView = () => {
   const [isOpen, setIsOpen] = React.useState(false);

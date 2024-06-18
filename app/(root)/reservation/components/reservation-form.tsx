@@ -1,31 +1,24 @@
 "use client";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
-import React, { useEffect, useState } from "react";
-import ReservationSelectField from "./reservation-select-field";
-import {
-  FieldValues,
-  Form,
-  SubmitHandler,
-  useFormContext,
-} from "react-hook-form";
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import React, { useEffect, useState } from "react";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import { useFormContext } from "react-hook-form";
+import ReservationSelectField from "./reservation-select-field";
 
-import { Button } from "@/components/ui/button";
-import ReservationSelectType from "./reservation-select-type";
-import ReservationCalendar from "./reservation-calendar";
+import { IFormFieldSchema } from "../type/reservation.type";
 import ReservationAction from "./reservation-action";
-import { IFormFieldSchema, ISchedule } from "../type/reservation.type";
+import ReservationCalendar from "./reservation-calendar";
+import ReservationSelectType from "./reservation-select-type";
 
-import ReservationGalery from "./reservation-galery";
 import { IOrderHistory } from "../../auth/me/type/history.type";
+import ReservationGalery from "./reservation-galery";
 
 type IReservationForm = {
   type?: "default" | "reschedule";
