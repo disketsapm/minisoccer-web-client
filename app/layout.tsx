@@ -5,6 +5,8 @@ import Providers from "@/providers/react-query-provider";
 import { ToasterProvider } from "@/providers/toast-provider";
 import { useEffect } from "react";
 
+// 
+
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
