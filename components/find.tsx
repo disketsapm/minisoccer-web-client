@@ -48,8 +48,8 @@ export default function Find() {
                 </div>
                 <div className="flex items-center">
                   <FaWhatsapp className="w-5 h-5 mr-2" />
-                  <Link href="https://wa.me/6281212345678">
-                    +62 812-1234-5678
+                  <Link href="https://wa.me/628111524166">
+                    +62 811 1524 166
                   </Link>
                 </div>
               </div>
